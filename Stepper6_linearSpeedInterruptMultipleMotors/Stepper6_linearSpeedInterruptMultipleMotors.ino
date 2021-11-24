@@ -87,6 +87,7 @@ void yDir(int dir) {
 void zStep() {
   Z_STEP_HIGH
   Z_STEP_LOW
+  
 }
 void zDir(int dir) {
   digitalWrite(Z_DIR_PIN, dir);
