@@ -1,5 +1,5 @@
 
-#define ENA 46
+ #define ENA 46
 const int directio = 50;     // the number of the pushbutton pin
 const int ste =  48;      // the number of the LED pin
 
