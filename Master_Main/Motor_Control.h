@@ -3,43 +3,18 @@
 #define X_STEP_PIN         7
 #define X_ENABLE_PIN       52
 
-#define Y_DIR_PIN          44
-#define Y_STEP_PIN         42
-#define Y_ENABLE_PIN       40
+#define Z_DIR_PIN          50
+#define Z_STEP_PIN         48
+#define Z_ENABLE_PIN       46
 
-#define Z_DIR_PIN          34
-#define Z_STEP_PIN         38
-#define Z_ENABLE_PIN       36
-
-#define A_DIR_PIN          28
-#define A_STEP_PIN         26
-#define A_ENABLE_PIN       24
-
-#define B_DIR_PIN          34
-#define B_STEP_PIN         36
-#define B_ENABLE_PIN       30
-
-#define C_DIR_PIN          32
-#define C_STEP_PIN         47
-#define C_ENABLE_PIN       45
-
+//////////////////////////////////////////////////////////
+//For arduino Mega
 #define X_STEP_HIGH             PORTH |=  0b00010000;
 #define X_STEP_LOW              PORTH &= ~0b00010000;
 
-#define Y_STEP_HIGH             PORTL |=  0b10000000;
-#define Y_STEP_LOW              PORTL &= ~0b10000000;
-
-#define Z_STEP_HIGH             PORTD |=  0b10001000;
-#define Z_STEP_LOW              PORTD &= ~0b10001000;
-
-#define A_STEP_HIGH             PORTA |=  0b00010000;
-#define A_STEP_LOW              PORTA &= ~0b00010000;
-
-#define B_STEP_HIGH             PORTC |=  0b00000010;
-#define B_STEP_LOW              PORTC &= ~0b00000010;
-
-#define C_STEP_HIGH             PORTL |=  0b00000100;
-#define C_STEP_LOW              PORTL &= ~0b00000100;
+#define Z_STEP_HIGH             PORTL |=  0b00000010;
+#define Z_STEP_LOW              PORTL &= ~0b00000010;
+//////////////////////////////////////////////////////////
 
 #define TIMER1_INTERRUPTS_ON    TIMSK1 |=  (1 << OCIE1A);
 #define TIMER1_INTERRUPTS_OFF   TIMSK1 &= ~(1 << OCIE1A);
@@ -76,44 +51,12 @@ void xDir(int dir) {
   digitalWrite(X_DIR_PIN, dir);
 }
 
-void yStep() {
-  Y_STEP_HIGH
-  Y_STEP_LOW
-}
-void yDir(int dir) {
-  digitalWrite(Y_DIR_PIN, dir);
-}
-
 void zStep() {
   Z_STEP_HIGH
   Z_STEP_LOW
 }
 void zDir(int dir) {
   digitalWrite(Z_DIR_PIN, dir);
-}
-
-void aStep() {
-  A_STEP_HIGH
-  A_STEP_LOW
-}
-void aDir(int dir) {
-  digitalWrite(A_DIR_PIN, dir);
-}
-
-void bStep() {
-  B_STEP_HIGH
-  B_STEP_LOW
-}
-void bDir(int dir) {
-  digitalWrite(B_DIR_PIN, dir);
-}
-
-void cStep() {
-  C_STEP_HIGH
-  C_STEP_LOW
-}
-void cDir(int dir) {
-  digitalWrite(C_DIR_PIN, dir);
 }
 
 void resetStepperInfo( stepperInfo& si ) {
@@ -127,44 +70,25 @@ void resetStepperInfo( stepperInfo& si ) {
   si.movementDone = false;
 }
 
-#define NUM_STEPPERS 6
+#define NUM_STEPPERS 2
 
 volatile stepperInfo steppers[NUM_STEPPERS];
 
-void setup() {
+void Motorsetup() {
 
   pinMode(X_STEP_PIN,   OUTPUT);
   pinMode(X_DIR_PIN,    OUTPUT);
   pinMode(X_ENABLE_PIN, OUTPUT);
 
-  pinMode(Y_STEP_PIN,   OUTPUT);
-  pinMode(Y_DIR_PIN,    OUTPUT);
-  pinMode(Y_ENABLE_PIN, OUTPUT);
-
   pinMode(Z_STEP_PIN,   OUTPUT);
   pinMode(Z_DIR_PIN,    OUTPUT);
   pinMode(Z_ENABLE_PIN, OUTPUT);
-
-  pinMode(A_STEP_PIN,   OUTPUT);
-  pinMode(A_DIR_PIN,    OUTPUT);
-  pinMode(A_ENABLE_PIN, OUTPUT);
-
-  pinMode(B_STEP_PIN,   OUTPUT);
-  pinMode(B_DIR_PIN,    OUTPUT);
-  pinMode(B_ENABLE_PIN, OUTPUT);
-
-  pinMode(C_STEP_PIN,   OUTPUT);
-  pinMode(C_DIR_PIN,    OUTPUT);
-  pinMode(C_ENABLE_PIN, OUTPUT);
-
+  
   digitalWrite(X_ENABLE_PIN, LOW);
-  digitalWrite(Y_ENABLE_PIN, LOW);
   digitalWrite(Z_ENABLE_PIN, LOW);
-  digitalWrite(A_ENABLE_PIN, LOW);
-  digitalWrite(B_ENABLE_PIN, LOW);
-  digitalWrite(C_ENABLE_PIN, LOW);
-
-  noInterrupts();
+  
+////////////////////////////////////////////
+  noInterrupts(); // Timing protection
   TCCR1A = 0;
   TCCR1B = 0;
   TCNT1  = 0;
@@ -173,38 +97,22 @@ void setup() {
   TCCR1B |= (1 << WGM12);                   // CTC mode
   TCCR1B |= ((1 << CS11) | (1 << CS10));    // 64 prescaler
   interrupts();
+///////////////////////////////////////////////
 
-  steppers[0].dirFunc = bDir;
-  steppers[0].stepFunc = bStep;
+//x motor
+  steppers[0].dirFunc = xDir;
+  steppers[0].stepFunc = xStep;
   steppers[0].acceleration = 1000;
   steppers[0].minStepInterval = 50;
-
-  steppers[1].dirFunc = aDir;
-  steppers[1].stepFunc = aStep;
+  
+//z motor
+  steppers[1].dirFunc = zDir;
+  steppers[1].stepFunc = zStep;
   steppers[1].acceleration = 1000;
   steppers[1].minStepInterval = 50;
-
-  steppers[2].dirFunc = cDir;
-  steppers[2].stepFunc = cStep;
-  steppers[2].acceleration = 1000;
-  steppers[2].minStepInterval = 50;
-
-  steppers[3].dirFunc = xDir;
-  steppers[3].stepFunc = xStep;
-  steppers[3].acceleration = 1000;
-  steppers[3].minStepInterval = 250;
-
-  steppers[4].dirFunc = yDir;
-  steppers[4].stepFunc = yStep;
-  steppers[4].acceleration = 1000;
-  steppers[4].minStepInterval = 50;
-
-  steppers[5].dirFunc = zDir;
-  steppers[5].stepFunc = zStep;
-  steppers[5].acceleration = 1000;
-  steppers[5].minStepInterval = 450;
 }
 
+/////////////////////////////////////////////////
 void resetStepper(volatile stepperInfo& si) {
   si.c0 = si.acceleration;
   si.d = si.c0;
@@ -214,6 +122,7 @@ void resetStepper(volatile stepperInfo& si) {
   si.rampUpStepCount = 0;
   si.movementDone = false;
 }
+////////////////////////////////////////////////
 
 volatile byte remainingSteppersFlag = 0;
 
@@ -315,42 +224,7 @@ void runAndWait() {
   while ( remainingSteppersFlag );
 }
 
-void loop() {
+//void motorTest() {
 
-  TIMER1_INTERRUPTS_ON
 
-  for (int i = 0; i < 4; i++) {
-    for (int k = 0; k < NUM_STEPPERS; k++) {
-      prepareMovement( k,  200 );
-      runAndWait();
-    }
-  }
-  for (int i = 0; i < 4; i++) {
-    for (int k = 0; k < NUM_STEPPERS; k++) {
-      prepareMovement( k,  200 );
-    }
-    runAndWait();
-  }
-  
-  for (int i = 0; i < NUM_STEPPERS; i++)
-    prepareMovement( i, 400 );
-  runAndWait();
-  for (int i = 0; i < NUM_STEPPERS; i++)
-    prepareMovement( i, -400 );
-  runAndWait();
-  for (int i = 0; i < NUM_STEPPERS; i++)
-    prepareMovement( i, 200 );
-  runAndWait();
-  for (int i = 0; i < NUM_STEPPERS; i++)
-    prepareMovement( i, -200 );
-  runAndWait();
-  for (int i = 0; i < NUM_STEPPERS; i++)
-    prepareMovement( i, 600 );
-  runAndWait();
-  for (int i = 0; i < NUM_STEPPERS; i++)
-    prepareMovement( i, -600 );
-  runAndWait();
-
-  while (true);
-
-}
+//}
