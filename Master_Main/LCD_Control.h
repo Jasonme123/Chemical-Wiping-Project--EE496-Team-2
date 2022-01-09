@@ -1,14 +1,13 @@
 //ST7920 LCD
 //https://www.youtube.com/watch?v=GsrugNJ2JXU&ab_channel=educ8s.tv
+//https://github.com/olikraus/u8g2/wiki/u8g2setupcpp#st7920-128x64
 
-#include <DHT.h>
 #include <U8g2lib.h>
 #include <U8x8lib.h>
 
-#define DHTTYPE    DHT22
-
 char temperature [5];
 char humidity [5];
+
 const char DEGREE_SYMBOL[] = { 0xB0, '\0' };
 
 DHT dht(7, DHTTYPE);
