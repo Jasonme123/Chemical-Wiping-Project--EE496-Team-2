@@ -1,11 +1,4 @@
   // For Senior Design
-#define X_DIR_PIN          6
-#define X_STEP_PIN         7
-#define X_ENABLE_PIN       52
-
-#define Z_DIR_PIN          50
-#define Z_STEP_PIN         48
-#define Z_ENABLE_PIN       46
 
 //////////////////////////////////////////////////////////
 //For arduino Mega
@@ -18,6 +11,8 @@
 
 #define TIMER1_INTERRUPTS_ON    TIMSK1 |=  (1 << OCIE1A);
 #define TIMER1_INTERRUPTS_OFF   TIMSK1 &= ~(1 << OCIE1A);
+
+//////////////////////////////////////////////////////////
 
 struct stepperInfo {
   // externally defined parameters
