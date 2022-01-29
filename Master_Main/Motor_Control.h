@@ -1,12 +1,7 @@
   // For Senior Design
 
 //////////////////////////////////////////////////////////
-//For arduino Mega
-#define X_STEP_HIGH             PORTH |=  0b00010000;
-#define X_STEP_LOW              PORTH &= ~0b00010000;
 
-#define Z_STEP_HIGH             PORTL |=  0b00000010;
-#define Z_STEP_LOW              PORTL &= ~0b00000010;
 //////////////////////////////////////////////////////////
 
 #define TIMER1_INTERRUPTS_ON    TIMSK1 |=  (1 << OCIE1A);
@@ -218,8 +213,3 @@ void runAndWait() {
   setNextInterruptInterval();
   while ( remainingSteppersFlag );
 }
-
-//void motorTest() {
-
-
-//}
