@@ -7,50 +7,45 @@ void setup() {
   Serial.begin(9600);
   Motorsetup();
   safety_Check();
-  
+
+  xPosition_Update = true;
 }
 
 void loop() {
+//////////////////////////////////////////////////////////
+//X-Axis Wiping Cycle
 
-  TIMER1_INTERRUPTS_ON
+volatile stepperInfo& s = steppers[0];
+if(s.movementDone){ // if wipe half cycle is complete one way is complete
+x_movement = (-1*x_movement);
+ //Serial.println(s.stepCount);
+ //Serial.println(xPosition_Update);
+ xPosition_Update = true;
+ //Serial.println(xPosition_Update);
+}
   
-   for (int i = 0; i < num_Cycles; i++) { 
-    //x_Movements();
-    //z_Movements();
-     prepareMovement( 1,  8000 );
+//////////////////////////////////////////////////////////
+//Motor Command Sender
+
+     TIMER1_INTERRUPTS_ON //Allows motor steps to by called
+     
+//if x motor target changes, tell the motor to move to the new target     
+     if(xPosition_Update){  
+     xPosition_Update = false;
      prepareMovement( 0,  x_movement );
      runAndWait();
-     
-     prepareMovement( 1,  -8000 );
-     prepareMovement( 0,  -1*x_movement );
-     runAndWait();
-     
- }
-     count++;
-     delay(10);
      Serial.println(count);
-
-  while(1);
-
-}
-
-//////////////////////////////////////////////////
-//x motor wiping motion
-void x_Movements(){
-
-  int half_Move = x_movement;
-     prepareMovement( 0,  half_Move );
-     runAndWait();
+     Serial.println(x_movement);
+     Serial.println(s.movementDone);
+     count++;
+     }
      
-     prepareMovement( 0,  -half_Move );
-     runAndWait(); 
-}
-//////////////////////////////////////////////////
-//z motor wiping motion
-void z_Movements(){
-     prepareMovement( 1,  8000 );
-     runAndWait();
-     
-     prepareMovement( 1,  -8000 );
-     runAndWait(); 
+//if z motor target changes, tell the motor to move to the new target
+     if(zPosition_Update){
+     prepareMovement( 1,  z_movement );
+     zPosition_Update = false;
+    
+     }
+///////////////////////////////////////////////////////////
+
 }

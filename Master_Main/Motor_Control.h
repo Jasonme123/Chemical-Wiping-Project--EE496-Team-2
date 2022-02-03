@@ -116,6 +116,7 @@ void resetStepper(volatile stepperInfo& si) {
 
 volatile byte remainingSteppersFlag = 0;
 
+////////////////////////////////////////////////
 void prepareMovement(int whichMotor, int steps) {
   volatile stepperInfo& si = steppers[whichMotor];
   si.dirFunc( steps < 0 ? HIGH : LOW );
@@ -124,14 +125,15 @@ void prepareMovement(int whichMotor, int steps) {
   resetStepper(si);
   remainingSteppersFlag |= (1 << whichMotor);
 }
+////////////////////////////////////////////////
 
 volatile byte nextStepperFlag = 0;
-
 volatile int ind = 0;
 volatile unsigned int intervals[100];
 
+////////////////////////////////////////////////
 void setNextInterruptInterval() {
-
+  
   bool movementComplete = true;
 
   unsigned int mind = 999999;
@@ -157,19 +159,19 @@ void setNextInterruptInterval() {
   OCR1A = mind;
 }
 
+//////////////////////////////////////////////
 ISR(TIMER1_COMPA_vect)
 {
   unsigned int tmpCtr = OCR1A;
 
   OCR1A = 65500;
 
-  for (int i = 0; i < NUM_STEPPERS; i++) {
-
-    if ( ! ((1 << i) & remainingSteppersFlag) )
+  for (int i = 0; i < NUM_STEPPERS; i++) {    //If there are steps a motor still needs to take
+    if (! ((1 << i) & remainingSteppersFlag))
       continue;
 
-    if ( ! (nextStepperFlag & (1 << i)) ) {
-      steppers[i].di -= tmpCtr;
+    if ( ! (nextStepperFlag & (1 << i)) ) {   //If the motor selected is not next update wait interval
+      steppers[i].di -= tmpCtr;               // current interval per step length
       continue;
     }
 
@@ -181,6 +183,7 @@ ISR(TIMER1_COMPA_vect)
       s.stepPosition += s.dir;
       if ( s.stepCount >= s.totalSteps ) {
         s.movementDone = true;
+        x_movement = (x_movement * -1);
         remainingSteppersFlag &= ~(1 << i);
       }
     }
@@ -205,7 +208,7 @@ ISR(TIMER1_COMPA_vect)
   }
 
   setNextInterruptInterval();
-
+  
   TCNT1  = 0;
 }
 

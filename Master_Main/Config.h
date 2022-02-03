@@ -28,7 +28,7 @@
 #define Z_STEP_LOW              PORTL &= ~0b10000010;
 //////////////////////////////////////////////////////////////////
 //LCD User defined Parameters
-double wipe_Distance = 3; // (inches)
+double wipe_Distance = 2; // (inches)
 int num_Cycles = 10; //number of cycles
 
 //////////////////////////////////////////////////////////////////
@@ -36,4 +36,11 @@ int num_Cycles = 10; //number of cycles
 double x_Gear = 12;  //X motor gear diameter (mm)
 int rev_Step = 1600; //Steps Per revolution
 double x_circumference = (3.14159 * x_Gear * 0.0393); //x motor gear circumference (inches) 
-int x_movement = (rev_Step * (wipe_Distance / x_circumference)); // X axis movement in steps
+volatile int x_movement = (rev_Step * (wipe_Distance / x_circumference)); // X axis movement in steps
+
+boolean xPosition_Update = false;
+
+//////////////////////////////////////////////////////////////////
+//Z-motor Config
+boolean zPosition_Update = false;
+int z_movement = 1000;
