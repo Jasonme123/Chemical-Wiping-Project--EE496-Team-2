@@ -3,25 +3,39 @@
 #include "Safety_Check.h"
 
 int count = 1;
+int i = 0;
+
 void setup() {
   Serial.begin(9600);
   Motorsetup();
   safety_Check();
 
   xPosition_Update = true;
+  zPosition_Update = true;
 }
 
 void loop() {
+  
+
 //////////////////////////////////////////////////////////
 //X-Axis Wiping Cycle
 
-volatile stepperInfo& s = steppers[0];
+volatile stepperInfo& s = steppers[i];
 if(s.movementDone){ // if wipe half cycle is complete one way is complete
-x_movement = (-1*x_movement);
- //Serial.println(s.stepCount);
- //Serial.println(xPosition_Update);
  xPosition_Update = true;
- //Serial.println(xPosition_Update);
+ x_movement = (x_movement * -1);
+ i = 1;
+}
+
+
+//////////////////////////////////////////////////////////
+//Z-Axis Wiping Cycle
+
+
+if(s.movementDone){ // if wipe half cycle is complete one way is complete
+ zPosition_Update = true;
+ z_movement = (z_movement * -1);
+ i = 0;
 }
   
 //////////////////////////////////////////////////////////
@@ -34,18 +48,19 @@ x_movement = (-1*x_movement);
      xPosition_Update = false;
      prepareMovement( 0,  x_movement );
      runAndWait();
-     Serial.println(count);
-     Serial.println(x_movement);
-     Serial.println(s.movementDone);
-     count++;
      }
      
 //if z motor target changes, tell the motor to move to the new target
      if(zPosition_Update){
-     prepareMovement( 1,  z_movement );
      zPosition_Update = false;
+     prepareMovement( 1,  z_movement );
+     runAndWait();
     
      }
 ///////////////////////////////////////////////////////////
-
+//while(count < 100){ 
+  //Serial.println(count);
+  //delay(1000);
+  //count++; 
+//}
 }

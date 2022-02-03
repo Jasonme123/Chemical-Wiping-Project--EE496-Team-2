@@ -28,7 +28,7 @@
 #define Z_STEP_LOW              PORTL &= ~0b10000010;
 //////////////////////////////////////////////////////////////////
 //LCD User defined Parameters
-double wipe_Distance = 2; // (inches)
+double wipe_Distance = 4; // (inches)
 int num_Cycles = 10; //number of cycles
 
 //////////////////////////////////////////////////////////////////
@@ -43,4 +43,4 @@ boolean xPosition_Update = false;
 //////////////////////////////////////////////////////////////////
 //Z-motor Config
 boolean zPosition_Update = false;
-int z_movement = 1000;
+int z_movement = 10000;

@@ -183,7 +183,6 @@ ISR(TIMER1_COMPA_vect)
       s.stepPosition += s.dir;
       if ( s.stepCount >= s.totalSteps ) {
         s.movementDone = true;
-        x_movement = (x_movement * -1);
         remainingSteppersFlag &= ~(1 << i);
       }
     }
