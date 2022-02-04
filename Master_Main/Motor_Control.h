@@ -171,13 +171,13 @@ ISR(TIMER1_COMPA_vect)
       continue;
 
     if ( ! (nextStepperFlag & (1 << i)) ) {   //If the motor selected is not next update wait interval
-      steppers[i].di -= tmpCtr;               // current interval per step length
+      steppers[i].di -= tmpCtr;               // next sepper interval equal to delay minus current interval per step length
       continue;
     }
 
     volatile stepperInfo& s = steppers[i];
 
-    if ( s.stepCount < s.totalSteps ) {
+    if ( s.stepCount < s.totalSteps ) { 
       s.stepFunc();
       s.stepCount++;
       s.stepPosition += s.dir;
