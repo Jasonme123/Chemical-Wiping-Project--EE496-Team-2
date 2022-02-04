@@ -89,6 +89,7 @@ void Motorsetup() {
   
 ////////////////////////////////////////////
   noInterrupts(); // Timing protection
+//Timer 1 (to send motor movemment commands)
   TCCR1A = 0;
   TCCR1B = 0;
   TCNT1  = 0;
@@ -96,6 +97,15 @@ void Motorsetup() {
   OCR1A = 1000;                             // compare value
   TCCR1B |= (1 << WGM12);                   // CTC mode
   TCCR1B |= ((1 << CS11) | (1 << CS10));    // 64 prescaler
+//////////////////////////////////////////////////////////////////////////
+//Timer 2 (to check if the motor position target needs to be updated)
+  TCCR2A = 0;
+  TCCR2B = 0;
+  TCNT2  = 0;
+  
+  OCR2A = 1000;                             // compare value
+  TCCR2B |= (1 << WGM12);                   // CTC mode
+  TCCR2B |= ((1 << CS11) | (1 << CS10));    // 64 prescaler
   interrupts();
 ///////////////////////////////////////////////
 
@@ -224,4 +234,48 @@ ISR(TIMER1_COMPA_vect)
 void runAndWait() {
   setNextInterruptInterval();
   //while ( remainingSteppersFlag );
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+#define TIMER2_INTERRUPTS_ON    TIMSK2 |=  (1 << OCIE2A);
+#define TIMER2_INTERRUPTS_OFF   TIMSK2 &= ~(1 << OCIE2A);
+
+ISR(TIMER2_COMPA_vect){
+  //////////////////////////////////////////////////////////
+//X-Axis Wiping Cycle
+
+volatile stepperInfo& sx = steppers[0];
+if(sx.movementDone){ // if wipe half cycle is complete one way is complete
+ xPosition_Update = true;
+ x_movement = (x_movement * -1);
+}
+
+//////////////////////////////////////////////////////////
+//Z-Axis Wiping Cycle
+volatile stepperInfo& sz = steppers[1];
+if(sz.movementDone){ // if wipe half cycle is complete one way is complete
+ zPosition_Update = true;
+ z_movement = (z_movement * -1);
+}
+  
+//////////////////////////////////////////////////////////
+//Motor Command Sender
+
+     
+//if x motor target changes, tell the motor to move to the new target  
+   
+     if(xPosition_Update){  
+       xPosition_Update = false;
+       prepareMovement( 0,  x_movement );
+       runAndWait();
+     }
+     
+//if z motor target changes, tell the motor to move to the new target
+
+     if(zPosition_Update){
+      zPosition_Update = false;
+      prepareMovement( 1,  z_movement );
+      runAndWait();
+     }
+   
 }
