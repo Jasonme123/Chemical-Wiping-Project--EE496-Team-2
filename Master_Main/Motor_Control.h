@@ -223,5 +223,5 @@ ISR(TIMER1_COMPA_vect)
 
 void runAndWait() {
   setNextInterruptInterval();
-  while ( remainingSteppersFlag );
+  //while ( remainingSteppersFlag );
 }

@@ -11,24 +11,24 @@ void setup() {
   safety_Check();
 
   xPosition_Update = true;
-  zPosition_Update = false;
-  disable_Stepper();  //comment out to enable steppers
+  zPosition_Update = true;
+  //disable_Stepper();  //comment out to enable steppers
 }
 
 void loop() {
 //////////////////////////////////////////////////////////
 //X-Axis Wiping Cycle
 
-volatile stepperInfo& s = steppers[0];
-if(s.movementDone){ // if wipe half cycle is complete one way is complete
+volatile stepperInfo& sx = steppers[0];
+if(sx.movementDone){ // if wipe half cycle is complete one way is complete
  xPosition_Update = true;
  x_movement = (x_movement * -1);
 }
 
 //////////////////////////////////////////////////////////
 //Z-Axis Wiping Cycle
-
-if(s.movementDone){ // if wipe half cycle is complete one way is complete
+volatile stepperInfo& sz = steppers[1];
+if(sz.movementDone){ // if wipe half cycle is complete one way is complete
  zPosition_Update = true;
  z_movement = (z_movement * -1);
 }
@@ -55,9 +55,9 @@ TIMER1_INTERRUPTS_ON //Allows motor steps to by called
      }
      
 ///////////////////////////////////////////////////////////
-//while(count < 100){ 
-  //Serial.println(count);
-  //delay(1000);
-  //count++; 
-//}
+ 
+  Serial.println(count);
+  delay(10);
+  count++; 
+
 }

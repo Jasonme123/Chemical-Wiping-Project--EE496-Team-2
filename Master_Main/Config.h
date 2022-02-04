@@ -43,4 +43,4 @@ boolean xPosition_Update = false;
 //////////////////////////////////////////////////////////////////
 //Z-motor Config
 boolean zPosition_Update = false;
-int z_movement = 1000;
+int z_movement = 10000;
