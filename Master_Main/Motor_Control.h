@@ -49,6 +49,16 @@ void zDir(int dir) {
   digitalWrite(Z_DIR_PIN, dir);
 }
 
+void disable_Stepper(){
+  digitalWrite(X_ENABLE_PIN, HIGH);
+  digitalWrite(Z_ENABLE_PIN, HIGH);
+}
+
+void enable_Stepper(){
+  digitalWrite(X_ENABLE_PIN, LOW);
+  digitalWrite(Z_ENABLE_PIN, LOW);
+}
+
 void resetStepperInfo( stepperInfo& si ) {
   si.n = 0;
   si.d = 0;

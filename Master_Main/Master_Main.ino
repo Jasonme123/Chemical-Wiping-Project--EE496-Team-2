@@ -11,19 +11,18 @@ void setup() {
   safety_Check();
 
   xPosition_Update = true;
-  zPosition_Update = true;
+  zPosition_Update = false;
+  disable_Stepper();  //comment out to enable steppers
 }
 
 void loop() {
 //////////////////////////////////////////////////////////
 //X-Axis Wiping Cycle
 
-volatile stepperInfo& s = steppers[i];
+volatile stepperInfo& s = steppers[0];
 if(s.movementDone){ // if wipe half cycle is complete one way is complete
  xPosition_Update = true;
  x_movement = (x_movement * -1);
- i = 1;
- remainingSteppersFlag |= (1 << 0);
 }
 
 //////////////////////////////////////////////////////////
@@ -32,8 +31,6 @@ if(s.movementDone){ // if wipe half cycle is complete one way is complete
 if(s.movementDone){ // if wipe half cycle is complete one way is complete
  zPosition_Update = true;
  z_movement = (z_movement * -1);
- i = 0;
- remainingSteppersFlag |= (1 << 1);
 }
   
 //////////////////////////////////////////////////////////
@@ -46,7 +43,7 @@ TIMER1_INTERRUPTS_ON //Allows motor steps to by called
      if(xPosition_Update){  
        xPosition_Update = false;
        prepareMovement( 0,  x_movement );
-       //runAndWait();
+       runAndWait();
      }
      
 //if z motor target changes, tell the motor to move to the new target
@@ -54,7 +51,7 @@ TIMER1_INTERRUPTS_ON //Allows motor steps to by called
      if(zPosition_Update){
       zPosition_Update = false;
       prepareMovement( 1,  z_movement );
-      //runAndWait();
+      runAndWait();
      }
      
 ///////////////////////////////////////////////////////////
