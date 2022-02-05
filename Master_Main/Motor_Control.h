@@ -83,7 +83,8 @@ void Motorsetup() {
   pinMode(Z_STEP_PIN,   OUTPUT);
   pinMode(Z_DIR_PIN,    OUTPUT);
   pinMode(Z_ENABLE_PIN, OUTPUT);
-  
+
+  //enables motors
   digitalWrite(X_ENABLE_PIN, LOW);
   digitalWrite(Z_ENABLE_PIN, LOW);
   
@@ -112,14 +113,14 @@ void Motorsetup() {
 //x motor
   steppers[0].dirFunc = xDir;
   steppers[0].stepFunc = xStep;
-  steppers[0].acceleration = 1000;
-  steppers[0].minStepInterval = 50;
+  steppers[0].acceleration = xcelleraion;
+  steppers[0].minStepInterval = xMin_Interval;
   
 //z motor
   steppers[1].dirFunc = zDir;
   steppers[1].stepFunc = zStep;
-  steppers[1].acceleration = 1000;
-  steppers[1].minStepInterval = 50;
+  steppers[1].acceleration = zcelleration;
+  steppers[1].minStepInterval = zMin_Interval;
 }
 
 /////////////////////////////////////////////////
@@ -223,7 +224,7 @@ ISR(TIMER1_COMPA_vect)
       s.n--;
     }
 
-    s.di = s.d; // integer
+    s.di = s.d; // long delay value for next step of the motor
   }
 
   setNextInterruptInterval();
