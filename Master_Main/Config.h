@@ -14,7 +14,7 @@
 
 //z motor pins
 //#define Z_DIR_PIN          50
-//#define Z_STEP_PIN         48
+//#define Z_STEP_PIN         48 //add
 //#define Z_ENABLE_PIN       46
 
 //////////////////////////////////////////////////////////////////
