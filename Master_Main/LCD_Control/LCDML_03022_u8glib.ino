@@ -29,11 +29,18 @@
   // devices with all constructor calls is here: https://github.com/olikraus/u8glib/wiki/device
   U8GLIB_ST7920_128X64 u8g(13, 11, 10, U8G_PIN_NONE);
 
+  // Horizontal Alignment
+  #define LCDWidth                        128
+  #define ALIGN_CENTER(t)                 ((LCDWidth - (u8g.getStrWidth(t))) / 2)
+  #define ALIGN_RIGHT(t)                  (LCDWidth -  u8g.getStrWidth(t))
+  #define ALIGN_LEFT                      0
+
   // settings for u8g lib and LCD
   #define _LCDML_DISP_w                 128            // LCD width
   #define _LCDML_DISP_h                 64             // LCD height
   // font settings
   #define _LCDML_DISP_font              u8g_font_6x13  // u8glib font (more fonts under u8g.h line 1520 ...)
+  #define _LCDML_DISP_big_font          u8g_font_9x18  // bigger font
   #define _LCDML_DISP_font_w            6              // font width
   #define _LCDML_DISP_font_h            13             // font height
   // cursor settings
@@ -96,9 +103,9 @@
   LCDML_add         (7  , LCDML_0_3_1_2   , 2  , "Cold"             , NULL);                    // NULL = no menu function
   LCDML_add         (8  , LCDML_0_3_1_2   , 3  , "Back"             , mFunc_back);              // this menu function can be found on "LCDML_display_menuFunction" tab
   LCDML_add         (9  , LCDML_0_3_1     , 3  , "Back"             , mFunc_back);              // this menu function can be found on "LCDML_display_menuFunction" tab
-  LCDML_add         (10 , LCDML_0_3       , 2  , "Alcohol"        , mFunc_p2);                  // this menu function can be found on "LCDML_display_menuFunction" tab
+  LCDML_add         (10 , LCDML_0_3       , 2  , "Alcohol"          , mFunc_p2);                  // this menu function can be found on "LCDML_display_menuFunction" tab
   LCDML_add         (11 , LCDML_0_3       , 3  , "Back"             , mFunc_back);              // this menu function can be found on "LCDML_display_menuFunction" tab
-  LCDML_add         (12 , LCDML_0         , 4  , "Shooting Frequency", NULL);                   // NULL = no menu function
+  LCDML_add         (12 , LCDML_0         , 4  , "Photo Shooting"   , NULL);                   // NULL = no menu function
   LCDML_add         (13 , LCDML_0_4       , 1  , "Go to Root"       , mFunc_goToRootMenu);      // this menu function can be found on "LCDML_display_menuFunction" tab
   LCDML_add         (14 , LCDML_0_4       , 2  , "Jump to Time info", mFunc_jumpTo_timer_info); // this menu function can be found on "LCDML_display_menuFunction" tab
   LCDML_add         (15 , LCDML_0_4       , 3  , "Back"             , mFunc_back);              // this menu function can be found on "LCDML_display_menuFunction" tab

@@ -67,7 +67,6 @@ void mFunc_information(uint8_t param)
   {
     // remmove compiler warnings when the param variable is not used:
     LCDML_UNUSED(param);
-
     // setup function
     u8g.setFont(_LCDML_DISP_font);
     u8g.firstPage();
@@ -248,12 +247,13 @@ void mFunc_screensaver(uint8_t param)
     LCDML_UNUSED(param);
 
     // setup function
-    u8g.setFont(_LCDML_DISP_font);
+    u8g.setFont(_LCDML_DISP_big_font);
     u8g.firstPage();
     do {
-      u8g.drawStr( 0, (_LCDML_DISP_font_h * 1), F("screensaver"));
-      u8g.drawStr( 0, (_LCDML_DISP_font_h * 2), F("press any key"));
-      u8g.drawStr( 0, (_LCDML_DISP_font_h * 3), F("to leave it"));
+      u8g.setFont(_LCDML_DISP_big_font);
+      u8g.drawStr( 11, 21, F("Cycle Count: "));
+      u8g.setFont(u8g_font_gdr20);
+      u8g.drawStr(ALIGN_CENTER("99999"), 52, F("99999"));
     } while( u8g.nextPage() );
 
     LCDML.FUNC_setLoopInterval(100);  // starts a trigger event for the loop function every 100 milliseconds
