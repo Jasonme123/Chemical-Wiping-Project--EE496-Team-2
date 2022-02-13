@@ -1,16 +1,4 @@
-// ============================================================
-// Example:     LCDML: graphic display with u8g
-// ============================================================
-// Author:      Jomelo
-// Last update: 21.01.2018
-// License:     MIT
-// ============================================================
-// Description:
-// This example shows how to use the u8glib with the LCDMenuLib
-// The menu can placed in a box that can be placed anywhere on
-// the screen.
-// ============================================================
-// *********************************************************************
+
 // special settings
 // *********************************************************************
 // enable this line when you are not usigng a standard arduino
@@ -134,7 +122,9 @@
   // 1. define a condition as a function of a boolean type -> return false = not displayed, return true = displayed
   // 2. set the function name as callback (remove the braces '()' it gives bad errors)
   // LCDMenuLib_addAdvanced(id, prev_layer,     new_num, condition,   lang_char_array, callback_function, parameter (0-255), menu function type  )
-  LCDML_addAdvanced (22 , LCDML_0         , 7  , COND_hide,  "screensaver"        , mFunc_screensaver,        0,   _LCDML_TYPE_default);       // this menu function can be found on "LCDML_display_menuFunction" tab
+  LCDML_addAdvanced (22 , LCDML_0         , 7  , false,  "screensaver"        , mFunc_screensaver,        0,   _LCDML_TYPE_default);       // this menu function can be found on "LCDML_display_menuFunction" tab
+  // The fourth element (false in this case) is a condition which needs to be implemented as a function
+  // and it shoud return a boolean true or false based on checked condition
 
   // ***TIP*** Try to update _LCDML_DISP_cnt when you add a menu element.
 
