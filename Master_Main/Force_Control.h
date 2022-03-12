@@ -1,5 +1,6 @@
 #include <PID_v1.h>
 
+
  double Force_Reading;
  static boolean newDataReady = 0;
 /////////////////////////////////////////////////////////////////////////
@@ -33,9 +34,8 @@ void Control_loop()
     M_direction = HIGH;
   }  
   
-  if (LoadCell.update()) newDataReady = true;
   if (newDataReady) {
-      Force_Reading = LoadCell.getData();
+      Force_Reading = Cell_1();
       
       Serial.print(Force_Reading);
       Serial.print(',');

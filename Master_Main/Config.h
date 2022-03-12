@@ -49,6 +49,22 @@ int z_movement = 10000;
 int zcelleration = 1000;
 int zMin_Interval = 50;
 
+//////////////////////////////////////////////////////////////////
+//Force Controller
+
+double Force;
+
+// variables will change:
+int distance;
+int SPEED;
+int done = 0;
+boolean M_direction;
+double Output_Position;
+
+//////////////////////////////////////////////////////////////////
+//Load Cell Reading
+
+
 //********************************************************************************************************************
 // LCD Parameter Definitions
 //********************************************************************************************************************
