@@ -1,26 +1,8 @@
-// =====================================================================
-//
-// Output function
-//
-// =====================================================================
-
-
-/* ******************************************************************** */
-void lcdml_menu_clear()
-/* ******************************************************************** */
-{
-}
-
-/* ******************************************************************** */
 void lcdml_menu_display()
-/* ******************************************************************** */
 {
   // for first test set font here
   u8g.setFont(_LCDML_DISP_font);
-  //u8g.setColorIndex(1); // Instructs the display to draw with a pixel on.
 
-  // declaration of some variables
-  // ***************
   // content variable
   char content_text[_LCDML_DISP_cols];  // save the content text of every menu element
   // menu element object
@@ -39,7 +21,6 @@ void lcdml_menu_display()
   uint8_t scroll_pos        = ((1.*n_max * _LCDML_DISP_rows) / (scrollbar_max - 1) * scrollbar_cur_pos);
 
 
- // for first test set font here
   u8g.setFont(_LCDML_DISP_font);
   u8g.setColorIndex(1); // Instructs the display to draw with a pixel on.
 
@@ -105,15 +86,19 @@ void lcdml_menu_display()
       scrollbar_block_length = (_LCDML_DISP_box_y1-_LCDML_DISP_box_y0) / (scrollbar_block_length + _LCDML_DISP_rows);
 
       //set scrollbar
-      if (scrollbar_cur_pos == 0) {                                   // top position     (min)
+      if (scrollbar_cur_pos == 0) {                                 // top position     (min)
         u8g.drawBox(_LCDML_DISP_box_x1 - (_LCDML_DISP_scrollbar_w-1), _LCDML_DISP_box_y0 + 1                                                     , (_LCDML_DISP_scrollbar_w-2)  , scrollbar_block_length);
       }
       else if (scrollbar_cur_pos == (scrollbar_max-1)) {            // bottom position  (max)
         u8g.drawBox(_LCDML_DISP_box_x1 - (_LCDML_DISP_scrollbar_w-1), _LCDML_DISP_box_y1 - scrollbar_block_length                                , (_LCDML_DISP_scrollbar_w-2)  , scrollbar_block_length);
       }
-      else {                                                                // between top and bottom
+      else {                                                        // between top and bottom
         u8g.drawBox(_LCDML_DISP_box_x1 - (_LCDML_DISP_scrollbar_w-1), _LCDML_DISP_box_y0 + (scrollbar_block_length * scrollbar_cur_pos + 1),(_LCDML_DISP_scrollbar_w-2)  , scrollbar_block_length);
       }
     }
   } while ( u8g.nextPage() );
+}
+
+void lcdml_menu_clear()
+{
 }

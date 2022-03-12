@@ -1,13 +1,3 @@
-// - max 64 Events, this could be a button ore something (Counter 0 - 63) 
-// - Event 0 - 3 can be used with a menu callback function (when set this event, the function is called)
-// - The range from 0 - 3 can be changed in LCDMenuLib2.h
-// - events have to be reset manual over LCDML.CE_reset(number) ore LCDML.CE_resetAll();
-// - they will not be reseted from the menu library
-
-// *********************************************************************
-// *************** (3) CONTROL WITH ENCODER ****************************
-// *********************************************************************
-
 //   * rotate left = Up
 //   * rotate right = Down
 //   * push = Enter
@@ -15,37 +5,30 @@
 //   * push + rotate left = Left
 //   * push + rotate right = Right
 
+// global defines
+#define encoder_A_pin       20    
+#define encoder_B_pin       21    
+#define encoder_button_pin  49    
 
-  // global defines
-  #define encoder_A_pin       20    // physical pin has to be 2 or 3 to use interrupts (on mega e.g. 20 or 21), use internal pullups
-  #define encoder_B_pin       21    // physical pin has to be 2 or 3 to use interrupts (on mega e.g. 20 or 21), use internal pullups
-  #define encoder_button_pin  49    // physical pin , use internal pullup
+#define g_LCDML_CONTROL_button_long_press    800   // ms
+#define g_LCDML_CONTROL_button_short_press   120   // ms
 
-  #define g_LCDML_CONTROL_button_long_press    800   // ms
-  #define g_LCDML_CONTROL_button_short_press   120   // ms
+#define ENCODER_OPTIMIZE_INTERRUPTS 
+#include <Encoder.h> 
 
-  #define ENCODER_OPTIMIZE_INTERRUPTS //Only when using pin2/3 (or 20/21 on mega)
-  #include <Encoder.h> 
+Encoder ENCODER(encoder_A_pin, encoder_B_pin);
 
-  Encoder ENCODER(encoder_A_pin, encoder_B_pin);
+unsigned long  g_LCDML_CONTROL_button_press_time = millis();
+bool  g_LCDML_CONTROL_button_prev       = HIGH;
 
-  unsigned long  g_LCDML_CONTROL_button_press_time = millis();
-  bool  g_LCDML_CONTROL_button_prev       = HIGH;
-
-// *********************************************************************
 void lcdml_menu_control(void)
-// *********************************************************************
 {
   // declare variable for this function
   int32_t g_LCDML_CONTROL_Encoder_position = ENCODER.read();
   bool g_LCDML_button                      = digitalRead(encoder_button_pin);
   
-  // If something must init, put in in the setup condition
   if(LCDML.BT_setup())
   {
-    // runs only once
-
-    // init pins, enable pullups
     pinMode(encoder_A_pin      , INPUT_PULLUP);
     pinMode(encoder_B_pin      , INPUT_PULLUP);
     pinMode(encoder_button_pin  , INPUT_PULLUP);

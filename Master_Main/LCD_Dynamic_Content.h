@@ -1,15 +1,5 @@
-/* ===================================================================== *
- *                                                                       *
- * Dynamic content                                                       *
- *                                                                       *
- * ===================================================================== *
- */
-
-
-uint8_t g_dynParam = 100; // when this value comes from an EEPROM, load it in setup
-                          // at the moment here is no setup function (To-Do)
+uint8_t g_dynParam = 100; 
 void mDyn_para(uint8_t line)
-// *********************************************************************
 {
   // check if this function is active (cursor stands on this line)
   if (line == LCDML.MENU_getCursorPos())
@@ -34,9 +24,7 @@ void mDyn_para(uint8_t line)
           LCDML.MENU_enScroll();
         }
 
-        // do something
-        // ...
-        
+        // do something        
         LCDML.BT_resetEnter();
       }
 
@@ -70,7 +58,7 @@ void mDyn_para(uint8_t line)
   }
 
   char buf[20];
-  sprintf (buf, "dynValue: %d", g_dynParam);
+  sprintf (buf, "Cycle Count: %d", 0);
 
   // setup function
   u8g.drawStr( _LCDML_DISP_box_x0+_LCDML_DISP_font_w + _LCDML_DISP_cur_space_behind,  (_LCDML_DISP_font_h * (1+line)), buf);     // the value can be changed with left or right
