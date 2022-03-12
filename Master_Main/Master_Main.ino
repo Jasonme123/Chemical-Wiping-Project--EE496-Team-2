@@ -18,6 +18,8 @@ void setup() {
 }
 
 void loop() {
+
+  Force_Reading = Cell_1();
   
 ///////////////////////////////////////////////////////////
  while(count<100){
