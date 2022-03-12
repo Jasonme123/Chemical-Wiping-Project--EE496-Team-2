@@ -1,6 +1,12 @@
 #include "Config.h"
 #include "Motor_Control.h"
 #include "Safety_Check.h"
+#include "Camera_Control.h"
+#include "Force_Control.h"
+#include "Force_Sensors_Reading.h"
+#include "LCD_Main.h"
+#include "Pump_Control.h"
+
 
 int count = 1;
 
