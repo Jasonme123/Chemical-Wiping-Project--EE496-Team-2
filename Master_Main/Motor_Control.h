@@ -181,6 +181,8 @@ void setNextInterruptInterval() {
 }
 
 //////////////////////////////////////////////
+//Interrrupt Service Routine
+
 ISR(TIMER1_COMPA_vect)
 {
   unsigned int tmpCtr = OCR1A;
@@ -254,7 +256,7 @@ if(sx.movementDone){ // if wipe half cycle is complete one way is complete
 //////////////////////////////////////////////////////////
 //Z-Axis Wiping Cycle
 volatile stepperInfo& sz = steppers[1];
-if(sz.movementDone){ // if wipe half cycle is complete one way is complete
+if(sz.movementDone){
  zPosition_Update = true;
  z_movement = (z_movement * -1);
 }

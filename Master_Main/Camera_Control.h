@@ -6,7 +6,7 @@ int led = 13;
 int opto = 12;
  
 // the setup routine runs once when you press reset:
-void setup()
+void Camera_setup()
 {
 // initialize the digital pin as an output.
 pinMode(led, OUTPUT);
@@ -14,7 +14,7 @@ pinMode(opto, OUTPUT);
 }
  
 // the loop routine runs over and over again forever:
-void loop()
+void Photo()
 {
 digitalWrite(led, HIGH);   // turn the LED on (HIGH is the voltage level)
 digitalWrite(opto, HIGH);

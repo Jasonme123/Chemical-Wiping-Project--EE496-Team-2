@@ -1,4 +1,5 @@
 #include "Config.h"
+//#include "LCD_Main.h"
 #include "Motor_Control.h"
 #include "Safety_Check.h"
 #include "Camera_Control.h"
@@ -7,12 +8,15 @@
 #include "Pump_Control.h"
 
 
+
 int count = 1;
 
 void setup() {
   Serial.begin(9600);
   Motorsetup();
   Pump_setup();
+  Camera_setup();
+  //LCD_setup();
   //safety_Check();
 
   xPosition_Update = true;
@@ -25,7 +29,7 @@ void setup() {
 
 void loop() {
 
-  Force_Reading = Cell_1;
+//LCDML.loop(); //lcd loop
   
 ///////////////////////////////////////////////////////////
  while(count<100){
