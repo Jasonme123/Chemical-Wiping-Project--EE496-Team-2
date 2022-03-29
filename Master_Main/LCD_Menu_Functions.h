@@ -23,7 +23,7 @@ void your_function_name(uint8_t param)
     //LCDML.FUNC_setGBA() 
     //
   }
-  if(LCDML.FUNC_loop())           // ****** LOOP *********
+  if(LCDML.FUNC_loop())          // ****** LOOP *********
   {
     // loop
     // is called when it is triggered
@@ -85,7 +85,6 @@ void mFunc_information(uint8_t param)
   }
 }
 
-
 // *********************************************************************
 uint8_t g_func_timer_info = 0;  // time counter (global variable)
 unsigned long g_timer_1 = 0;    // timer variable (global variable)
@@ -97,7 +96,7 @@ void mFunc_timer_info(uint8_t param)
     // remmove compiler warnings when the param variable is not used:
     LCDML_UNUSED(param);
 
-    g_func_timer_info = 20;       // reset and set timer
+    g_func_timer_info = 5;       // reset and set timer
 
     char buf[20];
     sprintf (buf, "wait %d seconds", g_func_timer_info);
@@ -108,8 +107,6 @@ void mFunc_timer_info(uint8_t param)
       u8g.drawStr( 0, (_LCDML_DISP_font_h * 1), buf);
       u8g.drawStr( 0, (_LCDML_DISP_font_h * 2), F("or press back button"));
     } while( u8g.nextPage() );
-
-
 
     LCDML.FUNC_setLoopInterval(100);  // starts a trigger event for the loop function every 100 milliseconds
 
@@ -158,6 +155,9 @@ void mFunc_timer_info(uint8_t param)
   }
 }
 
+
+// THIS FUNCTION MIGHT WORK FOR OUR PURPOSES
+
 // *********************************************************************
 uint8_t g_button_value = 0; // button value counter (global variable)
 void mFunc_p2(uint8_t param)
@@ -198,7 +198,7 @@ void mFunc_p2(uint8_t param)
       if (LCDML.BT_checkLeft() || LCDML.BT_checkUp()) // check if button left is pressed
       {
         LCDML.BT_resetLeft(); // reset the left button
-        LCDML.BT_resetUp(); // reset the left button
+        LCDML.BT_resetUp(); // reset the up button
         g_button_value++;
 
         // update LCD content
@@ -228,7 +228,7 @@ void mFunc_p2(uint8_t param)
 
 
 // *********************************************************************
-void mFunc_screensaver(uint8_t param)
+void cycle_count_display(uint8_t param)
 // *********************************************************************
 {
   if(LCDML.FUNC_setup())          // ****** SETUP *********
@@ -268,8 +268,6 @@ void mFunc_screensaver(uint8_t param)
   }
 }
 
-
-
 // *********************************************************************
 void mFunc_back(uint8_t param)
 // *********************************************************************
@@ -280,7 +278,7 @@ void mFunc_back(uint8_t param)
     LCDML_UNUSED(param);
 
     // end function and go an layer back
-    LCDML.FUNC_goBackToMenu(1);      // leave this function and go a layer back
+    LCDML.FUNC_goBackToMenu(2);      // leave this function and go tow layers back
   }
 }
 
@@ -331,7 +329,7 @@ void mFunc_para(uint8_t param)
       u8g.drawStr( 0, (_LCDML_DISP_font_h * 1), buf);
       u8g.drawStr( 0, (_LCDML_DISP_font_h * 2), F("press any key"));
       u8g.drawStr( 0, (_LCDML_DISP_font_h * 3), F("to leave it"));
-    } while( u8g.nextPage() );
+    } while(u8g.nextPage());
 
     LCDML.FUNC_setLoopInterval(100);  // starts a trigger event for the loop function every 100 milliseconds
   }
@@ -368,5 +366,110 @@ void mFunc_para(uint8_t param)
   if(LCDML.FUNC_close())        // ****** STABLE END *********
   {
     // you can here reset some global vars or do nothing
+  }
+}
+
+
+void z_homing(uint8_t param) {
+
+    #define z_Dir 36
+
+   if(LCDML.FUNC_setup())          // ****** SETUP *********
+  {
+    // remove compiler warnings when the param variable is not used:
+    LCDML_UNUSED(param);
+    // Jump to main screen
+        digitalWrite(z_Dir, HIGH);
+
+    LCDML.OTHER_jumpToFunc(mFunc_timer_info);
+  }  
+  
+  int count = 0;
+    if(LCDML.FUNC_loop())          // ****** LOOP *********
+  {
+    while(count < 100){
+      Serial.print("count:  ");
+      delay(100);
+      Serial.println(count);
+      count++;
+    }
+  }
+}
+
+// Function For Both Axes Homing 
+void both_axis_homing(uint8_t param) {
+
+  #define z_Dir 36
+
+   if(LCDML.FUNC_setup())          // ****** SETUP *********
+  {
+    // remove compiler warnings when the param variable is not used:
+    LCDML_UNUSED(param);
+    // Jump to main screen
+    digitalWrite(z_Dir, HIGH);
+    LCDML.OTHER_jumpToFunc(mFunc_timer_info);
+  }  
+
+  int count = 0;
+    if(LCDML.FUNC_loop())          // ****** LOOP *********
+  {
+    while(count < 100){
+      Serial.print("count:  ");
+      delay(100);
+      Serial.println(count);
+      count++;
+    }
+  }
+}
+
+
+// *********************************************************************
+void logo_display(uint8_t param)
+// *********************************************************************
+{
+  if(LCDML.FUNC_setup())          // ****** SETUP *********
+  {
+      // remmove compiler warnings when the param variable is not used:
+      LCDML_UNUSED(param);
+      u8g.firstPage();
+      do
+      {
+        display_logo();
+      }while(u8g.nextPage());
+
+      LCDML.FUNC_setLoopInterval(10000);  // starts a trigger event for the loop function every 100 milliseconds
+  }
+
+  if(LCDML.FUNC_loop())              // ****** LOOP *********
+  {
+    if (LCDML.BT_checkAny()) // check if any button is pressed (enter, up, down, left, right)
+    {
+      LCDML.FUNC_goBackToMenu();  // leave this function
+    }
+  }
+
+  if(LCDML.FUNC_close())            // ****** STABLE END *********
+  {
+    // The screensaver go to the root menu
+    LCDML.MENU_goRoot();
+  }
+}
+
+void reset_params(uint8_t param)
+// *********************************************************************
+{
+  if(LCDML.FUNC_setup())          // ****** SETUP *********
+  {
+    // remmove compiler warnings when the param variable is not used:
+    LCDML_UNUSED(param);
+    cycle_dynParam = 0;
+    Force_dynParam = 0;
+    cycle_dynParam = 0;
+    photo_dynParam = 0;
+    flow_rate = 0;
+    wipe_speed = 0;
+    real_wipe_speed = 0.0;
+    pump = 1;
+    LCDML.FUNC_goBackToMenu(0); 
   }
 }
