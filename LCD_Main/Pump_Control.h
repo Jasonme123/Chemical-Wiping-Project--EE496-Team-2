@@ -1,34 +1,51 @@
 
-#define ENA 46
-const int directio = 50;     // the number of the pushbutton pin
-const int ste =  48;      // the number of the LED pin
-
-
 void Pump_setup() {
-  // initialize the LED pin as an output:
-  pinMode(ste, OUTPUT);
-  // initialize the pushbutton pin as an input:
-  pinMode(directio, OUTPUT);
-  pinMode(ENA, OUTPUT);
-  digitalWrite(ENA, LOW); 
+
+  pinMode(P1_STEP_PIN, OUTPUT);
+  pinMode(P1_DIR_PIN, OUTPUT);
+  pinMode(P1_ENABLE_PIN, OUTPUT);
+  
+  pinMode(P2_STEP_PIN, OUTPUT);
+  pinMode(P2_DIR_PIN, OUTPUT);
+  pinMode(P2_ENABLE_PIN, OUTPUT);
+  digitalWrite(P1_ENABLE_PIN, HIGH);
+  digitalWrite(P1_ENABLE_PIN, HIGH);
 }
 
-void Pump() {
-//delay(4);
-distance = 0;
+
+
+void Pump(int pump_rate) {
+
+TIMER1_INTERRUPTS_OFF
   
-digitalWrite(directio, HIGH);
-if (done < 200){
-while(distance < 1600){
-  digitalWrite(ste, HIGH);
-  delayMicroseconds(SPEED);
-  digitalWrite(ste, LOW);
-  distance = distance + 1;
+  int Pump_distance = 0;
+
+  digitalWrite(P1_ENABLE_PIN, LOW);
+  digitalWrite(P2_ENABLE_PIN, LOW); //Enable Pump Movements
+
+
+  digitalWrite(P1_DIR_PIN, To_Wipe);
+  digitalWrite(P2_DIR_PIN, To_Wipe);
+
+if (Pump_Used == 2){               //If Pump 2 is used
+while(Pump_distance < pump_rate){
+  digitalWrite(P2_STEP_PIN, HIGH);
+  delayMicroseconds(Pumping_Speed);
+  digitalWrite(P2_STEP_PIN, LOW);
+  Pump_distance++;
+  }
 }
-done = done + 1;
- }
+  else(){                           //If Pump 1 is used
+  while(Pump_distance < pump_rate){
+  digitalWrite(P1_STEP_PIN, HIGH);
+  delayMicroseconds(Pumping_Speed);
+  digitalWrite(P1_STEP_PIN, LOW);
+  Pump_distance++;
+  }
 
- 
-
-  
+}
+   digitalWrite(P1_ENABLE_PIN, HIGH);
+   digitalWrite(P2_ENABLE_PIN, HIGH); //Disable Pump Movements
+   
+TIMER1_INTERRUPTS_ON
 }

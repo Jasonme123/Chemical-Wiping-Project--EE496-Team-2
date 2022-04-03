@@ -21,14 +21,14 @@
 
 //////////////////////////////////////////////////////////////////
 //pump1 motor 
-#define Z_DIR_PIN          44
-#define Z_STEP_PIN         42
-#define Z_ENABLE_PIN       40
+#define P1_DIR_PIN          44
+#define P1_STEP_PIN         42
+#define P1_ENABLE_PIN       40
 
 //pump2 motor 
-#define Z_DIR_PIN          34
-#define Z_STEP_PIN         38
-#define Z_ENABLE_PIN       36
+#define P2_DIR_PIN          34
+#define P2_STEP_PIN         38
+#define P2_ENABLE_PIN       36
 
 //////////////////////////////////////////////////////////////////
 //Load Cell Reading
@@ -76,17 +76,12 @@
 //#define (anything)         A14; //(Analog)
 //#define (anything)         A15; //(Analog)
 
-//////////////////////////////////////////////////////////////////
-//LCD User defined Parameters
-double wipe_Distance = 3; // (inches)
-int num_Cycles = 10; //number of cycles
 
 //////////////////////////////////////////////////////////////////
 //X-motor Config
 double x_Gear = 12;  //X motor gear diameter (mm)
 int rev_Step = 1600; //Steps Per revolution
 double x_circumference = (3.14159 * x_Gear * 0.0393); //x motor gear circumference (inches) 
-volatile int x_movement = (rev_Step * (wipe_Distance / x_circumference)); // X axis movement in steps
 
 boolean xPosition_Update = false;
 int xcelleraion = 100;
@@ -98,6 +93,35 @@ boolean zPosition_Update = false;
 int z_movement = 1000;
 int zcelleration = 1000;
 int zMin_Interval = 50;
+
+//////////////////////////////////////////////////////////////////
+//Pumping Parameters
+#define To_Wipe HIGH //defining direction for liquid movement (may need to change)
+#define From_wipe LOW
+
+int Pumping_Speed = 100; //delay between steps in microseconds
+uint32_t Tube_Volume = 37735; //((volume inside length of tube * (1600 / 1.06)) NOTE: trunctated but still good enough 
+boolean Pumping_Needed = false;
+
+
+//////////////////////////////////////////////////////////////////
+//Parameter Input Assignment For Use of Wiping Cycle
+
+uint32_t Wipe_Dist;
+uint32_t Init_Pos;
+uint32_t Force_Target;
+uint32_t Cycle_Target;
+uint32_t Photo_Int;
+uint32_t Pump_Rate;
+uint8_t Wipe_Speed;
+uint8_t Pump_Used;
+
+//////////////////////////////////////////////////////////////////
+//Wipe Cycle Global Varibles
+
+uint32_t Current_Count = 0; //Wipe cycle count
+uint32_t Current_XPos; //Current X position
+uint32_t Current_ZPos; //Current Z position
 
 //////////////////////////////////////////////////////////////////
 //Force Controller

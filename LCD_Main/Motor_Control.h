@@ -250,21 +250,13 @@ ISR(TIMER2_COMPA_vect){
 volatile stepperInfo& sx = steppers[0];
 if(sx.movementDone){ // if wipe half cycle is complete one way is complete
  xPosition_Update = true;
+ Current_Count++;
  x_movement = (x_movement * -1);
 }
 
 //////////////////////////////////////////////////////////
-//Z-Axis Wiping Cycle
-volatile stepperInfo& sz = steppers[1];
-if(sz.movementDone){
- zPosition_Update = true;
- z_movement = (z_movement * -1);
-}
-  
-//////////////////////////////////////////////////////////
 //Motor Command Sender
-
-     
+  
 //if x motor target changes, tell the motor to move to the new target  
    
      if(xPosition_Update){  
