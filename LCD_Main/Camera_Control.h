@@ -1,26 +1,24 @@
 
+//Hardware Design Info
 //https://elliotthilaire.net/how-to-connect-your-camera-to-arduino/
 
+//Camera Info
+//https://www.ricoh-imaging.co.jp/english/r_dc/gx/gx200/option.html
 
-int led = 13;
-int opto = 12;
+//Pulse Info
+//http://stereo.jpn.org/eng/sdm/ca1.htm
  
-// the setup routine runs once when you press reset:
+
 void Camera_setup()
 {
-// initialize the digital pin as an output.
-pinMode(led, OUTPUT);
-pinMode(opto, OUTPUT);
+// initialize the digital pins as an output.
+pinMode(shutter_control, OUTPUT);
+pinMode(focus_control, OUTPUT);
 }
  
-// the loop routine runs over and over again forever:
 void Photo()
 {
-digitalWrite(led, HIGH);   // turn the LED on (HIGH is the voltage level)
-digitalWrite(opto, HIGH);
-delay(1000);               // wait for a second
-digitalWrite(led, LOW);    // turn the LED off by making the voltage LOW
-digitalWrite(opto, LOW);
-delay(1000);               // wait for a second
+digitalWrite(shutter_control, HIGH);   //Push Buttom
+delay(150);               //Full Shoot Mode
+digitalWrite(shutter_control, LOW);    //Release Button
 }
-//save
