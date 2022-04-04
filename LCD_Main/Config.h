@@ -52,19 +52,20 @@
 
 //////////////////////////////////////////////////////////////////
 //Endstops
-#define x_min_stop         17
+#define x_min_stop         19
 #define x_max_stop         16    
 
 #define z_min_stop         18
 
 boolean x_zero = false;
+boolean z_zero = false;
 
 uint32_t x_axis_length = 9999999; //ADJUST THIS LATER
 uint32_t z_axis_length = 9999999; //ADJUST THIS LATER
 
 //////////////////////////////////////////////////////////////////
 //Endstops
-#define hard_pause         19
+#define hard_pause         17
 
 //////////////////////////////////////////////////////////////////
 //AUX PINS (unused but availble)
@@ -125,6 +126,8 @@ uint32_t Photo_Interval;
 uint32_t Pump_Rate;
 uint8_t Wiping_Speed;
 uint8_t Pump_Used;
+uint8_t Norm_Brightness;
+uint8_t Photo_Brightness;
 
 //////////////////////////////////////////////////////////////////
 //Wipe Cycle Global Varibles

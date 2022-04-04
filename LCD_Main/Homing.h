@@ -11,24 +11,43 @@ digitalWrite(X_DIR_PIN, LOW);
     delayMicroseconds(150);
     X_STEP_LOW;
   }
+  
 }
 
+void home_z_axis(){
+TIMER1_INTERRUPTS_OFF
 
-attachInterrupt(digitalPinToInterrupt(x_min_stop), X_min(), RISING);
+digitalWrite(Z_DIR_PIN, LOW);
+  
+  while(!z_zero){
+    Z_STEP_HIGH;
+    delayMicroseconds(150);
+    Z_STEP_LOW;
+  }
+  
+}
+
 void X_min(){
   delay(15);
   x_zero = true; //if at zero position
   Current_XPos = 0;
-  
 }
 
-attachInterrupt(digitalPinToInterrupt(z_min_stop), Z_min(), RISING);
 void Z_min(){
   delay(15);
   z_zero = true; //if at zero position
-  Current_ZPos = 0;
+  Current_ZPos = 0; 
 }
 
+void z_min_setup() {
+  pinMode(z_min_stop, INPUT_PULLUP);
+  attachInterrupt(digitalPinToInterrupt(z_min_stop), Z_min, CHANGE);
+}
+
+void x_min_setup() {
+  pinMode(x_min_stop, INPUT_PULLUP);
+  attachInterrupt(digitalPinToInterrupt(x_min_stop), X_min, CHANGE);
+}
 
 //If we detect an error while homing
 void homing_error(){

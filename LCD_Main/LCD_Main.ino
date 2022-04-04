@@ -4,6 +4,10 @@
 #include "config.h"
 #include "Camera_Control.h"
 #include "Pump_Control.h"
+#include "Force_Sensors_Reading.h"
+#include "Force_Control.h"
+#include "Homing.h"
+#include "wiping_loop.h"
 
 
 // setup u8g object
