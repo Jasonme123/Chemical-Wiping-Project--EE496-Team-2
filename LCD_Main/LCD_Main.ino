@@ -1,6 +1,10 @@
 // include libs
 #include <LCDMenuLib2.h>
 #include <U8glib.h>
+#include "config.h"
+#include "Camera_Control.h"
+#include "Pump_Control.h"
+
 
 // setup u8g object
 U8GLIB_ST7920_128X64 u8g(13, 11, 10, U8G_PIN_NONE);

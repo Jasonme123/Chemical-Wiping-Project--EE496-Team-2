@@ -1,7 +1,4 @@
 
-
-  
-
 void safety_Check(){
  
  

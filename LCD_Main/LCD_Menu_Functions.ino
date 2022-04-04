@@ -1,4 +1,5 @@
-#include "x_axis.h"
+
+
 /*  Menu Callback Function                                                *
  * EXAMPLE CODE:
 // *********************************************************************
@@ -307,6 +308,8 @@ void mFunc_jumpTo_timer_info(uint8_t param)
   }
 }
 
+#include "wiping_loop.h"
+
 // Function For Z-Axis Homing 
 void z_homing(uint8_t param) {
 
@@ -321,7 +324,7 @@ void z_homing(uint8_t param) {
       uint32_t position_ = init_position;
       while (position_ != 0) {
           if (position_ > 0) {
-              move_motor_CCW();
+         
               position_--;
               Serial.print("position:  ");
               Serial.println(position_);
@@ -356,7 +359,7 @@ void both_axis_homing(uint8_t param) {
   {  
       while (init_position != 0) {
           if (init_position > 0) {
-              move_motor_CCW();
+           
               init_position--;
           }
           Serial.print("init_position:  ");
@@ -413,3 +416,27 @@ void reset_params(uint8_t param)
     LCDML.FUNC_goBackToMenu(0); 
   }
 }
+
+
+void testing_cycle(uint8_t param) {
+// ****** SETUP *********
+   if(LCDML.FUNC_setup())   
+  {
+   WipingSetup();
+    LCDML_UNUSED(param);// remove compiler warnings when the param variable is not used:
+  }  
+
+    if(LCDML.FUNC_loop())   // ****** LOOP *********
+  {   
+ WipingLoop();
+  }
+     if (LCDML.BT_checkAny()) // check if any button is pressed (enter, up, down, left, right)
+              {
+                LCDML.FUNC_goBackToMenu(1);  // leave this function
+              }
+                  
+      
+      LCDML.FUNC_goBackToMenu(0);
+//      u8g.setFont(u8g_font_ncenB08);
+//      u8g.drawStr(ALIGN_CENTER("Z Axis is homed"), 58, F("Z Axis is homed"));
+   } 

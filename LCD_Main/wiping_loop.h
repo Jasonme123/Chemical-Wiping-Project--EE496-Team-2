@@ -1,10 +1,7 @@
+//Wiping_Cycle
 
-// Function For Z-Axis Homing 
-void testing_cycle(uint8_t param) {
-// ****** SETUP *********
-   if(LCDML.FUNC_setup())   
-  {
-    
+void WipingSetup() {
+
    //Reset Wipe Counter
    Current_Count = 0; 
 
@@ -13,35 +10,31 @@ void testing_cycle(uint8_t param) {
    Init_Pos = (rev_Step * (init_position / x_circumference)); //Inital Position in steps
    Force_Target = wipe_force; //Force we are attempting to Achieve with the Z-axis
    Cycle_Target = cycle_num; //Number of wipes per each test
-   Photo_Int = photo_interval; //number of wipes between a Photo is taken
+   Photo_Interval = photo_interval; //number of wipes between a Photo is taken
    Pump_Rate = ((flow_rate/(1.06)) * 1600); // Flow rate in Steps/Wipe
-   Wipe_Speed = wipe_speed;
+   Wiping_Speed = wipe_speed;
    Pump_Used = pump;
 
 //If you don't want photos
-    if(Photo_Int == 0){
-    Photo_Int = 4294967295;
+    if(Photo_Interval == 0){
+    Photo_Interval = 4294967294;
   }
 
   //light up enclosure to normal brightness
-   analogWrite(bright_pin, Norm_Brightness); 
+  //analogWrite(bright_pin, Norm_Brightness); 
    
-    LCDML_UNUSED(param);// remove compiler warnings when the param variable is not used:
   }  
 
+int position_ = 0;
+int cycle_num_ = 0;
 
-  uint32_t position_ = 0 ;
-
-  if(LCDML.FUNC_loop())   // ****** LOOP *********
-  {   
-
-
-  if((Current_Count % Photo_Int) == 0){
+void WipingLoop(){
+  if((Current_Count % Photo_Interval) == 0){
     Photo();
   }
 
   if(Pumping_Needed){
-    pump(Pump_Rate); //Pumping done per wipe 
+    Pump(Pump_Rate); //Pumping done per wipe 
   }
     
 
@@ -66,7 +59,7 @@ void testing_cycle(uint8_t param) {
       while (cycle_num != 0) {
         
             for (int i = 0; i < wipe_distance; i++){
-                move_motor_CW();
+             
                 Serial.print("position:  ");
                 Serial.println(i);
                 if (LCDML.BT_checkAny()) // check if any button is pressed (enter, up, down, left, right)
@@ -75,7 +68,7 @@ void testing_cycle(uint8_t param) {
                 }
             }
             for (int i = wipe_distance; i > 0; i--){
-                move_motor_CCW();
+          
                 Serial.print("position:  ");
                 Serial.println(i);
                 if (LCDML.BT_checkAny()) // check if any button is pressed (enter, up, down, left, right)
@@ -91,7 +84,7 @@ void testing_cycle(uint8_t param) {
               itoa(cycle_num, string , 10);
 
               char string2[20];         
-              itoa(cycle_num_, string2 , 10);
+               itoa(cycle_num_, string2 , 10);
 
               u8g.firstPage();
               do {
@@ -109,13 +102,5 @@ void testing_cycle(uint8_t param) {
               } while(u8g.nextPage());
              
 
-              if (LCDML.BT_checkAny()) // check if any button is pressed (enter, up, down, left, right)
-              {
-                LCDML.FUNC_goBackToMenu(1);  // leave this function
-              }
-          }        
-      }
-      LCDML.FUNC_goBackToMenu(0);
-//      u8g.setFont(u8g_font_ncenB08);
-//      u8g.drawStr(ALIGN_CENTER("Z Axis is homed"), 58, F("Z Axis is homed"));
-   }  
+           }
+}

@@ -1,5 +1,6 @@
 //For arduino Mega
 
+
 //Motor Control
 ////////////////////////////////////////////////////////////////////
 #define X_STEP_HIGH             PORTH |=  0b00010000; //D7
@@ -19,6 +20,10 @@
 #define Z_STEP_PIN         48 
 #define Z_ENABLE_PIN       46
 
+//Wiping Movement Timer
+#define TIMER1_INTERRUPTS_ON    TIMSK1 |=  (1 << OCIE1A);
+#define TIMER1_INTERRUPTS_OFF   TIMSK1 &= ~(1 << OCIE1A);
+
 //////////////////////////////////////////////////////////////////
 //pump1 motor 
 #define P1_DIR_PIN          44
@@ -33,28 +38,33 @@
 //////////////////////////////////////////////////////////////////
 //Load Cell Reading
 // HX711 circuit wiring
-#define LOADCELL_DOUT_PIN  20;
-#define LOADCELL_SCK_PIN   21;
+#define LOADCELL_DOUT_PIN  20
+#define LOADCELL_SCK_PIN   21
 
 //////////////////////////////////////////////////////////////////
 // Camera Control
-#define shutter_control    30;
-//#define focus_control    31;
+#define shutter_control    30
+//#define focus_control    31
 
 //////////////////////////////////////////////////////////////////
 //LED PCB
-#define bright_pin         5;
+#define bright_pin         5
 
 //////////////////////////////////////////////////////////////////
 //Endstops
-#define x_min_stop         17;
-#define x_max_stop         16;    
+#define x_min_stop         17
+#define x_max_stop         16    
 
-#define z_min_stop         18;
+#define z_min_stop         18
+
+boolean x_zero = false;
+
+uint32_t x_axis_length = 9999999; //ADJUST THIS LATER
+uint32_t z_axis_length = 9999999; //ADJUST THIS LATER
 
 //////////////////////////////////////////////////////////////////
 //Endstops
-#define hard_pause         19;
+#define hard_pause         19
 
 //////////////////////////////////////////////////////////////////
 //AUX PINS (unused but availble)
@@ -111,9 +121,9 @@ uint32_t Wipe_Dist;
 uint32_t Init_Pos;
 uint32_t Force_Target;
 uint32_t Cycle_Target;
-uint32_t Photo_Int;
+uint32_t Photo_Interval;
 uint32_t Pump_Rate;
-uint8_t Wipe_Speed;
+uint8_t Wiping_Speed;
 uint8_t Pump_Used;
 
 //////////////////////////////////////////////////////////////////

@@ -35,7 +35,7 @@ while(Pump_distance < pump_rate){
   Pump_distance++;
   }
 }
-  else(){                           //If Pump 1 is used
+  else{                           //If Pump 1 is used
   while(Pump_distance < pump_rate){
   digitalWrite(P1_STEP_PIN, HIGH);
   delayMicroseconds(Pumping_Speed);
