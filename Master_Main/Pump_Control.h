@@ -3,13 +3,8 @@
 const int directio = 50;     // the number of the pushbutton pin
 const int ste =  48;      // the number of the LED pin
 
-// variables will change:
-int distance = 0;
-int SPEED = 500;
-int done = 0;
 
-
-void setup() {
+void Pump_setup() {
   // initialize the LED pin as an output:
   pinMode(ste, OUTPUT);
   // initialize the pushbutton pin as an input:
@@ -18,7 +13,7 @@ void setup() {
   digitalWrite(ENA, LOW); 
 }
 
-void loop() {
+void Pump() {
 //delay(4);
 distance = 0;
   

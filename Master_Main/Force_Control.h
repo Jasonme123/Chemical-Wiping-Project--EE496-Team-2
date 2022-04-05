@@ -1,12 +1,10 @@
-
 #include <PID_v1.h>
-#include "Z_Pos_Control.h"
-#include "Force_calibration.h"
 
- 
+
  double Force_Reading;
  static boolean newDataReady = 0;
 /////////////////////////////////////////////////////////////////////////
+
 //PID parameters
 double Kp=.1, Ki=1.25, Kd=10; 
 
@@ -14,6 +12,7 @@ double Kp=.1, Ki=1.25, Kd=10;
 PID myPID(&Force_Reading, &Output_Position, &Force, Kp, Ki, Kd, DIRECT);
 
 ///////////////////////////////////////////////////////////////////////// 
+//PID Controller Type Config
 void Control_setup()
 {
  
@@ -35,9 +34,8 @@ void Control_loop()
     M_direction = HIGH;
   }  
   
-  if (LoadCell.update()) newDataReady = true;
   if (newDataReady) {
-      Force_Reading = LoadCell.getData();
+      Force_Reading = Cell_1();
       
       Serial.print(Force_Reading);
       Serial.print(',');
@@ -51,7 +49,7 @@ void Control_loop()
       newDataReady = 0;
   }
   //PID calculation to determine new output
-  myPID.Compute();
+   myPID.Compute();
   
 
   //Serial.println(Output_Position);
