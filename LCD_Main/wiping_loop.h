@@ -78,13 +78,13 @@ void WipingLoop(){
             }
               cycle_num--;
               Serial.print("Cycles Left:  ");
-              Serial.println(cycle_num);
+              Serial.println(Cycle_Target);
 
               char string[20];         
-              itoa(cycle_num, string , 10);
+              itoa(Cycle_Target, string , 10);
 
               char string2[20];         
-               itoa(cycle_num_, string2 , 10);
+               itoa(Cycle_Target, string2 , 10);
 
               u8g.firstPage();
               do {
