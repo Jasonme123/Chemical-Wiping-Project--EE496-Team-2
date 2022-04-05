@@ -126,15 +126,14 @@ uint32_t Photo_Interval;
 uint32_t Pump_Rate;
 uint8_t Wiping_Speed;
 uint8_t Pump_Used;
-uint8_t Norm_Brightness;
+uint8_t Norm_Brightness = 128;
 uint8_t Photo_Brightness;
 
 //////////////////////////////////////////////////////////////////
-//Wipe Cycle Global Varibles
+//Wipe Cycle Global 
 
-uint32_t Current_Count = 0; //Wipe cycle count
-uint32_t Current_XPos; //Current X position
-uint32_t Current_ZPos; //Current Z position
+volatile uint32_t Current_Count = 0; //Wipe cycle countcvolatile uint32_t Current_XPos; //Current X       
+volatile uint32_t Current_ZPos; //Current Z position
 
 //////////////////////////////////////////////////////////////////
 //Force Controller

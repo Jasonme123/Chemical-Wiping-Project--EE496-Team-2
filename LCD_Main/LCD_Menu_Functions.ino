@@ -422,13 +422,13 @@ void testing_cycle(uint8_t param) {
 // ****** SETUP *********
    if(LCDML.FUNC_setup())   
   {
-   WipingSetup();
+  // WipingSetup();
     LCDML_UNUSED(param);// remove compiler warnings when the param variable is not used:
   }  
 
     if(LCDML.FUNC_loop())   // ****** LOOP *********
   {   
- WipingLoop();
+ //WipingLoop();
   }
      if (LCDML.BT_checkAny()) // check if any button is pressed (enter, up, down, left, right)
               {

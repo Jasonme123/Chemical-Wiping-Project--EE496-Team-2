@@ -1,6 +1,9 @@
 //Wiping_Cycle
 
+///////////////////////////////////////////////////////////////////////////////
 void WipingSetup() {
+  
+TIMER1_INTERRUPTS_OFF
 
    //Reset Wipe Counter
    Current_Count = 0; 
@@ -15,27 +18,36 @@ void WipingSetup() {
    Wiping_Speed = wipe_speed;
    Pump_Used = pump;
 
-//If you don't want photos
+
+  //Home Both Axis
+    home_z_axis();
+    home_x_axis();
+
+  //Unpriming and Priming Pumps
+     unPriming();
+     Priming();
+     
+  //If you don't want photos
     if(Photo_Interval == 0){
     Photo_Interval = 4294967294;
   }
+  TIMER1_INTERRUPTS_ON
 
-  //light up enclosure to normal brightness
-  //analogWrite(bright_pin, Norm_Brightness); 
-   
-  }  
+  prepareMovement( 0,  Init_Pos );
+}
 
-int position_ = 0;
-int cycle_num_ = 0;
+  int position_;
+///////////////////////////////////////////////////////////////////////////////
 
 void WipingLoop(){
+  
+  //Take a photo if needed
   if((Current_Count % Photo_Interval) == 0){
     Photo();
   }
 
-  if(Pumping_Needed){
-    Pump(Pump_Rate); //Pumping done per wipe 
-  }
+   Pump(Pump_Rate); //Pumping done per wipe 
+
     
 
       while (position_ != init_position) {

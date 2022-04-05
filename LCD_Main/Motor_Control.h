@@ -246,10 +246,10 @@ ISR(TIMER2_COMPA_vect){
  //X-Axis Wiping Cycle
 
 volatile stepperInfo& sx = steppers[0];
-if(sx.movementDone){ // if wipe half cycle is complete one way is complete
+if(sx.movementDone){    
  xPosition_Update = true;
  Current_Count++;
- x_movement = (x_movement * -1);
+ //x_movement = (x_movement * -1);
 }
 
 //////////////////////////////////////////////////////////
@@ -259,7 +259,7 @@ if(sx.movementDone){ // if wipe half cycle is complete one way is complete
    
      if(xPosition_Update){  
        xPosition_Update = false;
-       prepareMovement( 0,  x_movement ); //xmotor
+      // prepareMovement( 0,  x_movement ); //xmotor
        runAndWait();
      }
      
