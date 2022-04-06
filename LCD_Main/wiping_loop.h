@@ -30,25 +30,34 @@ TIMER1_INTERRUPTS_OFF
   //If you don't want photos
     if(Photo_Interval == 0){
     Photo_Interval = 4294967294;
-  }
+      }
+      
+  //move x axis to intial position
   TIMER1_INTERRUPTS_ON
+  prepareMovement( 0,  Init_Pos );  
+  while(!xPosition_Update);
 
-  prepareMovement( 0,  Init_Pos );
+  //move z axis down until target force is reached
+  touchDown();
+
+  TIMER1_INTERRUPTS_ON
 }
 
   int position_;
 ///////////////////////////////////////////////////////////////////////////////
 
 void WipingLoop(){
+
+  if(Current_Count >= Cycle_Target){
+    //Home Both Axis
+    home_z_axis();
+    home_x_axis();
+  }
   
   //Take a photo if needed
   if((Current_Count % Photo_Interval) == 0){
     Photo();
   }
-
-   Pump(Pump_Rate); //Pumping done per wipe 
-
-    
 
       while (position_ != init_position) {
           if (position_ < init_position) {

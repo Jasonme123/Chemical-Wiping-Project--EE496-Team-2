@@ -249,6 +249,7 @@ volatile stepperInfo& sx = steppers[0];
 if(sx.movementDone){    
  xPosition_Update = true;
  Current_Count++;
+ Pump(Pump_Rate); //Pumping done per wipe 
  //x_movement = (x_movement * -1);
 }
 
@@ -259,7 +260,7 @@ if(sx.movementDone){
    
      if(xPosition_Update){  
        xPosition_Update = false;
-      // prepareMovement( 0,  x_movement ); //xmotor
+      // prepareMovement( 0,  x_movement); //xmotor
        runAndWait();
      }
      
