@@ -1,15 +1,7 @@
 // include libs
 #include <LCDMenuLib2.h>
 #include <U8glib.h>
-//#include "config.h"
-//#include "Camera_Control.h"
-//#include "Pump_Control.h"
-//#include "Force_Sensors_Reading.h"
-//#include "Force_Control.h"
-//#include "Homing.h"
-//#include "wiping_loop.h"
-//#include "Motor_Control.h"
-//#include "Safety_Check.h"
+
 
 
 

@@ -9,7 +9,7 @@ void home_x_axis(){
 TIMER1_INTERRUPTS_OFF
 
 uint32_t homing_checker;
-digitalWrite(X_DIR_PIN, LOW);
+digitalWrite(X_DIR_PIN, LEFT);
 
   while(!x_zero){
     X_STEP_HIGH;
@@ -27,7 +27,7 @@ void home_z_axis(){
 TIMER1_INTERRUPTS_OFF
 
 uint32_t homing_checker;
-digitalWrite(Z_DIR_PIN, LOW);
+digitalWrite(Z_DIR_PIN, UP);
   
   while(!z_zero){
     Z_STEP_HIGH;
@@ -62,3 +62,24 @@ void Z_min(){
 //  pinMode(x_min_stop, INPUT_PULLUP);
 //  attachInterrupt(digitalPinToInterrupt(x_min_stop), X_min, CHANGE);
 //}
+
+//This will move the wipe down until we reach our target force
+void touchDown(){
+  
+  TIMER1_INTERRUPTS_OFF
+  int forceCheck  = Cell_1();
+  uint32_t homing_checker;
+  digitalWrite(Z_DIR_PIN, DOWN);
+  
+  while (forceCheck < Force_Target){
+  forceCheck  = Cell_1();
+    Z_STEP_HIGH;
+    delayMicroseconds(150);
+    Z_STEP_LOW;
+    homing_checker++;
+    
+    if (homing_checker > x_axis_length){  //If while traveling home we move more than the expected length of axis, stop.
+       homing_error();
+      }
+  }
+}

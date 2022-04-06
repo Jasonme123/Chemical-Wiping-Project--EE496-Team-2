@@ -90,6 +90,9 @@ uint32_t z_axis_length = 9999999; //ADJUST THIS LATER
 
 //////////////////////////////////////////////////////////////////
 //X-motor Config
+#define RIGHT HIGH
+#define LEFT LOW
+
 double x_Gear = 12;  //X motor gear diameter (mm)
 int rev_Step = 1600; //Steps Per revolution
 double x_circumference = (3.14159 * x_Gear * 0.0393); //x motor gear circumference (inches) 
@@ -100,6 +103,9 @@ int xMin_Interval = 15;
 
 //////////////////////////////////////////////////////////////////
 //Z-motor Config
+#define DOWN HIGH
+#define UP LOW
+
 boolean zPosition_Update = false;
 int z_movement = 1000;
 int zcelleration = 1000;
