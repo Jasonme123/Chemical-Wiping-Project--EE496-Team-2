@@ -1,14 +1,14 @@
 // SETUP
-#include "config.h"
-#include "Pump_Control.h"
-#include "Motor_Control.h"
-#include "Force_Sensors_Reading.h"
-#include "Homing.h"
-#include "Camera_Control.h"
-#include "Force_Control.h"
-#include "wiping_loop.h"
-#include "Safety_Check.h"
-#include "A_Setup.h"
+//#include "config.h"
+//#include "Pump_Control.h"
+//#include "Motor_Control.h"
+//#include "Force_Sensors_Reading.h"
+//#include "Homing.h"
+//#include "Camera_Control.h"
+//#include "Force_Control.h"
+//#include "wiping_loop.h"
+//#include "Safety_Check.h"
+//#include "A_Setup.h"
 
 
 void setup()
@@ -34,9 +34,6 @@ void setup()
 // LOOP
 void loop()
 {
-  //light up enclosure to normal brightness
-  analogWrite(bright_pin, Norm_Brightness); 
-  
   
   //this function must be called here, do not delete it
   LCDML.loop();

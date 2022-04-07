@@ -1,4 +1,14 @@
 
+#include "Pump_Control.h"
+#include "Motor_Control.h"
+#include "Force_Sensors_Reading.h"
+#include "Homing.h"
+#include "Camera_Control.h"
+#include "Force_Control.h"
+#include "wiping_loop.h"
+#include "Safety_Check.h"
+#include "A_Setup.h"
+
 
 /*  Menu Callback Function                                                *
  * EXAMPLE CODE:
@@ -322,23 +332,9 @@ void z_homing(uint8_t param) {
   if(LCDML.FUNC_loop())   // ****** LOOP *********
   {   
       uint32_t position_ = init_position;
-      while (position_ != 0) {
-          if (position_ > 0) {
-         
-              position_--;
-              Serial.print("position:  ");
-              Serial.println(position_);
 
-              char string[20];         
-              itoa(position_, string , 10);
-              
-              u8g.firstPage();
-              do {
-                u8g.setFont(u8g_font_ncenB10);
-                u8g.drawStr(10, 50, string);
-              } while(u8g.nextPage());
-          }        
-      }
+      home_z_axis();
+
       LCDML.FUNC_goBackToMenu(0);
 //      u8g.setFont(u8g_font_ncenB08);
 //      u8g.drawStr(ALIGN_CENTER("Z Axis is homed"), 58, F("Z Axis is homed"));

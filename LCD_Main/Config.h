@@ -52,7 +52,7 @@
 
 //////////////////////////////////////////////////////////////////
 //Endstops
-#define x_min_stop         19
+#define x_min_stop         17
 #define x_max_stop         16    
 
 #define z_min_stop         18
@@ -64,8 +64,8 @@ uint32_t x_axis_length = 9999999; //ADJUST THIS LATER
 uint32_t z_axis_length = 9999999; //ADJUST THIS LATER
 
 //////////////////////////////////////////////////////////////////
-//Endstops
-#define hard_pause         17
+//Pause Button
+#define hard_pause         19
 
 //////////////////////////////////////////////////////////////////
 //AUX PINS (unused but availble)
@@ -138,7 +138,8 @@ uint8_t Photo_Brightness;
 //////////////////////////////////////////////////////////////////
 //Wipe Cycle Global 
 
-volatile uint32_t Current_Count = 0; //Wipe cycle countcvolatile uint32_t Current_XPos; //Current X       
+volatile uint32_t Current_Count = 0; //Wipe cycle countcvolatile uint32_t Current_XPos; //Current X     
+volatile uint32_t Current_XPos; //Current Z position  
 volatile uint32_t Current_ZPos; //Current Z position
 
 //////////////////////////////////////////////////////////////////
