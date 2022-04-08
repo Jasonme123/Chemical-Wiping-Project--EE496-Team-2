@@ -13,6 +13,8 @@ uint8_t pump = 1;
 uint32_t increase_interval = 1;  // For setting Cycle Number
 uint8_t Brightness = 0;
 uint8_t delay_ = 0;
+uint8_t Photo_Brightness;
+uint8_t wipe_Delay;
 
 
 void Set_Force(uint8_t line)
@@ -464,16 +466,19 @@ void Set_Brightness(uint8_t line)
         if (Brightness > 1){       
      
             Brightness--;
-            
+            Photo_Brightness = map(Brightness,0,100,0,255);
+            analogWrite(5, Photo_Brightness);
         }
         LCDML.BT_resetUp();
       }
 
       if(LCDML.BT_checkDown())
       {
-        if (Brightness < 10){
+        if (Brightness < 100){
            
             Brightness++;
+            Photo_Brightness = map(Brightness,0,100,0,255);
+            analogWrite(5, Photo_Brightness);
         }
         LCDML.BT_resetDown();
       } 
@@ -481,8 +486,8 @@ void Set_Brightness(uint8_t line)
   }
 
   char buf[20];
-  sprintf (buf, "Brightness: %u", Brightness);
-  Photo_Brightness = Brightness * 25.5;
+  sprintf (buf, "Brightness: %u", Brightness, "%");
+//  Photo_Brightness = map(Brightness,0,100,0,255);
 
   u8g.drawStr( _LCDML_DISP_box_x0+_LCDML_DISP_font_w + _LCDML_DISP_cur_space_behind,  (_LCDML_DISP_font_h * (1+line)), buf);     // the value can be changed with left or right
 }

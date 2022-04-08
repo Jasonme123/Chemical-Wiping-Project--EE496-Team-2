@@ -138,8 +138,8 @@ uint32_t Pump_Rate;
 uint8_t Wiping_Speed;
 uint8_t Pump_Used;
 uint8_t Norm_Brightness = 128;
-uint8_t Photo_Brightness;
-uint8_t wipe_Delay;
+//uint8_t Photo_Brightness;
+//uint8_t wipe_Delay;
 
 //////////////////////////////////////////////////////////////////
 //Wipe Cycle Global 
