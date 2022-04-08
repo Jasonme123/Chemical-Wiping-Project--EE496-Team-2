@@ -24,6 +24,7 @@
 #define TIMER1_INTERRUPTS_ON    TIMSK1 |=  (1 << OCIE1A);
 #define TIMER1_INTERRUPTS_OFF   TIMSK1 &= ~(1 << OCIE1A);
 
+
 //////////////////////////////////////////////////////////////////
 //pump1 motor 
 #define P1_DIR_PIN          44
@@ -52,10 +53,13 @@
 
 //////////////////////////////////////////////////////////////////
 //Endstops
-#define x_min_stop         17
-#define x_max_stop         16    
+#define x_min_stop         16
+#define x_max_stop         17    
 
 #define z_min_stop         18
+
+#define X_Homing_Speed       50
+#define Z_Homing_Speed       150
 
 boolean x_zero = false;
 boolean z_zero = false;

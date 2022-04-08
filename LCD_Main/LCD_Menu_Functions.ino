@@ -1,4 +1,5 @@
 
+#include "config.h"
 #include "Pump_Control.h"
 #include "Motor_Control.h"
 #include "Force_Sensors_Reading.h"
@@ -327,12 +328,12 @@ void z_homing(uint8_t param) {
   {
     // remove compiler warnings when the param variable is not used:
     LCDML_UNUSED(param);
+    
+ 
   }  
 
   if(LCDML.FUNC_loop())   // ****** LOOP *********
   {   
-      uint32_t position_ = init_position;
-
       home_z_axis();
 
       LCDML.FUNC_goBackToMenu(0);
@@ -344,25 +345,22 @@ void z_homing(uint8_t param) {
 // Function For Both Axes Homing 
 void both_axis_homing(uint8_t param) {
 
-   if(LCDML.FUNC_setup())  // ****** SETUP *********
+     if(LCDML.FUNC_setup())   // ****** SETUP *********
   {
     // remove compiler warnings when the param variable is not used:
     LCDML_UNUSED(param);
+    
+ 
   }  
 
-  int count = 0;
-  if(LCDML.FUNC_loop())  // ****** LOOP *********
-  {  
-      while (init_position != 0) {
-          if (init_position > 0) {
-           
-              init_position--;
-          }
-          Serial.print("init_position:  ");
-          Serial.println(init_position);
-      }
+  if(LCDML.FUNC_loop())   // ****** LOOP *********
+  {   
+      homeBoth();
+
       LCDML.FUNC_goBackToMenu(0);
-   }
+//      u8g.setFont(u8g_font_ncenB08);
+//      u8g.drawStr(ALIGN_CENTER("Z Axis is homed"), 58, F("Z Axis is homed"));
+   }  
 }
 
 void logo_display(uint8_t param)
