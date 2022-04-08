@@ -13,7 +13,7 @@ void X_min(){
 /////////////////////////////////////////////////////////
 //when endstop is triggered
 void Z_min(){
-  if(digitalRead(x_min_stop) ==  LOW){
+  if(digitalRead(z_min_stop) ==  LOW){
   delay(15);
   z_zero = true; //if at zero position
   Current_ZPos = 0; 
@@ -26,6 +26,20 @@ void homingSetup(){
   pinMode(z_min_stop, INPUT);
   pinMode(x_min_stop, INPUT);
 
+  //DATA Direction
+
+   pinMode(Z_DIR_PIN, OUTPUT); // Motor control
+   pinMode(Z_STEP_PIN, OUTPUT);
+   pinMode(Z_ENABLE_PIN, OUTPUT);
+
+  
+   pinMode(X_DIR_PIN, OUTPUT); // Motor control
+   pinMode(X_STEP_PIN, OUTPUT);
+   pinMode(X_ENABLE_PIN, OUTPUT);
+
+   digitalWrite(X_ENABLE_PIN, LOW);
+  
+  
   digitalWrite(z_min_stop, HIGH);
   digitalWrite(x_min_stop, HIGH);
 }
@@ -40,14 +54,17 @@ void homing_error(){
 void home_x_axis(){
 TIMER1_INTERRUPTS_OFF
 
+//digitalWrite(X_ENABLE_PIN, LOW);
+
 uint32_t homing_checker;
 digitalWrite(X_DIR_PIN, LEFT);
 
   while(!x_zero){
     X_min();
     X_STEP_HIGH;
-    delayMicroseconds(150);
+    delayMicroseconds(X_Homing_Speed);
     X_STEP_LOW;
+    delayMicroseconds(X_Homing_Speed);
     homing_checker++;
 
       if (homing_checker > x_axis_length){  //If while traveling home we move more than the expected length of axis, stop.
@@ -61,14 +78,16 @@ digitalWrite(X_DIR_PIN, LEFT);
 void home_z_axis(){
 TIMER1_INTERRUPTS_OFF
 
+
 uint32_t homing_checker;
 digitalWrite(Z_DIR_PIN, UP);
   
   while(!z_zero){
     Z_min();
     Z_STEP_HIGH;
-    delayMicroseconds(150);
+    delayMicroseconds(Z_Homing_Speed);
     Z_STEP_LOW;
+    delayMicroseconds(Z_Homing_Speed);
     homing_checker++;
 
         if (homing_checker > z_axis_length){  //If while traveling home we move more than the expected length of axis, stop.
@@ -101,6 +120,7 @@ void touchDown(){
     Z_STEP_HIGH;
     delayMicroseconds(150);
     Z_STEP_LOW;
+    delayMicroseconds(150);
     homing_checker++;
     
     if (homing_checker > x_axis_length){  //If while traveling home we move more than the expected length of axis, stop.
@@ -112,6 +132,6 @@ void touchDown(){
 /////////////////////////////////////////////////////////
 //Home Both Axes
 void homeBoth(){
-  home_x_axis();
   home_z_axis();
+  home_x_axis();
 }

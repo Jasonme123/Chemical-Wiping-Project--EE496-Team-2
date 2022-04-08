@@ -10,9 +10,9 @@ float real_flow_rate = 0.0;
 uint8_t wipe_speed = 0;  // Used For User Input as sprintf formatting of floating point values is not supported in Arduino
 float real_wipe_speed = 0.0;  // Used For Actual Calculations
 uint8_t pump = 1;
-uint32_t increase_interval = 1;  // For setting Cycle Number
-uint8_t Brightness = 0;
-uint8_t delay_ = 0;
+uint32_t increase_interval = 1;  // For setting Cycle Number\
+
+
 
 void Set_Force(uint8_t line)
 {

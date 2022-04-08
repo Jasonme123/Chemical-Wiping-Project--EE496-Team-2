@@ -1,19 +1,9 @@
 // SETUP
-//#include "config.h"
-//#include "Pump_Control.h"
-//#include "Motor_Control.h"
-//#include "Force_Sensors_Reading.h"
-//#include "Homing.h"
-//#include "Camera_Control.h"
-//#include "Force_Control.h"
-//#include "wiping_loop.h"
-//#include "Safety_Check.h"
-//#include "A_Setup.h"
 
 
 void setup()
 {
-
+  function_setup();
 
   // serial init; only be needed if serial control is used
   Serial.begin(9600);                // start serial
@@ -28,7 +18,7 @@ void setup()
   // Enable Screensaver (screensaver menu function, time to activate in ms)
   LCDML.SCREEN_enable(cycle_count_display, 30000); // set to 30 seconds
 
-  function_setup();
+
 }
 
 // LOOP
