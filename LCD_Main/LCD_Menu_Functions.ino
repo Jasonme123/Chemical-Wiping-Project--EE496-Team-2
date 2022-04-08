@@ -407,6 +407,10 @@ void reset_params(uint8_t param)
     wipe_speed = 0;
     real_wipe_speed = 0.0;
     pump = 1;
+    delay_ = 0;
+    wipe_Delay = 0;
+    Brightness = 0;
+    Photo_Brightness = 0;
     LCDML.FUNC_goBackToMenu(0); 
   }
 }
@@ -434,3 +438,32 @@ void testing_cycle(uint8_t param) {
 //      u8g.setFont(u8g_font_ncenB08);
 //      u8g.drawStr(ALIGN_CENTER("Z Axis is homed"), 58, F("Z Axis is homed"));
    } 
+
+
+void turn_on_LEDs(uint8_t param)
+{
+  if(LCDML.FUNC_setup())          // ****** SETUP *********
+  {
+    // remmove compiler warnings when the param variable is not used:
+    LCDML_UNUSED(param);
+
+    // setup function
+    
+    LCDML.FUNC_setLoopInterval(100);  // starts a trigger event for the loop function every 100 milliseconds
+  }
+
+  if(LCDML.FUNC_loop())              // ****** LOOP *********
+  { 
+    analogWrite(bright_pin, Photo_Brightness);
+    if (LCDML.BT_checkAny()) // check if any button is pressed (enter, up, down, left, right)
+    {
+      LCDML.FUNC_goBackToMenu(0);  // leave this function
+    }
+  }
+
+  if(LCDML.FUNC_close())            // ****** STABLE END *********
+  {
+    // The screensaver go to the root menu
+    LCDML.MENU_goRoot();
+  }
+}
