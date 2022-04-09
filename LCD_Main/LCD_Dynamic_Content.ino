@@ -1,3 +1,5 @@
+#include "Homing.h"
+
 
 // Parameters
 uint32_t wipe_distance = 0;
@@ -489,8 +491,7 @@ void Set_Brightness(uint8_t line)
   }
 
   char buf[20];
-  sprintf (buf, "Photo Brightness: %u", Brightness);
-//  Photo_Brightness = map(Brightness,0,100,0,255);
+  sprintf (buf, "Brightness: %u", Brightness);
 
   u8g.drawStr( _LCDML_DISP_box_x0+_LCDML_DISP_font_w + _LCDML_DISP_cur_space_behind,  (_LCDML_DISP_font_h * (1+line)), buf);     // the value can be changed with left or right
 }
@@ -545,7 +546,7 @@ void Wipe_Delay(uint8_t line)
 
 
 
-void Enclosure_Brightness(uint8_t line)
+void Enclosure_Brightness_(uint8_t line)
 {
   if (line == LCDML.MENU_getCursorPos())
   {
@@ -566,7 +567,7 @@ void Enclosure_Brightness(uint8_t line)
             
       if(LCDML.BT_checkUp())
       { 
-        if (Enclosure_Brightness > 1){       
+        if (Enclosure_Brightness > ){       
      
             Enclosure_Brightness--;
             real_Enclosure_Brightness = map(Enclosure_Brightness,0,10,0,255);
@@ -580,7 +581,7 @@ void Enclosure_Brightness(uint8_t line)
         if (Enclosure_Brightness < 10){
            
             Enclosure_Brightness++;
-            Photo_Brightness = map(Enclosure_Brightness,0,10,0,255);
+            real_Enclosure_Brightness = map(Enclosure_Brightness,0,10,0,255);
             analogWrite(5, real_Enclosure_Brightness);
         }
         LCDML.BT_resetDown();
@@ -590,6 +591,124 @@ void Enclosure_Brightness(uint8_t line)
 
   char buf[20];
   sprintf (buf, "Turn ON - : %u", Enclosure_Brightness);
+
+  u8g.drawStr( _LCDML_DISP_box_x0+_LCDML_DISP_font_w + _LCDML_DISP_cur_space_behind,  (_LCDML_DISP_font_h * (1+line)), buf);     // the value can be changed with left or right
+}
+
+
+uint8_t x_position = 0;
+void move_x_axis(uint8_t line)
+{
+  if (line == LCDML.MENU_getCursorPos())
+  {
+    if(LCDML.BT_checkAny())
+    {
+      if(LCDML.BT_checkEnter())
+      {
+        if(LCDML.MENU_getScrollDisableStatus() == 0)
+        {
+          LCDML.MENU_disScroll();
+        }
+        else
+        {
+          LCDML.MENU_enScroll();
+        }
+        LCDML.BT_resetEnter();
+      }
+            
+      if(LCDML.BT_checkUp())
+      { 
+        if (x_position > 1){ 
+            digitalWrite(X_DIR_PIN, HIGH);  // HIGH = anti-clockwise
+            for (int x = 1; x < 200; x++) {
+              digitalWrite(X_STEP_PIN, HIGH);
+              delayMicroseconds(150);
+              digitalWrite(X_STEP_PIN, LOW);
+              delayMicroseconds(150);           
+            }      
+            x_position--;
+        }
+        LCDML.BT_resetUp();
+      }
+
+      if(LCDML.BT_checkDown())
+      {
+        if (x_position < 100){
+            digitalWrite(X_DIR_PIN, LOW);  // LOW = clockwise
+            for (int x = 1; x < 200; x++) {
+              digitalWrite(X_STEP_PIN, HIGH);
+              delayMicroseconds(150);
+              digitalWrite(X_STEP_PIN, LOW); 
+              delayMicroseconds(150);         
+            }
+            x_position++;
+        }
+        LCDML.BT_resetDown();
+      } 
+    }
+  }
+
+  char buf[20];
+  sprintf (buf, "Start    %u", x_position);
+
+  u8g.drawStr( _LCDML_DISP_box_x0+_LCDML_DISP_font_w + _LCDML_DISP_cur_space_behind,  (_LCDML_DISP_font_h * (1+line)), buf);     // the value can be changed with left or right
+}
+
+
+uint8_t z_position = 0;
+void move_z_axis(uint8_t line)
+{
+  if (line == LCDML.MENU_getCursorPos())
+  {
+    if(LCDML.BT_checkAny())
+    {
+      if(LCDML.BT_checkEnter())
+      {
+        if(LCDML.MENU_getScrollDisableStatus() == 0)
+        {
+          LCDML.MENU_disScroll();
+        }
+        else
+        {
+          LCDML.MENU_enScroll();
+        }
+        LCDML.BT_resetEnter();
+      }
+            
+      if(LCDML.BT_checkUp())
+      { 
+        if (z_position > 1){       
+            digitalWrite(Z_DIR_PIN, HIGH);  // HIGH = anti-clockwise
+            for (int x = 1; x < 200; x++) {
+              digitalWrite(Z_STEP_PIN, HIGH);
+              delayMicroseconds(150);
+              digitalWrite(Z_STEP_PIN, LOW);
+              delayMicroseconds(150);           
+            }   
+            z_position--;
+        }
+        LCDML.BT_resetUp();
+      }
+
+      if(LCDML.BT_checkDown())
+      {
+        if (z_position < 100){
+            digitalWrite(Z_DIR_PIN, LOW);  // LOW = clockwise
+            for (int x = 1; x < 200; x++) {
+              digitalWrite(Z_STEP_PIN, HIGH);
+              delayMicroseconds(150);
+              digitalWrite(Z_STEP_PIN, LOW); 
+              delayMicroseconds(150);         
+            }
+            z_position++;
+        }
+        LCDML.BT_resetDown();
+      } 
+    }
+  }
+
+  char buf[20];
+  sprintf (buf, "Start    %u", z_position);
 
   u8g.drawStr( _LCDML_DISP_box_x0+_LCDML_DISP_font_w + _LCDML_DISP_cur_space_behind,  (_LCDML_DISP_font_h * (1+line)), buf);     // the value can be changed with left or right
 }
