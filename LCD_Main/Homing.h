@@ -76,7 +76,7 @@ digitalWrite(X_DIR_PIN, LEFT);
 }
 
 /////////////////////////////////////////////////////////
-//X axis homing function
+//Z axis homing function
 void home_z_axis(){
 TIMER1_INTERRUPTS_OFF
 

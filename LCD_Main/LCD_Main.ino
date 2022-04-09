@@ -74,7 +74,7 @@ LCDML_add         (6  , LCDML_0         , 7  , "Turn Light On/Off", NULL);
 LCDML_add         (7  , LCDML_0         , 8  , "Cycle Count"      , cycle_count_display); 
 
 LCDML_add         (8  , LCDML_0_7       , 1  , "TURN LIGHT ON/OFF", NULL);  
-LCDML_addAdvanced (9  , LCDML_0_3       , 2  , NULL               , "Turn ON - ", Enclosure_Brightness,0,   _LCDML_TYPE_dynParam); 
+LCDML_addAdvanced (9  , LCDML_0_7       , 2  , NULL               , "Turn ON - ", Enclosure_Brightness_,0,   _LCDML_TYPE_dynParam); 
 LCDML_add         (10 , LCDML_0_7       , 3  , "Turn OFF"         , turn_off_LEDs);  
 LCDML_add         (11 , LCDML_0_7       , 4  , "Back"             , mFunc_back_by_1); 
 

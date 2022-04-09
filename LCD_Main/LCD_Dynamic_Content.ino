@@ -545,7 +545,7 @@ void Wipe_Delay(uint8_t line)
 
 
 
-void Enclosure_Brightness(uint8_t line)
+void Enclosure_Brightness_(uint8_t line)
 {
   if (line == LCDML.MENU_getCursorPos())
   {

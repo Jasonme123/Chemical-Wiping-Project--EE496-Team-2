@@ -53,10 +53,10 @@
 
 //////////////////////////////////////////////////////////////////
 //Endstops
-#define x_min_stop         16  //X-Endstop 2
+#define x_min_stop         18  //X-Endstop 2
 #define x_max_stop         17  //X-Endstop 1
 
-#define z_min_stop         17  //Z-Endstop 2
+#define z_min_stop         16  //Z-Endstop 2
 
 #define X_Homing_Speed       50
 #define Z_Homing_Speed       150
