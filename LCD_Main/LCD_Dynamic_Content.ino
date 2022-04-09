@@ -16,6 +16,9 @@ uint8_t delay_ = 0;
 uint8_t Photo_Brightness;
 uint8_t wipe_Delay;
 
+uint8_t Enclosure_Brightness = 0;
+uint8_t real_Enclosure_Brightness;
+
 
 void Set_Force(uint8_t line)
 {
@@ -486,7 +489,7 @@ void Set_Brightness(uint8_t line)
   }
 
   char buf[20];
-  sprintf (buf, "Brightness: %u", Brightness);
+  sprintf (buf, "Photo Brightness: %u", Brightness);
 //  Photo_Brightness = map(Brightness,0,100,0,255);
 
   u8g.drawStr( _LCDML_DISP_box_x0+_LCDML_DISP_font_w + _LCDML_DISP_cur_space_behind,  (_LCDML_DISP_font_h * (1+line)), buf);     // the value can be changed with left or right
@@ -536,6 +539,57 @@ void Wipe_Delay(uint8_t line)
   char buf[20];
   sprintf (buf, "Wipe Delay: %u", delay_);
   wipe_Delay = delay_ * 1000;
+
+  u8g.drawStr( _LCDML_DISP_box_x0+_LCDML_DISP_font_w + _LCDML_DISP_cur_space_behind,  (_LCDML_DISP_font_h * (1+line)), buf);     // the value can be changed with left or right
+}
+
+
+
+void Enclosure_Brightness(uint8_t line)
+{
+  if (line == LCDML.MENU_getCursorPos())
+  {
+    if(LCDML.BT_checkAny())
+    {
+      if(LCDML.BT_checkEnter())
+      {
+        if(LCDML.MENU_getScrollDisableStatus() == 0)
+        {
+          LCDML.MENU_disScroll();
+        }
+        else
+        {
+          LCDML.MENU_enScroll();
+        }
+        LCDML.BT_resetEnter();
+      }
+            
+      if(LCDML.BT_checkUp())
+      { 
+        if (Enclosure_Brightness > 1){       
+     
+            Enclosure_Brightness--;
+            real_Enclosure_Brightness = map(Enclosure_Brightness,0,10,0,255);
+            analogWrite(5, real_Enclosure_Brightness);
+        }
+        LCDML.BT_resetUp();
+      }
+
+      if(LCDML.BT_checkDown())
+      {
+        if (Enclosure_Brightness < 10){
+           
+            Enclosure_Brightness++;
+            Photo_Brightness = map(Enclosure_Brightness,0,10,0,255);
+            analogWrite(5, real_Enclosure_Brightness);
+        }
+        LCDML.BT_resetDown();
+      } 
+    }
+  }
+
+  char buf[20];
+  sprintf (buf, "Turn ON - : %u", Enclosure_Brightness);
 
   u8g.drawStr( _LCDML_DISP_box_x0+_LCDML_DISP_font_w + _LCDML_DISP_cur_space_behind,  (_LCDML_DISP_font_h * (1+line)), buf);     // the value can be changed with left or right
 }
