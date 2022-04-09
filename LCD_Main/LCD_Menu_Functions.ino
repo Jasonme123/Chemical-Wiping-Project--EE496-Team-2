@@ -496,3 +496,124 @@ void turn_off_LEDs(uint8_t param)
     LCDML.MENU_goRoot();
   }
 }
+
+
+
+
+
+uint8_t x_position = 0;
+void move_x_axis(uint8_t line)
+{
+  if (line == LCDML.MENU_getCursorPos())
+  {
+    if(LCDML.BT_checkAny())
+    {
+      if(LCDML.BT_checkEnter())
+      {
+        if(LCDML.MENU_getScrollDisableStatus() == 0)
+        {
+          LCDML.MENU_disScroll();
+        }
+        else
+        {
+          LCDML.MENU_enScroll();
+        }
+        LCDML.BT_resetEnter();
+      }
+            
+      if(LCDML.BT_checkUp())
+      { 
+        if (x_position > 1){ 
+            digitalWrite(X_DIR_PIN, HIGH);  // HIGH = anti-clockwise
+            for (int x = 1; x < 200; x++) {
+              digitalWrite(X_STEP_PIN, HIGH);
+              delayMicroseconds(150);
+              digitalWrite(X_STEP_PIN, LOW);
+              delayMicroseconds(150);           
+            }      
+            x_position--;
+        }
+        LCDML.BT_resetUp();
+      }
+
+      if(LCDML.BT_checkDown())
+      {
+        if (x_position < 100){
+            digitalWrite(X_DIR_PIN, LOW);  // LOW = clockwise
+            for (int x = 1; x < 200; x++) {
+              digitalWrite(X_STEP_PIN, HIGH);
+              delayMicroseconds(150);
+              digitalWrite(X_STEP_PIN, LOW); 
+              delayMicroseconds(150);         
+            }
+            x_position++;
+        }
+        LCDML.BT_resetDown();
+      } 
+    }
+  }
+
+  char buf[20];
+  sprintf (buf, "Start    %u", x_position);
+
+  u8g.drawStr( _LCDML_DISP_box_x0+_LCDML_DISP_font_w + _LCDML_DISP_cur_space_behind,  (_LCDML_DISP_font_h * (1+line)), buf);     // the value can be changed with left or right
+}
+
+
+uint8_t z_position = 0;
+void move_z_axis(uint8_t line)
+{
+  if (line == LCDML.MENU_getCursorPos())
+  {
+    if(LCDML.BT_checkAny())
+    {
+      if(LCDML.BT_checkEnter())
+      {
+        if(LCDML.MENU_getScrollDisableStatus() == 0)
+        {
+          LCDML.MENU_disScroll();
+        }
+        else
+        {
+          LCDML.MENU_enScroll();
+        }
+        LCDML.BT_resetEnter();
+      }
+            
+      if(LCDML.BT_checkUp())
+      { 
+        if (z_position > 1){       
+            digitalWrite(Z_DIR_PIN, HIGH);  // HIGH = anti-clockwise
+            for (int x = 1; x < 200; x++) {
+              digitalWrite(Z_STEP_PIN, HIGH);
+              delayMicroseconds(150);
+              digitalWrite(Z_STEP_PIN, LOW);
+              delayMicroseconds(150);           
+            }   
+            z_position--;
+        }
+        LCDML.BT_resetUp();
+      }
+
+      if(LCDML.BT_checkDown())
+      {
+        if (z_position < 100){
+            digitalWrite(Z_DIR_PIN, LOW);  // LOW = clockwise
+            for (int x = 1; x < 200; x++) {
+              digitalWrite(Z_STEP_PIN, HIGH);
+              delayMicroseconds(150);
+              digitalWrite(Z_STEP_PIN, LOW); 
+              delayMicroseconds(150);         
+            }
+            z_position++;
+        }
+        LCDML.BT_resetDown();
+      } 
+    }
+  }
+
+  char buf[20];
+  sprintf (buf, "Start    %u", z_position);
+
+  u8g.drawStr( _LCDML_DISP_box_x0+_LCDML_DISP_font_w + _LCDML_DISP_cur_space_behind,  (_LCDML_DISP_font_h * (1+line)), buf);     // the value can be changed with left or right
+}
