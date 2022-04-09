@@ -1,4 +1,6 @@
-  // For Senior Design
+#include <limits.h>
+
+// For Senior Design
 
 //////////////////////////////////////////////////////////
 
@@ -93,7 +95,7 @@ void Motorsetup() {
   TCCR1B = 0;
   TCNT1  = 0;
 
-  OCR1A = 1000;                             // compare value
+  OCR1A = 100;                             // compare value
   TCCR1B |= (1 << WGM12);                   // CTC mode
   TCCR1B |= ((1 << CS11) | (1 << CS10));    // 64 prescaler
 //////////////////////////////////////////////////////////////////////////
@@ -102,7 +104,7 @@ void Motorsetup() {
   TCCR2B = 0;
   TCNT2  = 0;
   
-  OCR2A = 1000;                             // compare value
+  OCR2A = 100;                             // compare value
   TCCR2B |= (1 << WGM12);                   // CTC mode
   TCCR2B |= ((1 << CS11) | (1 << CS10));    // 64 prescaler
   interrupts();
@@ -155,7 +157,7 @@ void setNextInterruptInterval() {
   
   bool movementComplete = true;
 
-  unsigned int mind = 999999;
+  unsigned int mind = INT_MAX;
   for (int i = 0; i < NUM_STEPPERS; i++) {
     if ( ((1 << i) & remainingSteppersFlag) && steppers[i].di < mind ) {
       mind = steppers[i].di;
