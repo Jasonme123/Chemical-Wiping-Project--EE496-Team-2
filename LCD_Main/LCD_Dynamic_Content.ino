@@ -463,10 +463,10 @@ void Set_Brightness(uint8_t line)
             
       if(LCDML.BT_checkUp())
       { 
-        if (Brightness > 1){       
+        if (Brightness > 0){       
      
             Brightness--;
-            Photo_Brightness = map(Brightness,0,100,0,255);
+            Photo_Brightness = map(Brightness,0,10,0,255);
             analogWrite(5, Photo_Brightness);
         }
         LCDML.BT_resetUp();
@@ -474,10 +474,10 @@ void Set_Brightness(uint8_t line)
 
       if(LCDML.BT_checkDown())
       {
-        if (Brightness < 100){
+        if (Brightness < 10){
            
             Brightness++;
-            Photo_Brightness = map(Brightness,0,100,0,255);
+            Photo_Brightness = map(Brightness,0,10,0,255);
             analogWrite(5, Photo_Brightness);
         }
         LCDML.BT_resetDown();
@@ -486,7 +486,7 @@ void Set_Brightness(uint8_t line)
   }
 
   char buf[20];
-  sprintf (buf, "Brightness: %u", Brightness, "%");
+  sprintf (buf, "Brightness: %u", Brightness);
 //  Photo_Brightness = map(Brightness,0,100,0,255);
 
   u8g.drawStr( _LCDML_DISP_box_x0+_LCDML_DISP_font_w + _LCDML_DISP_cur_space_behind,  (_LCDML_DISP_font_h * (1+line)), buf);     // the value can be changed with left or right

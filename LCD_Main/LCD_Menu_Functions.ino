@@ -454,7 +454,36 @@ void turn_on_LEDs(uint8_t param)
 
   if(LCDML.FUNC_loop())              // ****** LOOP *********
   { 
-    analogWrite(bright_pin, Photo_Brightness);
+    analogWrite(bright_pin, 255);
+    if (LCDML.BT_checkAny()) // check if any button is pressed (enter, up, down, left, right)
+    {
+      LCDML.FUNC_goBackToMenu(0);  // leave this function
+    }
+  }
+
+  if(LCDML.FUNC_close())            // ****** STABLE END *********
+  {
+    // The screensaver go to the root menu
+    LCDML.MENU_goRoot();
+  }
+}
+
+
+void turn_off_LEDs(uint8_t param)
+{
+  if(LCDML.FUNC_setup())          // ****** SETUP *********
+  {
+    // remmove compiler warnings when the param variable is not used:
+    LCDML_UNUSED(param);
+
+    // setup function
+    
+    LCDML.FUNC_setLoopInterval(100);  // starts a trigger event for the loop function every 100 milliseconds
+  }
+
+  if(LCDML.FUNC_loop())              // ****** LOOP *********
+  { 
+    analogWrite(bright_pin, 0);
     if (LCDML.BT_checkAny()) // check if any button is pressed (enter, up, down, left, right)
     {
       LCDML.FUNC_goBackToMenu(0);  // leave this function
