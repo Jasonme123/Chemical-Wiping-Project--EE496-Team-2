@@ -53,10 +53,10 @@
 
 //////////////////////////////////////////////////////////////////
 //Endstops
-#define x_min_stop         16
-#define x_max_stop         17    
+#define x_min_stop         16  //X-Endstop 2
+#define x_max_stop         17  //X-Endstop 1
 
-#define z_min_stop         18
+#define z_min_stop         17  //Z-Endstop 2
 
 #define X_Homing_Speed       50
 #define Z_Homing_Speed       150
@@ -69,7 +69,7 @@ uint32_t z_axis_length = 9999999; //ADJUST THIS LATER
 
 //////////////////////////////////////////////////////////////////
 //Pause Button
-#define hard_pause         19
+#define hard_pause         19 //Z-Endstop 1
 volatile int Play_state = true;
 
 //////////////////////////////////////////////////////////////////

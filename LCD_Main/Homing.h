@@ -4,7 +4,7 @@
 //when endstop is triggered
 void X_min(){
   if(digitalRead(x_min_stop) ==  LOW){
-  delay(15);
+  delay(250);
   x_zero = true; //if at zero position
   Current_XPos = 0;
   }
@@ -14,7 +14,7 @@ void X_min(){
 //when endstop is triggered
 void Z_min(){
   if(digitalRead(z_min_stop) ==  LOW){
-  delay(15);
+  delay(250);
   z_zero = true; //if at zero position
   Current_ZPos = 0; 
   }
@@ -38,10 +38,11 @@ void homingSetup(){
    pinMode(X_ENABLE_PIN, OUTPUT);
 
    digitalWrite(X_ENABLE_PIN, LOW);
+   digitalWrite(Z_ENABLE_PIN, LOW);
   
   
-  digitalWrite(z_min_stop, HIGH);
-  digitalWrite(x_min_stop, HIGH);
+   digitalWrite(z_min_stop, HIGH);
+   digitalWrite(x_min_stop, HIGH);
 }
 
 /////////////////////////////////////////////////////////
@@ -49,6 +50,7 @@ void homingSetup(){
 void homing_error(){
   while(1);
   }
+  
 /////////////////////////////////////////////////////////
 //X axis homing function
 void home_x_axis(){
