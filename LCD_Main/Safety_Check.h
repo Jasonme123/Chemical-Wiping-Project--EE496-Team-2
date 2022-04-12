@@ -12,8 +12,9 @@ void safety_Check(){
 
 //////////////////////////////////////////////////////////////////////////////
 ////Hard Pause Button
+
 //void HardPause(){
-//  delay(1000);
+//  delayMicroseconds(1000);
 //  int Play_state = !Play_state;
 //  
 //  if(Play_state = false){

@@ -7,6 +7,8 @@
 //Pulse Info
 //http://stereo.jpn.org/eng/sdm/ca1.htm
 
+
+
 void Camera_setup() {
   // put your setup code here, to run once:
   // initialize the digital pins as an output.
