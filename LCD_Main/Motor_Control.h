@@ -1,3 +1,7 @@
+
+#ifndef MOTORCONTDEF
+#define MOTORCONTDEF
+
 #include <limits.h>
 
 // For Senior Design
@@ -255,14 +259,12 @@ if(sx.movementDone){
  //x_movement = (x_movement * -1);
 }
 
-//////////////////////////////////////////////////////////
 //Motor Command Sender
-  
 //if x motor target changes, tell the motor to move to the new target  
    
      if(xPosition_Update){  
        xPosition_Update = false;
-      // prepareMovement( 0,  x_movement); //xmotor
+       //prepareMovement( 0,  x_movement); //xmotor
        runAndWait();
      }
      
@@ -270,8 +272,19 @@ if(sx.movementDone){
 
      if(zPosition_Update){
       zPosition_Update = false;
-      prepareMovement( 1,  z_movement ); //zmotor
+      prepareMovement( 1,  Output_Position ); //zmotor
       runAndWait();
+     }
+     
+//if endstops are not pressed
+     if(digitalRead(z_min_stop) ==  HIGH){
+      z_zero = false;
+     }
+
+      if(digitalRead(x_min_stop) ==  HIGH){
+      x_zero = false;
      }
    
 }
+
+#endif

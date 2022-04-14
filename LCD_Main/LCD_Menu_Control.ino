@@ -1,3 +1,5 @@
+#include "includes.h"
+
 //---CONTROL WITH ENCODER---
 //   * rotate left = Up
 //   * rotate right = Down
@@ -26,7 +28,7 @@ void lcdml_menu_control(void)
 {
   // declare variable for this function
   int32_t g_LCDML_CONTROL_Encoder_position = ENCODER.read();
-  bool g_LCDML_button                      = digitalRead(encoder_button_pin);
+  bool g_LCDML_button = digitalRead(encoder_button_pin);
   
   // If something must init, put in in the setup condition
   if(LCDML.BT_setup())

@@ -1,5 +1,6 @@
 //For arduino Mega
-
+#ifndef CONFIGDEF
+#define CONFIGDEF
 
 //Motor Control
 ////////////////////////////////////////////////////////////////////
@@ -125,21 +126,40 @@ int Pumping_Speed = 100; //delay between steps in microseconds
 uint32_t Tube_Volume = 37735; //((volume inside length of tube * (1600 / 1.06)) NOTE: trunctated but still good enough 
 boolean Pumping_Needed = false;
 
+//////////////////////////////////////////////////////////////////
+//Dynamic Parmaters
+uint32_t wipe_distance = 0;
+uint32_t init_position = 0;
+uint32_t wipe_force = 0; // when this value comes from an EEPROM, load it in setup
+uint32_t cycle_num = 0;
+uint32_t photo_interval = 0;
+uint32_t flow_rate = 0;
+float real_flow_rate = 0.0;
+uint8_t wipe_speed = 0;  // Used For User Input as sprintf formatting of floating point values is not supported in Arduino
+float real_wipe_speed = 0.0;  // Used For Actual Calculations
+uint8_t pump = 1;
+uint32_t increase_interval = 1;  // For setting Cycle Number
+uint8_t Brightness = 0;
+uint8_t delay_ = 0;
+uint8_t Photo_Brightness;
+uint8_t wipe_Delay;
+
+uint8_t Enclosure_Brightness = 0;
+uint8_t real_Enclosure_Brightness;
+
 
 //////////////////////////////////////////////////////////////////
 //Parameter Input Assignment For Use of Wiping Cycle
 
 uint32_t Wipe_Dist;
 uint32_t Init_Pos;
-uint32_t Force_Target;
 uint32_t Cycle_Target;
 uint32_t Photo_Interval;
 uint32_t Pump_Rate;
 uint8_t Wiping_Speed;
 uint8_t Pump_Used;
 uint8_t Norm_Brightness = 128;
-//uint8_t Photo_Brightness;
-//uint8_t wipe_Delay;
+
 
 //////////////////////////////////////////////////////////////////
 //Wipe Cycle Global 
@@ -151,11 +171,16 @@ volatile uint32_t Current_ZPos; //Current Z position
 //////////////////////////////////////////////////////////////////
 //Force Controller
 
-double Force;
+boolean Z_direction; 
+double Force_Target;
+double Force_Reading;
+int K_Const = 10;
 
 // variables will change:
 int distance;
 int SPEED;
 int done = 0;
-boolean M_direction;
+int8_t M_direction;
 double Output_Position;
+  
+#endif

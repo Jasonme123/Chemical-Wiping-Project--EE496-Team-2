@@ -1,3 +1,7 @@
+
+#ifndef HOMEDEF
+#define HOMEDEF
+
 //Homing Cycle Functions
 
 /////////////////////////////////////////////////////////
@@ -113,7 +117,7 @@ digitalWrite(Z_DIR_PIN, UP);
 void touchDown(){
   
   TIMER1_INTERRUPTS_OFF
-  int forceCheck  = Cell_1();
+  double forceCheck  = Cell_1();
   uint32_t homing_checker;
   digitalWrite(Z_DIR_PIN, DOWN);
   
@@ -137,3 +141,5 @@ void homeBoth(){
   home_z_axis();
   home_x_axis();
 }
+
+#endif

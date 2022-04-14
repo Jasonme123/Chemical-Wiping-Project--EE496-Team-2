@@ -1,3 +1,7 @@
+
+#ifndef SAFEDEF
+#define SAFEDEF
+
 // define saftey things here
 
 void safety_Check(){
@@ -34,3 +38,5 @@ void safety_Check(){
 //  pinMode(hard_pause, INPUT_PULLUP);
 //  attachInterrupt(digitalPinToInterrupt(hard_pause), HardPause, CHANGE);
 //}
+
+#endif

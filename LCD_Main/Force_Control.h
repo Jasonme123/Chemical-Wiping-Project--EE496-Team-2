@@ -1,15 +1,16 @@
+
+#ifndef FORCEDEF
+#define FORCEDEF
+
 #include <PID_v1.h>
 
-
- double Force_Reading;
- static boolean newDataReady = 0;
 /////////////////////////////////////////////////////////////////////////
 
 //PID parameters
 double Kp=.1, Ki=1.25, Kd=10; 
 
          //sensor input,  Controller output, Setpoint ,coefficents         
-PID myPID(&Force_Reading, &Output_Position, &Force, Kp, Ki, Kd, DIRECT);
+PID myPID(&Force_Reading, &Output_Position, &Force_Target, Kp, Ki, Kd, DIRECT);
 
 ///////////////////////////////////////////////////////////////////////// 
 //PID Controller Type Config
@@ -23,37 +24,42 @@ void Control_setup()
 }
 
 /////////////////////////////////////////////////////////////////////
-
-void Control_loop()
+//PID Controller
+void Controller_1()
 {
 
-  if (Force_Reading > Force){ // this will change the motor direction up on down
-    M_direction = LOW;        // depending on if we are above or below our target force
+  if (Force_Reading > Force_Target){ // this will change the motor direction up on down
+    Z_direction = -1;        // depending on if we are above or below our target force
   }
   else{
-    M_direction = HIGH;
+    Z_direction = 1;
   }  
+
   
-  if (newDataReady) {
-      Force_Reading = Cell_1();
-      
-      Serial.print(Force_Reading);
-      Serial.print(',');
-      Serial.print(Output_Position);
-      Serial.print(',');  
-      Serial.print(M_direction);
-      Serial.print(',');  
-      Serial.print(SPEED);      
-      Serial.print(',');   
-      Serial.println();
-      newDataReady = 0;
-  }
   //PID calculation to determine new output
    myPID.Compute();
-  
-
-  //Serial.println(Output_Position);
-  //Serial.print(" ");  
-  //Serial.println(Force);
-  delay(10);
+   Output_Position = Output_Position * Z_direction;
+  zPosition_Update = true;
 }
+
+/////////////////////////////////////////////////////////////////////
+//Error Controller
+void Controller_2(){
+
+  double error = Force_Target - Force_Reading;
+     
+      Output_Position = (error/K_Const);
+      zPosition_Update = true;
+}
+
+/////////////////////////////////////////////////////////////////////
+//PI Controller
+void Controller_3(){
+
+  double error = Force_Target - Force_Reading;
+     
+      
+      zPosition_Update = true;
+}
+
+#endif

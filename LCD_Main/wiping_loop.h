@@ -1,3 +1,9 @@
+
+
+
+#ifndef WIPECONTDEF
+#define WIPECONTDEF
+
 //Wiping_Cycle
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -40,89 +46,70 @@ TIMER1_INTERRUPTS_OFF
   //move z axis down until target force is reached
   touchDown();
 
-  TIMER1_INTERRUPTS_ON
+  
 }
-
-  int position_;
   
 ///////////////////////////////////////////////////////////////////////////////
 
 void WipingLoop(){
-
+  
+  //if wipe cycle target reached, go home
   if(Current_Count >= Cycle_Target){
     //Home Both Axis
     home_z_axis();
     home_x_axis();
-  }
+    }
   
   //Take a photo if needed
   if((Current_Count % Photo_Interval) == 0){
     Photo();
   }
+  
+  //Get new Force Reading
+  Force_Reading = Cell_1();
+  
+  //Force Controller Option 1 (PID)
+  Controller_1();
 
-      while (position_ != init_position) {
-          if (position_ < init_position) {
-         
-              position_++;
-              Serial.print("position:  ");
-              Serial.println(position_);
+  //Chasing the Error
 
-              char string[20];         
-              itoa(position_, string , 10);
-              
-              u8g.firstPage();
-              do {
-                u8g.setFont(u8g_font_ncenB10);
-                u8g.drawStr(10, 50, string);
-              } while(u8g.nextPage());
-          }        
-      }
-      
-      while (cycle_num != 0) {
-        
-            for (int i = 0; i < wipe_distance; i++){
-             
-                Serial.print("position:  ");
-                Serial.println(i);
-                if (LCDML.BT_checkAny()) // check if any button is pressed (enter, up, down, left, right)
-                {
-                  LCDML.FUNC_goBackToMenu(1);  // leave this function
-                }
-            }
-            for (int i = wipe_distance; i > 0; i--){
-          
-                Serial.print("position:  ");
-                Serial.println(i);
-                if (LCDML.BT_checkAny()) // check if any button is pressed (enter, up, down, left, right)
-                {
-                  LCDML.FUNC_goBackToMenu(1);  // leave this function
-                }
-            }
-              cycle_num--;
-              Serial.print("Cycles Left:  ");
-              Serial.println(Cycle_Target);
+  
 
-              char string[20];         
-              itoa(Cycle_Target, string , 10);
+//              char string[20];         
+//              itoa(position_, string , 10);
+ 
+//              u8g.firstPage();
+//              do {
+//                u8g.setFont(u8g_font_ncenB10);
+//                u8g.drawStr(10, 50, string);
+//              } while(u8g.nextPage());
+//                              
+//              Serial.print("Cycles Left:  ");
+//              Serial.println(Cycle_Target);
+//
+//              char string[20];         
+//              itoa(Cycle_Target, string , 10);
+//
+//              char string2[20];         
+//               itoa(Cycle_Target, string2 , 10);
 
-              char string2[20];         
-               itoa(Cycle_Target, string2 , 10);
-
-              u8g.firstPage();
-              do {
-                u8g.drawFrame(1,1,126,62);
-                u8g.drawFrame(0,0,128,64);
-                u8g.drawFrame(19,35,90,24);
-                u8g.setFont(u8g_font_ncenB10);
-                u8g.drawStr( 5, 16, F("CYCLES LEFT:"));
-                u8g.drawStr(ALIGN_CENTER(string), 31, string);
-                u8g.drawStr(70 , 31, "/");
-                u8g.drawStr(80 , 31, string2);
-//                u8g.setFont(u8g_font_ncenB08);
-//                u8g.drawStr(ALIGN_CENTER("Rotate Or Click"), 46, F("Rotate Or Click"));
-//                u8g.drawStr(ALIGN_CENTER("To Pause"), 56, F("To Pause"));
-              } while(u8g.nextPage());
-             
+//              u8g.firstPage();
+//              do {
+//                u8g.drawFrame(1,1,126,62);
+//                u8g.drawFrame(0,0,128,64);
+//                u8g.drawFrame(19,35,90,24);
+//                u8g.setFont(u8g_font_ncenB10);
+//                u8g.drawStr( 5, 16, F("CYCLES LEFT:"));
+//                u8g.drawStr(ALIGN_CENTER(string), 31, string);
+//                u8g.drawStr(70 , 31, "/");
+//                u8g.drawStr(80 , 31, string2);
+////                u8g.setFont(u8g_font_ncenB08);
+////                u8g.drawStr(ALIGN_CENTER("Rotate Or Click"), 46, F("Rotate Or Click"));
+////                u8g.drawStr(ALIGN_CENTER("To Pause"), 56, F("To Pause"));
+//              } while(u8g.nextPage());
+//             
 
            }
-}
+
+
+#endif

@@ -1,25 +1,4 @@
-
-
-// Parameters
-uint32_t wipe_distance = 0;
-uint32_t init_position = 0;
-uint32_t wipe_force = 0; // when this value comes from an EEPROM, load it in setup
-uint32_t cycle_num = 0;
-uint32_t photo_interval = 0;
-uint32_t flow_rate = 0;
-float real_flow_rate = 0.0;
-uint8_t wipe_speed = 0;  // Used For User Input as sprintf formatting of floating point values is not supported in Arduino
-float real_wipe_speed = 0.0;  // Used For Actual Calculations
-uint8_t pump = 1;
-uint32_t increase_interval = 1;  // For setting Cycle Number
-uint8_t Brightness = 0;
-uint8_t delay_ = 0;
-uint8_t Photo_Brightness;
-uint8_t wipe_Delay;
-
-uint8_t Enclosure_Brightness = 0;
-uint8_t real_Enclosure_Brightness;
-
+#include "includes.h"
 
 void Set_Force(uint8_t line)
 {

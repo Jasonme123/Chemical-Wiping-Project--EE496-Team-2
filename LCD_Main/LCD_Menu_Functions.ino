@@ -1,14 +1,16 @@
+#include "includes.h"
 
-#include "config.h"
-#include "Pump_Control.h"
-#include "Motor_Control.h"
-#include "Force_Sensors_Reading.h"
-#include "Homing.h"
-#include "Camera_Control.h"
-#include "Force_Control.h"
-#include "wiping_loop.h"
-#include "Safety_Check.h"
-#include "A_Setup.h"
+
+//#include "config.h"
+//#include "Pump_Control.h"
+//#include "Motor_Control.h"
+//#include "Force_Sensors_Reading.h"
+//#include "Homing.h"
+//#include "Camera_Control.h"
+//#include "Force_Control.h"
+//#include "wiping_loop.h"
+//#include "Safety_Check.h"
+//#include "A_Setup.h"
 
 
 /*  Menu Callback Function                                                *
@@ -420,13 +422,13 @@ void testing_cycle(uint8_t param) {
 // ****** SETUP *********
    if(LCDML.FUNC_setup())   
   {
-  // WipingSetup();
+   WipingSetup();
     LCDML_UNUSED(param);// remove compiler warnings when the param variable is not used:
   }  
 
     if(LCDML.FUNC_loop())   // ****** LOOP *********
   {   
- //WipingLoop();
+ WipingLoop();
   }
      if (LCDML.BT_checkAny()) // check if any button is pressed (enter, up, down, left, right)
               {
