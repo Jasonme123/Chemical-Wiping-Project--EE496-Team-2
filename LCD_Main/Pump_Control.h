@@ -18,7 +18,7 @@ void Pump_setup() {
 //////////////////////////////////////////////////////////////////
 void unPriming(){
   
-    int Pump_distance = 0; //temp var
+    uint32_t Pump_distance = 0; //temp var
   
     digitalWrite(P1_ENABLE_PIN, LOW);
     digitalWrite(P2_ENABLE_PIN, LOW); //Enable Pump Movements
@@ -43,7 +43,7 @@ void unPriming(){
 //////////////////////////////////////////////////////////////////
 void Priming(){
   
-    int Pump_distance = 0; //temp var
+    uint32_t Pump_distance = 0; //temp var
   
     digitalWrite(P1_ENABLE_PIN, LOW);
     digitalWrite(P2_ENABLE_PIN, LOW); //Enable Pump Movements
@@ -78,7 +78,7 @@ void Pump(int pump_rate) {
 
 TIMER1_INTERRUPTS_OFF
   
-  int Pump_distance = 0;
+  uint32_t Pump_distance = 0;
 
   digitalWrite(P1_ENABLE_PIN, LOW);
   digitalWrite(P2_ENABLE_PIN, LOW); //Enable Pump Movements

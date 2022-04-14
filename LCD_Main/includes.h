@@ -13,6 +13,5 @@
 #include "Force_Control.h"
 #include "wiping_loop.h"
 #include "Safety_Check.h"
-#include "A_Setup.h"
 
 #endif
