@@ -1,6 +1,18 @@
 #include "includes.h"
 
 
+//#include "config.h"
+//#include "Pump_Control.h"
+//#include "Motor_Control.h"
+//#include "Force_Sensors_Reading.h"
+//#include "Homing.h"
+//#include "Camera_Control.h"
+//#include "Force_Control.h"
+//#include "wiping_loop.h"
+//#include "Safety_Check.h"
+//#include "A_Setup.h"
+
+
 /*  Menu Callback Function                                                *
  * EXAMPLE CODE:
 // *********************************************************************
@@ -46,6 +58,39 @@ void your_function_name(uint8_t param)
 }
  */
 
+void mFunc_information(uint8_t param)
+{
+  if(LCDML.FUNC_setup())          // ****** SETUP *********
+  {
+    // remmove compiler warnings when the param variable is not used:
+    LCDML_UNUSED(param);
+    // setup function
+    u8g.setFont(_LCDML_DISP_font);
+    u8g.firstPage();
+    do {
+      u8g.drawStr( 0, (_LCDML_DISP_font_h * 1), F("To close this"));
+      u8g.drawStr( 0, (_LCDML_DISP_font_h * 2), F("function press"));
+      u8g.drawStr( 0, (_LCDML_DISP_font_h * 3), F("any button or use"));
+      u8g.drawStr( 0, (_LCDML_DISP_font_h * 4), F("back button"));
+    } while( u8g.nextPage() );
+  }
+
+  if(LCDML.FUNC_loop())           // ****** LOOP *********
+  {
+    // loop function, can be run in a loop when LCDML_DISP_triggerMenu(xx) is set
+    // the quit button works in every DISP function without any checks; it starts the loop_end function
+    if(LCDML.BT_checkAny()) // check if any button is pressed (enter, up, down, left, right)
+    {
+      // LCDML_goToMenu stops a running menu function and goes to the menu
+      LCDML.FUNC_goBackToMenu();
+    }
+  }
+
+  if(LCDML.FUNC_close())      // ****** STABLE END *********
+  {
+    // you can here reset some global vars or do nothing
+  }
+}
 
 // *********************************************************************
 uint8_t g_func_timer_info = 0;  // time counter (global variable)
@@ -118,6 +163,77 @@ void mFunc_timer_info(uint8_t param)
 }
 
 
+// THIS FUNCTION MIGHT WORK FOR OUR PURPOSES
+
+// *********************************************************************
+uint8_t g_button_value = 0; // button value counter (global variable)
+void mFunc_p2(uint8_t param)
+// *********************************************************************
+{
+  if(LCDML.FUNC_setup())          // ****** SETUP *********
+  {
+    // remmove compiler warnings when the param variable is not used:
+    LCDML_UNUSED(param);
+
+    // setup function
+    // print LCD content
+    char buf[17];
+    sprintf (buf, "count: %d of 3", 0);
+
+    u8g.setFont(_LCDML_DISP_font);
+    u8g.firstPage();
+    do {
+      u8g.drawStr( 0, (_LCDML_DISP_font_h * 1), F("press a or w button"));
+      u8g.drawStr( 0, (_LCDML_DISP_font_h * 2), buf);
+    } while( u8g.nextPage() );
+
+    // Reset Button Value
+    g_button_value = 0;
+
+    // Disable the screensaver for this function until it is closed
+    LCDML.FUNC_disableScreensaver();
+  }
+
+  if(LCDML.FUNC_loop())           // ****** LOOP *********
+  {
+    // loop function, can be run in a loop when LCDML_DISP_triggerMenu(xx) is set
+    // the quit button works in every DISP function without any checks; it starts the loop_end function
+
+    // the quit button works in every DISP function without any checks; it starts the loop_end function
+    if (LCDML.BT_checkAny()) // check if any button is pressed (enter, up, down, left, right)
+    {
+      if (LCDML.BT_checkLeft() || LCDML.BT_checkUp()) // check if button left is pressed
+      {
+        LCDML.BT_resetLeft(); // reset the left button
+        LCDML.BT_resetUp(); // reset the up button
+        g_button_value++;
+
+        // update LCD content
+        char buf[17];
+        sprintf (buf, "count: %d of 3", g_button_value);
+
+        u8g.setFont(_LCDML_DISP_font);
+        u8g.firstPage();
+        do {
+          u8g.drawStr( 0, (_LCDML_DISP_font_h * 1), F("press a or w button"));
+          u8g.drawStr( 0, (_LCDML_DISP_font_h * 2), buf);
+        } while( u8g.nextPage() );
+      }
+    }
+
+   // check if button count is three
+    if (g_button_value >= 3) {
+      LCDML.FUNC_goBackToMenu();      // leave this function
+    }
+  }
+
+  if(LCDML.FUNC_close())     // ****** STABLE END *********
+  {
+    // you can here reset some global vars or do nothing
+  }
+}
+
+
 void cycle_count_display(uint8_t param)
 {
   if(LCDML.FUNC_setup())          // ****** SETUP *********
@@ -156,7 +272,6 @@ void cycle_count_display(uint8_t param)
     LCDML.MENU_goRoot();
   }
 }
-
 
 void mFunc_back_by_1(uint8_t param)
 {
@@ -205,6 +320,7 @@ void mFunc_jumpTo_timer_info(uint8_t param)
     LCDML.OTHER_jumpToFunc(mFunc_timer_info);
   }
 }
+
 
 
 // Function For Z-Axis Homing 
@@ -384,6 +500,10 @@ void turn_off_LEDs(uint8_t param)
 }
 
 
+
+
+
+uint8_t x_position = 0;
 void move_x_axis(uint8_t line)
 {
   if (line == LCDML.MENU_getCursorPos())
@@ -442,6 +562,7 @@ void move_x_axis(uint8_t line)
 }
 
 
+uint8_t z_position = 0;
 void move_z_axis(uint8_t line)
 {
   if (line == LCDML.MENU_getCursorPos())
@@ -495,121 +616,6 @@ void move_z_axis(uint8_t line)
 
   char buf[20];
   sprintf (buf, "Start    %u", z_position);
-
-  u8g.drawStr( _LCDML_DISP_box_x0+_LCDML_DISP_font_w + _LCDML_DISP_cur_space_behind,  (_LCDML_DISP_font_h * (1+line)), buf);     // the value can be changed with left or right
-}
-
-void set_init_position(uint8_t line)
-{
-  if (line == LCDML.MENU_getCursorPos())
-  {
-    if(LCDML.BT_checkAny())
-    {
-      if(LCDML.BT_checkEnter())
-      {
-        if(LCDML.MENU_getScrollDisableStatus() == 0)
-        {
-          LCDML.MENU_disScroll();
-        }
-        else
-        {
-          LCDML.MENU_enScroll();
-        }
-        LCDML.BT_resetEnter();
-      }
-            
-      if(LCDML.BT_checkUp())
-      { 
-        if (init_position > 1){       
-            digitalWrite(X_DIR_PIN, HIGH);  // HIGH = anti-clockwise
-            for (int x = 1; x < 200; x++) {
-              digitalWrite(X_STEP_PIN, HIGH);
-              delayMicroseconds(150);
-              digitalWrite(X_STEP_PIN, LOW);
-              delayMicroseconds(150);           
-            }  
-            init_position--;
-         }
-        LCDML.BT_resetUp();
-      }
-
-      if(LCDML.BT_checkDown())
-      {
-        if (init_position < 100){
-            digitalWrite(X_DIR_PIN, LOW);  // LOW = clockwise
-            for (int x = 1; x < 200; x++) {
-              digitalWrite(X_STEP_PIN, HIGH);
-              delayMicroseconds(150);
-              digitalWrite(X_STEP_PIN, LOW); 
-              delayMicroseconds(150);         
-            }
-            init_position++;
-        }
-        LCDML.BT_resetDown();
-      } 
-    }
-  }
-
-  char buf[20];
-  sprintf (buf, "Start    %u", init_position);
-
-  u8g.drawStr( _LCDML_DISP_box_x0+_LCDML_DISP_font_w + _LCDML_DISP_cur_space_behind,  (_LCDML_DISP_font_h * (1+line)), buf);     // the value can be changed with left or right
-}
-
-void set_wipe_distance(uint8_t line)
-{
-  if (line == LCDML.MENU_getCursorPos())
-  {
-    if(LCDML.BT_checkAny())
-    {
-      // to disable or enable scrolling
-      if(LCDML.BT_checkEnter())
-      {
-        if(LCDML.MENU_getScrollDisableStatus() == 0)
-        {
-          LCDML.MENU_disScroll();
-        }
-        else
-        {
-          LCDML.MENU_enScroll();
-        }
-        LCDML.BT_resetEnter();
-      }
-      
-      if(LCDML.BT_checkUp())
-      { 
-        if (wipe_distance > 1){
-            digitalWrite(X_DIR_PIN, HIGH);  // HIGH = anti-clockwise
-            for (int x = 1; x < 200; x++) {
-              digitalWrite(X_STEP_PIN, HIGH);
-              delayMicroseconds(150);
-              digitalWrite(X_STEP_PIN, LOW);
-              delayMicroseconds(150);           
-            }
-            wipe_distance--;
-        }
-        LCDML.BT_resetUp();
-      }
-
-      if(LCDML.BT_checkDown())
-      {
-        if (wipe_distance < 100){
-            digitalWrite(X_DIR_PIN, LOW);  // LOW = clockwise
-            for (int x = 1; x < 200; x++) {
-              digitalWrite(X_STEP_PIN, HIGH);
-              delayMicroseconds(150);
-              digitalWrite(X_STEP_PIN, LOW); 
-              delayMicroseconds(150);         
-            }
-            wipe_distance++;
-        }
-        LCDML.BT_resetDown();
-      }
-    }
-  }
-
-  char buf[20];
-  sprintf (buf, "Start    %u", wipe_distance);
 
   u8g.drawStr( _LCDML_DISP_box_x0+_LCDML_DISP_font_w + _LCDML_DISP_cur_space_behind,  (_LCDML_DISP_font_h * (1+line)), buf);     // the value can be changed with left or right
 }

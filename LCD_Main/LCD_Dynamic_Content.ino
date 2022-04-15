@@ -1,6 +1,5 @@
 #include "includes.h"
 
-
 void Set_Force(uint8_t line)
 {
   // check if this function is active (cursor stands on this line)
@@ -328,6 +327,99 @@ void Sel_increase_interval(uint8_t line)
 
   char buf[20];
   sprintf (buf, "Increase By: %lu", increase_interval);
+
+  u8g.drawStr( _LCDML_DISP_box_x0+_LCDML_DISP_font_w + _LCDML_DISP_cur_space_behind,  (_LCDML_DISP_font_h * (1+line)), buf);     // the value can be changed with left or right
+}
+
+
+void set_init_position(uint8_t line)
+{
+  if (line == LCDML.MENU_getCursorPos())
+  {
+    if(LCDML.BT_checkAny())
+    {
+      if(LCDML.BT_checkEnter())
+      {
+        if(LCDML.MENU_getScrollDisableStatus() == 0)
+        {
+          LCDML.MENU_disScroll();
+        }
+        else
+        {
+          LCDML.MENU_enScroll();
+        }
+        LCDML.BT_resetEnter();
+      }
+            
+      if(LCDML.BT_checkUp())
+      { 
+        if (init_position > 1){       
+     
+            init_position--;
+        }
+        LCDML.BT_resetUp();
+      }
+
+      if(LCDML.BT_checkDown())
+      {
+        if (init_position < 100){
+           
+            init_position++;
+        }
+        LCDML.BT_resetDown();
+      } 
+    }
+  }
+
+  char buf[20];
+  sprintf (buf, "Start    %u", init_position);
+
+  u8g.drawStr( _LCDML_DISP_box_x0+_LCDML_DISP_font_w + _LCDML_DISP_cur_space_behind,  (_LCDML_DISP_font_h * (1+line)), buf);     // the value can be changed with left or right
+}
+
+
+void set_wipe_distance(uint8_t line)
+{
+  if (line == LCDML.MENU_getCursorPos())
+  {
+    if(LCDML.BT_checkAny())
+    {
+      // to disable or enable scrolling
+      if(LCDML.BT_checkEnter())
+      {
+        if(LCDML.MENU_getScrollDisableStatus() == 0)
+        {
+          LCDML.MENU_disScroll();
+        }
+        else
+        {
+          LCDML.MENU_enScroll();
+        }
+        LCDML.BT_resetEnter();
+      }
+      
+      if(LCDML.BT_checkUp())
+      { 
+        if (wipe_distance > 1){
+          
+            wipe_distance--;
+        }
+        LCDML.BT_resetUp();
+      }
+
+      if(LCDML.BT_checkDown())
+      {
+        if (wipe_distance < 100){
+        
+            wipe_distance++;
+        }
+        LCDML.BT_resetDown();
+      }
+    }
+  }
+
+  char buf[20];
+  sprintf (buf, "Start    %u", wipe_distance);
 
   u8g.drawStr( _LCDML_DISP_box_x0+_LCDML_DISP_font_w + _LCDML_DISP_cur_space_behind,  (_LCDML_DISP_font_h * (1+line)), buf);     // the value can be changed with left or right
 }

@@ -143,9 +143,6 @@ uint8_t Brightness = 0;
 uint8_t delay_ = 0;
 uint8_t Photo_Brightness;
 uint8_t wipe_Delay;
-uint8_t x_position = 0;
-uint8_t z_position = 0;
-
 
 uint8_t Enclosure_Brightness = 0;
 uint8_t real_Enclosure_Brightness;

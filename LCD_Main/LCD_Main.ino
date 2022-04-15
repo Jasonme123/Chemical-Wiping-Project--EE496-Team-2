@@ -76,7 +76,7 @@ LCDML_add         (7  , LCDML_0         , 8  , "Turn Light On/Off", NULL);
 LCDML_add         (8  , LCDML_0         , 9  , "Cycle Count"      , cycle_count_display); 
 
 LCDML_add         (9  , LCDML_0_8       , 1  , "LIGHTS ON/OFF", NULL);  
-LCDML_addAdvanced (10 , LCDML_0_8       , 2  , NULL               , "Turn ON", Enclosure_Brightness_,0,   _LCDML_TYPE_dynParam); 
+LCDML_addAdvanced (10 , LCDML_0_8       , 2  , NULL               , "Turn ON - ", Enclosure_Brightness_,0,   _LCDML_TYPE_dynParam); 
 LCDML_add         (11 , LCDML_0_8       , 3  , "Turn OFF"         , turn_off_LEDs);  
 LCDML_add         (12 , LCDML_0_8       , 4  , "Back"             , mFunc_back_by_1); 
 
@@ -104,7 +104,7 @@ LCDML_addAdvanced (29 , LCDML_0_3       , 5  , NULL               , "Wipe Force"
 LCDML_addAdvanced (30 , LCDML_0_3       , 6  , NULL               , "Wipe Speed"   , Wipe_Speed,    0,   _LCDML_TYPE_dynParam);
 LCDML_addAdvanced (31 , LCDML_0_3       , 7  , NULL               , "Select Pump"  , Pump_Select,   0,   _LCDML_TYPE_dynParam);                                                                   
 LCDML_addAdvanced (32 , LCDML_0_3       , 8  , NULL               , "Flow Rate"    , Flow_Rate,     0,   _LCDML_TYPE_dynParam);     
-LCDML_addAdvanced (33 , LCDML_0_3       , 9  , NULL               , "Photo Brightness",Set_Brightness,0, _LCDML_TYPE_dynParam); 
+LCDML_addAdvanced (33 , LCDML_0_3       , 9  , NULL               , "Photo Brightness", Set_Brightness,0,   _LCDML_TYPE_dynParam); 
 LCDML_addAdvanced (34 , LCDML_0_3       , 10 , NULL               , "Wipe Delay"   , Wipe_Delay,    0,   _LCDML_TYPE_dynParam);       
 LCDML_add         (35 , LCDML_0_3       , 11 , "Reset Parameters" , reset_params);              
 LCDML_add         (36 , LCDML_0_3       , 12 , "Back"             , mFunc_back_by_1);    
