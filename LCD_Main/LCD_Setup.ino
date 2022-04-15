@@ -7,7 +7,7 @@ void setup()
 
   // serial init; only be needed if serial control is used
   Serial.begin(9600);                // start serial
-  Serial.println(F(_LCDML_VERSION)); // only for examples
+  Serial.println("Start_up"); // only for examples
 
   // LCDMenuLib Setup
   LCDML_setup(_LCDML_DISP_cnt);

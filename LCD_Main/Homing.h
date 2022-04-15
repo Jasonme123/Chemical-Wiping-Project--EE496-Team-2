@@ -1,34 +1,15 @@
 
+#include "includes.h"
+
 #ifndef HOMEDEF
 #define HOMEDEF
 
 //Homing Cycle Functions
 
-/////////////////////////////////////////////////////////
-//when endstop is triggered
-void X_min(){
-  if(digitalRead(x_min_stop) ==  LOW){
-  delay(250);
-  x_zero = true; //if at zero position
-  Current_XPos = 0;
-  }
-}
-
-/////////////////////////////////////////////////////////
-//when endstop is triggered
-void Z_min(){
-  if(digitalRead(z_min_stop) ==  LOW){
-  delay(250);
-  z_zero = true; //if at zero position
-  Current_ZPos = 0; 
-  }
-}
 
 /////////////////////////////////////////////////////////
 //General Setup
 void homingSetup(){
-  pinMode(z_min_stop, INPUT);
-  pinMode(x_min_stop, INPUT);
 
   //DATA Direction
 
@@ -41,12 +22,6 @@ void homingSetup(){
    pinMode(X_STEP_PIN, OUTPUT);
    pinMode(X_ENABLE_PIN, OUTPUT);
 
-   digitalWrite(X_ENABLE_PIN, LOW);
-   digitalWrite(Z_ENABLE_PIN, LOW);
-  
-  
-   digitalWrite(z_min_stop, HIGH);
-   digitalWrite(x_min_stop, HIGH);
 }
 
 /////////////////////////////////////////////////////////
@@ -58,15 +33,16 @@ void homing_error(){
 /////////////////////////////////////////////////////////
 //X axis homing function
 void home_x_axis(){
+  enable_Stepper();
 TIMER1_INTERRUPTS_OFF
 
 //digitalWrite(X_ENABLE_PIN, LOW);
 
 uint32_t homing_checker;
-digitalWrite(X_DIR_PIN, LEFT);
+digitalWrite(X_DIR_PIN, RIGHT);
 
   while(!x_zero){
-    X_min();
+    //X_min();
     X_STEP_HIGH;
     delayMicroseconds(X_Homing_Speed);
     X_STEP_LOW;
@@ -82,6 +58,7 @@ digitalWrite(X_DIR_PIN, LEFT);
 /////////////////////////////////////////////////////////
 //Z axis homing function
 void home_z_axis(){
+  enable_Stepper();
 TIMER1_INTERRUPTS_OFF
 
 
@@ -89,7 +66,7 @@ uint32_t homing_checker;
 digitalWrite(Z_DIR_PIN, UP);
   
   while(!z_zero){
-    Z_min();
+    //Z_min();
     Z_STEP_HIGH;
     delayMicroseconds(Z_Homing_Speed);
     Z_STEP_LOW;

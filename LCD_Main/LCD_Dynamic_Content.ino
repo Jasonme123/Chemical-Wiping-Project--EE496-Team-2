@@ -354,7 +354,7 @@ void set_init_position(uint8_t line)
       if(LCDML.BT_checkUp())
       { 
         if (init_position > 1){       
-     
+            move_motor_left();
             init_position--;
         }
         LCDML.BT_resetUp();
@@ -363,7 +363,7 @@ void set_init_position(uint8_t line)
       if(LCDML.BT_checkDown())
       {
         if (init_position < 100){
-           
+            move_motor_right();
             init_position++;
         }
         LCDML.BT_resetDown();

@@ -1,3 +1,4 @@
+#include "includes.h"
 
 #ifndef MOTORCONTDEF
 #define MOTORCONTDEF
@@ -258,6 +259,12 @@ if(sx.movementDone){
  Pump(Pump_Rate); //Pumping done per wipe 
  //x_movement = (x_movement * -1);
 }
+
+//Check if endstops are pressed
+Z_min();
+X_min();
+X_max();
+
 
 //Motor Command Sender
 //if x motor target changes, tell the motor to move to the new target  

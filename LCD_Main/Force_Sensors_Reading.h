@@ -1,4 +1,6 @@
 
+#include "includes.h"
+
 #ifndef FORCESENDEF
 #define FORCESENDEF
 
@@ -29,7 +31,9 @@ void LoadCell_setup() {
 //Channel A
 double Cell_1() {
 
-  double i = scale.get_units(5); //
+  double i = scale.get_units(5); 
+
+  Serial.print(i); 
 
  //If Serial Not found
  if (scale.wait_ready_retry(10)){

@@ -6,24 +6,25 @@
 
 //Wiping_Cycle
 
+#include "includes.h"
+
 ///////////////////////////////////////////////////////////////////////////////
 void WipingSetup() {
-  
-TIMER1_INTERRUPTS_OFF
+  Serial.print("hello");
+  TIMER1_INTERRUPTS_OFF
 
    //Reset Wipe Counter
    Current_Count = 0; 
 
   //Take user parmaeters and assign them to useful varibles
-   Wipe_Dist = (rev_Step * (wipe_distance / x_circumference)); //Wipe Distance in steps
-   Init_Pos = (rev_Step * (init_position / x_circumference)); //Inital Position in steps
-   Force_Target = wipe_force; //Force we are attempting to Achieve with the Z-axis
-   Cycle_Target = cycle_num; //Number of wipes per each test
-   Photo_Interval = photo_interval; //number of wipes between a Photo is taken
-   Pump_Rate = ((flow_rate/(1.06)) * 1600); // Flow rate in Steps/Wipe
-   Wiping_Speed = wipe_speed;
-   Pump_Used = pump;
-
+//   Wipe_Dist = (rev_Step * (wipe_distance / x_circumference)); //Wipe Distance in steps
+//   Init_Pos = (rev_Step * (init_position / x_circumference)); //Inital Position in steps
+//   Force_Target = wipe_force; //Force we are attempting to Achieve with the Z-axis
+//   Cycle_Target = cycle_num; //Number of wipes per each test
+//   Photo_Interval = photo_interval; //number of wipes between a Photo is taken
+//   Pump_Rate = ((flow_rate/(1.06)) * 1600); // Flow rate in Steps/Wipe
+//   Wiping_Speed = wipe_speed;
+//   Pump_Used = pump;
 
   //Home Both Axis
     home_z_axis();
@@ -35,8 +36,8 @@ TIMER1_INTERRUPTS_OFF
      
   //If you don't want photos
     if(Photo_Interval == 0){
-    Photo_Interval = 4294967294;
-      }
+    Photo_Interval = 4294967;
+     }
       
   //move x axis to intial position
   TIMER1_INTERRUPTS_ON
@@ -45,6 +46,7 @@ TIMER1_INTERRUPTS_OFF
 
   //move z axis down until target force is reached
   touchDown();
+  TIMER2_INTERRUPTS_ON
 
   
 }
@@ -54,11 +56,9 @@ TIMER1_INTERRUPTS_OFF
 void WipingLoop(){
   
   //if wipe cycle target reached, go home
-  if(Current_Count >= Cycle_Target){
-    //Home Both Axis
-    home_z_axis();
-    home_x_axis();
-    }
+  while(Current_Count <= Cycle_Target){
+
+  Serial.print("Loopsd");
   
   //Take a photo if needed
   if((Current_Count % Photo_Interval) == 0){
@@ -110,6 +110,12 @@ void WipingLoop(){
 //             
 
            }
+    
+    //Home Both Axis
+    home_z_axis();
+    home_x_axis();
+    }
+   
 
 
 #endif

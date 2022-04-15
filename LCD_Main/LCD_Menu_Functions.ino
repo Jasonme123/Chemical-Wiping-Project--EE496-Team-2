@@ -336,6 +336,7 @@ void z_homing(uint8_t param) {
 
   if(LCDML.FUNC_loop())   // ****** LOOP *********
   {   
+      
       home_z_axis();
 
       LCDML.FUNC_goBackToMenu(0);
@@ -422,20 +423,16 @@ void testing_cycle(uint8_t param) {
 // ****** SETUP *********
    if(LCDML.FUNC_setup())   
   {
-   WipingSetup();
     LCDML_UNUSED(param);// remove compiler warnings when the param variable is not used:
   }  
 
     if(LCDML.FUNC_loop())   // ****** LOOP *********
   {   
+ 
+ WipingSetup();
  WipingLoop();
   }
-     if (LCDML.BT_checkAny()) // check if any button is pressed (enter, up, down, left, right)
-              {
-                LCDML.FUNC_goBackToMenu(1);  // leave this function
-              }
-                  
-      
+     
       LCDML.FUNC_goBackToMenu(0);
 //      u8g.setFont(u8g_font_ncenB08);
 //      u8g.drawStr(ALIGN_CENTER("Z Axis is homed"), 58, F("Z Axis is homed"));

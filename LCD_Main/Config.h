@@ -1,4 +1,6 @@
 //For arduino Mega
+#include "includes.h"
+
 #ifndef CONFIGDEF
 #define CONFIGDEF
 
@@ -96,8 +98,8 @@ volatile int Play_state = true;
 
 //////////////////////////////////////////////////////////////////
 //X-motor Config
-#define RIGHT LOW
-#define LEFT HIGH
+#define RIGHT HIGH
+#define LEFT LOW
 
 double x_Gear = 12;  //X motor gear diameter (mm)
 int rev_Step = 1600; //Steps Per revolution
@@ -151,9 +153,9 @@ uint8_t real_Enclosure_Brightness;
 //////////////////////////////////////////////////////////////////
 //Parameter Input Assignment For Use of Wiping Cycle
 
-uint32_t Wipe_Dist;
-uint32_t Init_Pos;
-uint32_t Cycle_Target;
+uint32_t Wipe_Dist = 3200;
+uint32_t Init_Pos = 1600;
+uint32_t Cycle_Target = 50;
 uint32_t Photo_Interval;
 uint32_t Pump_Rate;
 uint8_t Wiping_Speed;
