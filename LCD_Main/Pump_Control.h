@@ -77,7 +77,7 @@ void Priming(){
 //////////////////////////////////////////////////////////////////
 void Pump(int pump_rate) {
 
-TIMER1_INTERRUPTS_OFF
+//TIMER1_INTERRUPTS_OFF
   
   int Pump_distance = 0;
 
@@ -110,7 +110,7 @@ while(Pump_distance < pump_rate){
    digitalWrite(P1_ENABLE_PIN, HIGH);
    digitalWrite(P2_ENABLE_PIN, HIGH); //Disable Pump Movements
    
-TIMER1_INTERRUPTS_ON
+//TIMER1_INTERRUPTS_ON
 }
 
 #endif

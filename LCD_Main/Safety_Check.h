@@ -5,25 +5,16 @@
 
 // define saftey things here
 
-void safety_setup(){
-  
-  //data direction of endstops
-  pinMode(z_min_stop, INPUT);
-  pinMode(x_min_stop, INPUT);
-  pinMode(x_max_stop, INPUT);
-
-  digitalWrite(z_min_stop, HIGH);
-  digitalWrite(x_min_stop, HIGH);
-  digitalWrite(x_max_stop, HIGH);
-}
-
 /////////////////////////////////////////////////////////
 //when endstop is triggered
 void X_min(){
   if(digitalRead(x_min_stop) ==  LOW){
-  delay(250);
+  delay(100);
   x_zero = true; //if at zero position
   Current_XPos = 0;
+  }
+  else{
+    x_zero = false;
   }
 }
 
@@ -31,9 +22,12 @@ void X_min(){
 //when endstop is triggered
 void Z_min(){
   if(digitalRead(z_min_stop) ==  LOW){
-  delay(250);
+  delay(100);
   z_zero = true; //if at zero position
   Current_ZPos = 0; 
+  }
+  else{
+  z_zero = false;
   }
 }
 
@@ -42,13 +36,21 @@ void Z_min(){
 void X_max(){
   if(digitalRead(x_max_stop) ==  LOW){
   delay(250);
-  z_zero = true; //if at zero position
+  x_max = true; //if at zero position
   Current_ZPos = 0; 
+  }
+  else{
+  x_max = false;
   }
 }
 
 
 void safety_Check(){
+ if(x_max || z_zero || x_zero){
+  noInterrupts();
+  disable_Stepper();
+  Serial.println("Endstop Error");
+ }
  
  //If loadcell not found
  if (scale.wait_ready_retry(10)){
@@ -60,27 +62,60 @@ void safety_Check(){
 
 //////////////////////////////////////////////////////////////////////////////
 ////Hard Pause Button
+void Interrupt_test(){
+  Serial.println("test");
+}
+void HardPause(){
+  for(int i; i<10000;){
+    i++;
+    Serial.print(Play_state);
+  }
+  
+  Serial.print(Play_state);
+  
+  if(Play_state = false){
+  noInterrupts();
+  disable_Stepper();
+  Serial.println("Motors Disabled");
+  while(!Play_state);
+  }
 
-//void HardPause(){
-//  delayMicroseconds(1000);
-//  int Play_state = !Play_state;
-//  
-//  if(Play_state = false){
-//  TIMER1_INTERRUPTS_OFF;
-//  TIMER2_INTERRUPTS_OFF;
-//  digitalWrite(X_ENABLE_PIN, HIGH);
-//  }
-//
-//  if(Play_state = true){
-//  TIMER1_INTERRUPTS_ON;
-//  TIMER2_INTERRUPTS_ON;
-//  digitalWrite(X_ENABLE_PIN, LOW);
-//  }
-//}
-//
-//void Pause_Button_Setup() {
-//  pinMode(hard_pause, INPUT_PULLUP);
-//  attachInterrupt(digitalPinToInterrupt(hard_pause), HardPause, CHANGE);
-//}
+  if(Play_state = true){
+  interrupts();
+  enable_Stepper();
+  Serial.println("Motors Enabled");
+  }
+  Play_state = !Play_state;
+}
+
+void safety_setup(){
+  
+  //data direction of endstops
+  pinMode(z_min_stop, INPUT);
+  pinMode(x_min_stop, INPUT);
+  pinMode(x_max_stop, INPUT);
+
+  digitalWrite(z_min_stop, HIGH);
+  digitalWrite(x_min_stop, HIGH);
+  digitalWrite(x_max_stop, HIGH);
+
+  pinMode(hard_pause, INPUT_PULLUP);
+
+  //detachInterrupt(digitalPinToInterrupt(hard_pause));
+
+  //attachInterrupt(digitalPinToInterrupt(hard_pause), HardPause, FALLING);
+
+  pinMode(Main_Status_LED, OUTPUT);
+  digitalWrite(Main_Status_LED, HIGH);
+  
+}
+
+wipe_blink(){
+  
+  digitalWrite(Main_Status_LED, LOW);
+  delay(20);
+  digitalWrite(Main_Status_LED, HIGH);
+}
+
 
 #endif

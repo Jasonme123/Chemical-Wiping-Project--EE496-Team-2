@@ -10,70 +10,131 @@
 
 ///////////////////////////////////////////////////////////////////////////////
 void WipingSetup() {
-  Serial.print("hello");
+  
+  //Turn off motor interrupt routines
   TIMER1_INTERRUPTS_OFF
+  
+                                    Serial.print("hello");
 
    //Reset Wipe Counter
-   Current_Count = 0; 
+   Current_Count = 1; 
 
   //Take user parmaeters and assign them to useful varibles
-//   Wipe_Dist = (rev_Step * (wipe_distance / x_circumference)); //Wipe Distance in steps
-//   Init_Pos = (rev_Step * (init_position / x_circumference)); //Inital Position in steps
-//   Force_Target = wipe_force; //Force we are attempting to Achieve with the Z-axis
-//   Cycle_Target = cycle_num; //Number of wipes per each test
-//   Photo_Interval = photo_interval; //number of wipes between a Photo is taken
-//   Pump_Rate = ((flow_rate/(1.06)) * 1600); // Flow rate in Steps/Wipe
-//   Wiping_Speed = wipe_speed;
-//   Pump_Used = pump;
+   Wipe_Dist = (rev_Step * (wipe_distance / x_circumference)); //Wipe Distance in steps
+   Init_Pos = (rev_Step * (init_position / x_circumference)); //Inital Position in steps
+   Force_Target = wipe_force; //Force we are attempting to Achieve with the Z-axis
+   Cycle_Target = cycle_num; //Number of wipes per each test
+   Photo_Interval = photo_interval; //number of wipes between a Photo is taken
+   Pump_Rate = ((flow_rate/(1.06)) * 1600); // Flow rate in Steps/Wipe
+   Wiping_Speed = wipe_speed;
+   Pump_Used = pump;
+
+
 
   //Home Both Axis
-    home_z_axis();
-    home_x_axis();
+    homeBoth();
+
+    wipe_blink();
 
   //Unpriming and Priming Pumps
      unPriming();
+     wipe_blink();
      Priming();
+     wipe_blink();
      
   //If you don't want photos
     if(Photo_Interval == 0){
     Photo_Interval = 4294967;
      }
-      
-  //move x axis to intial position
-  TIMER1_INTERRUPTS_ON
-  prepareMovement( 0,  Init_Pos );  
-  while(!xPosition_Update);
 
+                                            Serial.println("progress"); //REMOVE LATER
+                                            Serial.println(Current_XPos);
+                                            
+
+  //move wipe to the inital position
+    for(uint8_t i = 0; i<100;){     //for loop counter for a delay
+    i++;
+    Serial.println("Delay");
+  }
+  intial_x_axis(); 
+  wipe_blink();
+                                            
+                                            
+  
   //move z axis down until target force is reached
   touchDown();
-  TIMER2_INTERRUPTS_ON
+ wipe_blink();
 
-  
 }
   
 ///////////////////////////////////////////////////////////////////////////////
 
 void WipingLoop(){
   
-  //if wipe cycle target reached, go home
-  while(Current_Count <= Cycle_Target){
+  //Turn interrupts back on for motor control
+  TIMER1_INTERRUPTS_ON
 
-  Serial.print("Loopsd");
+   xPosition_Update = true;
+
+  Serial.println("Yay im in the loop");
+
+  delay(2000);
+  
+  
+  //if wipe cycle target reached, go home
+  while(Current_Count < Cycle_Target){
+  Serial.print("Current_Count:  ");
+  Serial.println(Current_Count);
+
+  
+  //Check Endstops
+  X_min();
+  X_max();
+  Z_min();
+
+  //Checking Endstops and Load Cell
+  safety_Check();
   
   //Take a photo if needed
   if((Current_Count % Photo_Interval) == 0){
     Photo();
   }
   
-  //Get new Force Reading
+//Get new Force Reading
   Force_Reading = Cell_1();
   
-  //Force Controller Option 1 (PID)
-  Controller_1();
+//Force Controller Option 1 (PID)
+  //Controller_1();
 
-  //Chasing the Error
+//Chasing the Error
+  Controller_2();
 
-  
+//X-Axis Wiping Cycle
+    volatile stepperInfo& sx = steppers[0];
+    if(sx.movementDone){    
+     xPosition_Update = true;
+     Current_Count++;
+     Pump(Pump_Rate); //Pumping done per wipe 
+    }
+
+/////////////////////////////////////////////////////////
+//Motor Command Sender
+
+//if x motor target changes, tell the motor to move to the new target  
+     if(xPosition_Update){  
+       xPosition_Update = false;
+       prepareMovement( 0,  Wipe_Dist); //xmotor
+       Wipe_Dist = (-Wipe_Dist);
+       runAndWait();
+     }
+     
+//if z motor target changes, tell the motor to move to the new target
+
+     if(zPosition_Update){
+      zPosition_Update = false;
+      prepareMovement( 1,  Output_Position ); //zmotor
+      runAndWait();
+     }
 
 //              char string[20];         
 //              itoa(position_, string , 10);
@@ -110,11 +171,14 @@ void WipingLoop(){
 //             
 
            }
+
+    //turn off interrupt based motor control       
+    noInterrupts();
     
     //Home Both Axis
-    home_z_axis();
-    home_x_axis();
-    }
+    homeBoth();
+    
+ }
    
 
 

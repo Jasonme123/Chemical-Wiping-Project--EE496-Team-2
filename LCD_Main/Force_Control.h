@@ -1,10 +1,11 @@
+#include <PID_v1.h>
 
 #include "includes.h"
 
 #ifndef FORCEDEF
 #define FORCEDEF
 
-#include <PID_v1.h>
+//#include <PID_v1.h>
 
 /////////////////////////////////////////////////////////////////////////
 
@@ -12,7 +13,7 @@
 double Kp=.1, Ki=1.25, Kd=10; 
 
          //sensor input,  Controller output, Setpoint ,coefficents         
-PID myPID(&Force_Reading, &Output_Position, &Force_Target, Kp, Ki, Kd, DIRECT);
+PID myPID(&Force_Reading_PID, &Output_Position_PID, &Force_Target_PID, Kp, Ki, Kd, DIRECT);
 
 ///////////////////////////////////////////////////////////////////////// 
 //PID Controller Type Config

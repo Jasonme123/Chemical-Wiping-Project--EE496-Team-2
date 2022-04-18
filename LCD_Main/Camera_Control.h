@@ -10,16 +10,15 @@
 #include "includes.h"
 
 void Camera_setup() {
-  // put your setup code here, to run once:
-  // initialize the digital pins as an output.
-  pinMode(shutter_control, OUTPUT);
-  //pinMode(focus_control, OUTPUT);
+
+  pinMode(shutter_control, OUTPUT);  //Data direction Output the digital pin as an output
+
 }
 
-void Photo() {
-  
-  TIMER1_INTERRUPTS_OFF
-  homeBoth();
+void Photo(){
+
+      //Move wipe back to the home position to take photo
+      homeBoth();
   
       delay(1000);
       analogWrite(bright_pin, Photo_Brightness);// 128 //light up enclosure to Photo brightness
@@ -33,14 +32,5 @@ void Photo() {
       delay(1000); 
       analogWrite(bright_pin, Norm_Brightness); //light up enclosure to normal brightness
 
-
-//move back to intial position
-  while (Current_XPos < Init_Pos){
-    X_STEP_HIGH;
-    delayMicroseconds(150);
-    X_STEP_LOW;
-    delayMicroseconds(150);
-    Current_XPos++;
-  }
-TIMER1_INTERRUPTS_ON
+      intial_x_axis();
 }

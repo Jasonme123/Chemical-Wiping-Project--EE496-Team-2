@@ -27,6 +27,8 @@
 #define TIMER1_INTERRUPTS_ON    TIMSK1 |=  (1 << OCIE1A);
 #define TIMER1_INTERRUPTS_OFF   TIMSK1 &= ~(1 << OCIE1A);
 
+#define TIMER2_INTERRUPTS_ON    TIMSK2 |=  (1 << OCIE2A);
+#define TIMER2_INTERRUPTS_OFF   TIMSK2 &= ~(1 << OCIE2A);
 
 //////////////////////////////////////////////////////////////////
 //pump1 motor 
@@ -61,11 +63,12 @@
 
 #define z_min_stop         18  //Z-Endstop 2
 
-#define X_Homing_Speed       50
+#define X_Homing_Speed       150
 #define Z_Homing_Speed       150
 
 boolean x_zero = false;
 boolean z_zero = false;
+boolean x_max = false;
 
 uint32_t x_axis_length = 9999999; //ADJUST THIS LATER
 uint32_t z_axis_length = 9999999; //ADJUST THIS LATER
@@ -73,8 +76,11 @@ uint32_t z_axis_length = 9999999; //ADJUST THIS LATER
 //////////////////////////////////////////////////////////////////
 //Pause Button
 #define hard_pause         19 //Z-Endstop 1
-volatile int Play_state = true;
+volatile byte Play_state = HIGH;
 
+///////////////////////////////////////////////////////////////////
+//Status LEDs
+#define Main_Status_LED    12 //on main board Status LED
 //////////////////////////////////////////////////////////////////
 //AUX PINS (unused but availble)
 
@@ -125,7 +131,7 @@ int zMin_Interval = 50;
 #define From_wipe LOW
 
 int Pumping_Speed = 100; //delay between steps in microseconds
-uint32_t Tube_Volume = 37735; //((volume inside length of tube * (1600 / 1.06)) NOTE: trunctated but still good enough 
+uint32_t Tube_Volume = 5000; //((volume inside length of tube * (1600 / 1.06)) NOTE: trunctated but still good enough 
 boolean Pumping_Needed = false;
 
 //////////////////////////////////////////////////////////////////
@@ -153,10 +159,10 @@ uint8_t real_Enclosure_Brightness;
 //////////////////////////////////////////////////////////////////
 //Parameter Input Assignment For Use of Wiping Cycle
 
-uint32_t Wipe_Dist = 3200;
-uint32_t Init_Pos = 1600;
-uint32_t Cycle_Target = 50;
-uint32_t Photo_Interval;
+uint32_t Wipe_Dist = 6400;
+uint32_t Init_Pos = 10000;
+uint32_t Cycle_Target = 500;
+uint32_t Photo_Interval = 50;
 uint32_t Pump_Rate;
 uint8_t Wiping_Speed;
 uint8_t Pump_Used;
@@ -171,18 +177,22 @@ volatile uint32_t Current_XPos; //Current Z position
 volatile uint32_t Current_ZPos; //Current Z position
 
 //////////////////////////////////////////////////////////////////
-//Force Controller
+//Force Controllers
 
 boolean Z_direction; 
-double Force_Target;
-double Force_Reading;
-int K_Const = 10;
+uint32_t Force_Target = 1000;
+volatile uint32_t Force_Reading;
+int K_Const = 1;
+
+double Force_Target_PID;
+double Force_Reading_PID;
+double Output_Position_PID;
 
 // variables will change:
 int distance;
 int SPEED;
 int done = 0;
 int8_t M_direction;
-double Output_Position;
+uint32_t Output_Position;
   
 #endif

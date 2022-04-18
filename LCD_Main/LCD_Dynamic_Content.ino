@@ -401,7 +401,7 @@ void set_wipe_distance(uint8_t line)
       if(LCDML.BT_checkUp())
       { 
         if (wipe_distance > 1){
-          
+            move_motor_left();
             wipe_distance--;
         }
         LCDML.BT_resetUp();
@@ -410,7 +410,7 @@ void set_wipe_distance(uint8_t line)
       if(LCDML.BT_checkDown())
       {
         if (wipe_distance < 100){
-        
+            move_motor_right();
             wipe_distance++;
         }
         LCDML.BT_resetDown();

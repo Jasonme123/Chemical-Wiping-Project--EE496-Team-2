@@ -20,7 +20,7 @@ void Calibration_Cell_1(){
 //Setup///////////////////////////////////////////////////////
 void LoadCell_setup() {
  
-  //ale.begin(LOADCELL_DOUT_PIN, LOADCELL_SCK_PIN);
+  scale.begin(LOADCELL_DOUT_PIN, LOADCELL_SCK_PIN);
   scale.set_gain(128); // Set gain
 
   Calibration_Cell_1();
@@ -29,11 +29,11 @@ void LoadCell_setup() {
 
 //Reading /////////////////////////////////////////////////////
 //Channel A
-double Cell_1() {
+uint32_t Cell_1() {
 
-  double i = scale.get_units(5); 
+  uint32_t i = scale.get_units(5); 
 
-  Serial.print(i); 
+  //Serial.print(i); 
 
  //If Serial Not found
  if (scale.wait_ready_retry(10)){
