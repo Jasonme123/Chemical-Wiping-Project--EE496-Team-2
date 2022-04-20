@@ -17,7 +17,7 @@ void homing_error(){
 //X axis homing function
 void home_x_axis(){
   X_min();
-  uint16_t homing_checker;
+  uint16_t homing_checker = 0;
   digitalWrite(X_DIR_PIN, RIGHT);
   
     while(!x_zero){
@@ -42,7 +42,7 @@ void home_x_axis(){
 //Z axis homing function
 void home_z_axis(){
 Z_min();
-uint16_t homing_checker;
+uint16_t homing_checker = 0;
 digitalWrite(Z_DIR_PIN, UP);
   
   while(!z_zero){
@@ -68,7 +68,7 @@ digitalWrite(Z_DIR_PIN, UP);
 void touchDown(){
 
   uint16_t forceCheck  = Cell_1();
-  uint16_t homing_checker;
+  uint16_t homing_checker = 0;
   digitalWrite(Z_DIR_PIN, DOWN);
   
     while (forceCheck < Force_Target){
@@ -78,12 +78,12 @@ void touchDown(){
       delayMicroseconds(Z_Homing_Speed);
       homing_checker++;
   
-      if(homing_checker % 800 == 0){
+      if(homing_checker % 1600 == 0){
         forceCheck  = Cell_1();
         Serial.println("Td");
       }
       
-      if (homing_checker > x_axis_length){  //If while traveling home we move more than the expected length of axis, stop.
+      if (homing_checker > z_axis_length){  //If while traveling home we move more than the expected length of axis, stop.
          homing_error();
         }
     }
@@ -93,7 +93,7 @@ void touchDown(){
 //X axis inital position
 void intial_x_axis(){
   
-  uint16_t homing_checker;
+  uint16_t homing_checker = 0;
   digitalWrite(X_DIR_PIN, LEFT);
 
     while(Current_XPos < Init_Pos){
@@ -117,6 +117,8 @@ void intial_x_axis(){
 /////////////////////////////////////////////////////////
 //Home Both Axes
 void homeBoth(){
+  X_min();
+  Z_min();
   home_z_axis();
   home_x_axis();
 }

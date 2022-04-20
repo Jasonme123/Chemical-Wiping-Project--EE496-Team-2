@@ -70,7 +70,7 @@ boolean x_zero = false;
 boolean z_zero = false;
 boolean x_max = false;
 
-uint32_t x_axis_length = 9999999; //ADJUST THIS LATER
+uint32_t x_axis_length = 11600; //ADJUST THIS LATER
 uint32_t z_axis_length = 9999999; //ADJUST THIS LATER
 
 //////////////////////////////////////////////////////////////////
@@ -104,16 +104,16 @@ volatile byte Play_state = HIGH;
 
 //////////////////////////////////////////////////////////////////
 //X-motor Config
-#define RIGHT HIGH
-#define LEFT LOW
+#define RIGHT LOW
+#define LEFT HIGH
 
 double x_Gear = 12;  //X motor gear diameter (mm)
 int rev_Step = 1600; //Steps Per revolution
 double x_circumference = (3.14159 * x_Gear * 0.0393); //x motor gear circumference (inches) 
 
 boolean xPosition_Update = false;
-int xcelleraion = 100;
-int xMin_Interval = 15;
+int xcelleraion = 250;
+int xMin_Interval = 25;
 
 //////////////////////////////////////////////////////////////////
 //Z-motor Config
@@ -123,7 +123,7 @@ int xMin_Interval = 15;
 boolean zPosition_Update = false;
 int z_movement = 1000;
 int zcelleration = 1000;
-int zMin_Interval = 50;
+int zMin_Interval = 150;
 
 //////////////////////////////////////////////////////////////////
 //Pumping Parameters

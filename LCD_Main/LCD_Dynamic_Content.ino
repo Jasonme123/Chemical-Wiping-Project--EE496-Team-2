@@ -353,18 +353,19 @@ void set_init_position(uint8_t line)
             
       if(LCDML.BT_checkUp())
       { 
-        if (init_position > 1){       
-            move_motor_left();
-            init_position--;
+
+        X_max();
+         if (!x_max){
+            move_motor_left_init();  
         }
         LCDML.BT_resetUp();
       }
 
       if(LCDML.BT_checkDown())
       {
-        if (init_position < 100){
-            move_motor_right();
-            init_position++;
+        X_min();
+        if (!x_zero){ 
+            move_motor_right_init();
         }
         LCDML.BT_resetDown();
       } 
@@ -400,18 +401,18 @@ void set_wipe_distance(uint8_t line)
       
       if(LCDML.BT_checkUp())
       { 
-        if (wipe_distance > 1){
-            move_motor_left();
-            wipe_distance--;
+        X_max();
+         if (!x_max){
+            move_motor_left_dist();  
         }
         LCDML.BT_resetUp();
       }
 
       if(LCDML.BT_checkDown())
       {
-        if (wipe_distance < 100){
-            move_motor_right();
-            wipe_distance++;
+        X_min();
+        if (!x_max){ 
+            move_motor_right_dist();     
         }
         LCDML.BT_resetDown();
       }

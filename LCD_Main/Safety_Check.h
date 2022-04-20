@@ -44,18 +44,25 @@ void X_max(){
   }
 }
 
+void endstop_Check(){
+ if(x_max || x_zero || z_zero){
+  noInterrupts();
+  disable_Stepper();
+  Serial.println("Endstop Error");
+ }
+}
 
 void safety_Check(){
- if(x_max || z_zero || x_zero){
+ if(x_max || x_zero){
   noInterrupts();
   disable_Stepper();
   Serial.println("Endstop Error");
  }
  
- //If loadcell not found
- if (scale.wait_ready_retry(10)){
-   Serial.println("HX711 not found.");
- }
+// //If loadcell not found
+// if (scale.wait_ready_retry(10)){
+//   Serial.println("HX711 not found.");
+// }
   
 
 }

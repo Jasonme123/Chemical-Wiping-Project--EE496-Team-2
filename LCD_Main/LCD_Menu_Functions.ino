@@ -573,28 +573,34 @@ void move_z_axis(uint8_t line)
             
       if(LCDML.BT_checkUp())
       { 
-        if (z_position > 1){       
-            digitalWrite(Z_DIR_PIN, HIGH);  // HIGH = anti-clockwise
-            for (int x = 1; x < 200; x++) {
-              digitalWrite(Z_STEP_PIN, HIGH);
-              delayMicroseconds(150);
-              digitalWrite(Z_STEP_PIN, LOW);
-              delayMicroseconds(150);           
+        Z_min();
+        if (!z_zero){       
+            digitalWrite(Z_DIR_PIN, UP);
+            for (int x = 1; x < 1600; x++) {
+              endstop_Check();
+              Z_STEP_HIGH;
+              delayMicroseconds(Z_Homing_Speed);
+              Z_STEP_LOW; 
+              delayMicroseconds(Z_Homing_Speed);          
             }   
             z_position--;
+        }
+        else{
+          
         }
         LCDML.BT_resetUp();
       }
 
       if(LCDML.BT_checkDown())
       {
-        if (z_position < 100){
-            digitalWrite(Z_DIR_PIN, LOW);  // LOW = clockwise
-            for (int x = 1; x < 200; x++) {
-              digitalWrite(Z_STEP_PIN, HIGH);
-              delayMicroseconds(150);
-              digitalWrite(Z_STEP_PIN, LOW); 
-              delayMicroseconds(150);         
+        
+        if (z_position < z_axis_length){
+            digitalWrite(Z_DIR_PIN, DOWN); 
+            for (int x = 1; x < 1600; x++) {
+              Z_STEP_HIGH;
+              delayMicroseconds(Z_Homing_Speed);
+              Z_STEP_LOW; 
+              delayMicroseconds(Z_Homing_Speed);         
             }
             z_position++;
         }
