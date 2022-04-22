@@ -55,6 +55,10 @@ void X_max(){
 }
 
 void endstop_Check(){
+  X_min();
+  X_max();
+  Z_min();
+  
  if(x_max || x_zero || z_zero){
   noInterrupts();
   disable_Stepper();

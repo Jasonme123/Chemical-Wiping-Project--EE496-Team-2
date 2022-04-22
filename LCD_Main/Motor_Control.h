@@ -236,6 +236,9 @@ void runAndWait() {
 #define TIMER2_INTERRUPTS_OFF   TIMSK2 &= ~(1 << OCIE2A);
 
 ISR(TIMER2_COMPA_vect){
+
+endstop_Check();
+  
   //////////////////////////////////////////////////////////
 //X-Axis Wiping Cycle
 

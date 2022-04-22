@@ -54,8 +54,7 @@ void Controller_2(){
       int16_t dist = (error/K_Const);
       Output_Position = dist / .089;
       zPosition_Update = true;
-
-      Serial.print("Force_Reading:  ");
+      
       Serial.println(Force_Reading);
 }
 

@@ -13,9 +13,7 @@ void WipingSetup() {
   
   //Turn off motor interrupt routines
   TIMER1_INTERRUPTS_OFF
-  scale.tare(); 
 
-  
                                
 
    //Reset Wipe Counter
@@ -35,7 +33,7 @@ void WipingSetup() {
 
   //Home Both Axis
     homeBoth();
-
+    scale.tare(); 
     wipe_blink();
 
   //Unpriming and Priming Pumps
