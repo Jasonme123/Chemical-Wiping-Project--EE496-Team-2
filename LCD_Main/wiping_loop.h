@@ -64,8 +64,8 @@ void WipingSetup() {
   touchDown();
   wipe_blink();
 
-  //xPosition_Update = true;
-  prepareMovement( 0,  Wipe_Dist);
+  xPosition_Update = true;
+  //prepareMovement( 0,  Wipe_Dist);
 
 }
   

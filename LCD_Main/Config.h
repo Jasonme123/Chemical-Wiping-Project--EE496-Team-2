@@ -182,7 +182,7 @@ volatile uint32_t Current_ZPos; //Current Z position
 boolean Z_direction; 
 int16_t Force_Target;
 int16_t Force_Reading;
-int K_Const = 1;
+int16_t K_Const = 8;
 
 double Force_Target_PID;
 double Force_Reading_PID;

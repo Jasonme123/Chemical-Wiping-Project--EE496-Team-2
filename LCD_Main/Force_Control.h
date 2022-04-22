@@ -51,12 +51,16 @@ void Controller_2(){
 
   int16_t error = Force_Target - Force_Reading;
      
-      Output_Position = (error/K_Const);
+      int16_t dist = (error/K_Const);
+      Output_Position = dist / .089;
       zPosition_Update = true;
+
+      Serial.print("Force_Reading:  ");
+      Serial.println(Force_Reading);
 }
 
 /////////////////////////////////////////////////////////////////////
-//PI Controller
+
 void Controller_3(){
 
   double error = Force_Target - Force_Reading;
