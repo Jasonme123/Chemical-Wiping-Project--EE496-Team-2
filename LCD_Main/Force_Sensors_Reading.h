@@ -11,7 +11,7 @@ HX711 scale;
 
 //Calibration ////////////////////////////////////////////////
 void Calibration_Cell_1(){
-  scale.set_scale(2409.17);
+  scale.set_scale(999);
   //scale.tare();  
 }
 
@@ -21,7 +21,7 @@ void Calibration_Cell_1(){
 void LoadCell_setup() {
  
   scale.begin(LOADCELL_DOUT_PIN, LOADCELL_SCK_PIN);
-  scale.set_gain(128); // Set gain
+  scale.set_gain(64); // Set gain
 
   Calibration_Cell_1();
 }
@@ -29,9 +29,9 @@ void LoadCell_setup() {
 
 //Reading /////////////////////////////////////////////////////
 //Channel A
-uint32_t Cell_1() {
+int16_t Cell_1() {
 
-  uint32_t i = scale.get_units(5); 
+  int16_t i = scale.get_units(5); 
 
   //Serial.print(i); 
 

@@ -41,15 +41,6 @@ void zDir(int dir) {
   digitalWrite(Z_DIR_PIN, dir);
 }
 
-void disable_Stepper(){
-  digitalWrite(X_ENABLE_PIN, HIGH);
-  digitalWrite(Z_ENABLE_PIN, HIGH);
-}
-
-void enable_Stepper(){
-  digitalWrite(X_ENABLE_PIN, LOW);
-  digitalWrite(Z_ENABLE_PIN, LOW);
-}
 
 void resetStepperInfo( stepperInfo& si ) {
   si.n = 0;
@@ -96,7 +87,7 @@ void Motorsetup() {
   TCCR2B = 0;
   TCNT2  = 0;
   
-  OCR2A = 1000;                             // compare value
+  OCR2A = 4000;                             // compare value
   TCCR2B |= (1 << WGM12);                   // CTC mode
   TCCR2B |= ((1 << CS11) | (1 << CS10));    // 64 prescaler
   interrupts();
@@ -131,12 +122,14 @@ volatile byte remainingSteppersFlag = 0;
 
 ////////////////////////////////////////////////
 void prepareMovement(int whichMotor, int steps) {
+  TIMER2_INTERRUPTS_OFF
   volatile stepperInfo& si = steppers[whichMotor];
   si.dirFunc( steps < 0 ? LOW : HIGH );
   si.dir = steps > 0 ? 1 : -1;
   si.totalSteps = abs(steps);
   resetStepper(si);
   remainingSteppersFlag |= (1 << whichMotor);
+  TIMER2_INTERRUPTS_ON
 }
 ////////////////////////////////////////////////
 
@@ -171,12 +164,17 @@ void setNextInterruptInterval() {
 
   OCR1A = mind;
 }
-
+void runAndWait() {
+  setNextInterruptInterval();
+  //while ( remainingSteppersFlag );
+}
 //////////////////////////////////////////////
 //Interrrupt Service Routine
 
 ISR(TIMER1_COMPA_vect)
 {
+  TIMER2_INTERRUPTS_OFF
+  
   unsigned int tmpCtr = OCR1A;
 
   OCR1A = 65500;
@@ -196,9 +194,17 @@ ISR(TIMER1_COMPA_vect)
       s.stepFunc();
       s.stepCount++;
       s.stepPosition += s.dir;
-      if ( s.stepCount >= s.totalSteps ) {
+      if ( s.stepCount >= s.totalSteps  ) {
         s.movementDone = true;
         remainingSteppersFlag &= ~(1 << i);
+      }
+     if ( s.stepCount >= s.totalSteps  && i == 0) {
+        s.movementDone = true;
+        Wipe_Dist = (-Wipe_Dist);
+        prepareMovement( 0,  Wipe_Dist);
+        Current_Count++;
+        Wipe_Dist = (-Wipe_Dist);
+        runAndWait();
       }
     }
 
@@ -224,51 +230,48 @@ ISR(TIMER1_COMPA_vect)
   setNextInterruptInterval();
   
   TCNT1  = 0;
+  TIMER2_INTERRUPTS_ON
 }
 
-void runAndWait() {
-  setNextInterruptInterval();
-  //while ( remainingSteppersFlag );
-}
+
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ISR(TIMER2_COMPA_vect){
-  //////////////////////////////////////////////////////////
-//X-Axis Wiping Cycle
 
-volatile stepperInfo& sx = steppers[0];
-if(sx.movementDone){ // if wipe half cycle is complete one way is complete
- xPosition_Update = true;
- Wipe_Dist = (Wipe_Dist * -1);
-}
+  //Check Endstops
+  X_min();
+  X_max();
+  Z_min();
 
-//////////////////////////////////////////////////////////
-//Z-Axis Wiping Cycle
-volatile stepperInfo& sz = steppers[1];
-if(sz.movementDone){
- zPosition_Update = true;
- z_movement = (z_movement * -1);
-}
+  endstop_Check();
   
-//////////////////////////////////////////////////////////
-//Motor Command Sender
 
-     
-//if x motor target changes, tell the motor to move to the new target  
-   
-     if(xPosition_Update){  
-       xPosition_Update = false;
-       prepareMovement( 0,  Wipe_Dist );
-       runAndWait();
-     }
-     
+////X-Axis Wiping Cycle
+//    volatile stepperInfo& sx = steppers[0];
+//    if(sx.movementDone){    
+//     xPosition_Update = true;
+//     Current_Count++;
+//     wipe_blink();
+//     Pump(Pump_Rate); //Pumping done per wipe 
+//    }
+//
+///////////////////////////////////////////////////////////
+////Motor Command Sender
+//
+////if x motor target changes, tell the motor to move to the new target  
+//     if(xPosition_Update && Current_Count < Cycle_Target){  
+//       xPosition_Update = false;
+//       prepareMovement( 0,  Wipe_Dist); //xmotor
+//       Wipe_Dist = (-Wipe_Dist);
+//       runAndWait();
+//     }
+//     
 //if z motor target changes, tell the motor to move to the new target
 
      if(zPosition_Update){
       zPosition_Update = false;
-      prepareMovement( 1,  z_movement );
+      prepareMovement( 1,  Output_Position); //zmotor
       runAndWait();
      }
-   
 }

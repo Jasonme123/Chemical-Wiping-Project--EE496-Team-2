@@ -49,7 +49,7 @@ void Controller_1()
 //Error Controller
 void Controller_2(){
 
-  double error = Force_Target - Force_Reading;
+  int16_t error = Force_Target - Force_Reading;
      
       Output_Position = (error/K_Const);
       zPosition_Update = true;

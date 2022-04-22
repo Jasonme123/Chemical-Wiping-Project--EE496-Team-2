@@ -67,7 +67,7 @@ digitalWrite(Z_DIR_PIN, UP);
 //This will move the wipe down until we reach our target force
 void touchDown(){
 
-  uint16_t forceCheck  = Cell_1();
+  int16_t forceCheck  = Cell_1();
   uint16_t homing_checker = 0;
   digitalWrite(Z_DIR_PIN, DOWN);
   
@@ -80,7 +80,15 @@ void touchDown(){
   
       if(homing_checker % 1600 == 0){
         forceCheck  = Cell_1();
-        Serial.println("Td");
+
+
+        Serial.print("Force CHeck:");
+        Serial.println(forceCheck);
+
+        Serial.print("Force_Target:   ");
+        Serial.println(Force_Target);
+        
+        
       }
       
       if (homing_checker > z_axis_length){  //If while traveling home we move more than the expected length of axis, stop.

@@ -5,6 +5,16 @@
 
 // define saftey things here
 
+void disable_Stepper(){
+  digitalWrite(X_ENABLE_PIN, HIGH);
+  digitalWrite(Z_ENABLE_PIN, HIGH);
+}
+
+void enable_Stepper(){
+  digitalWrite(X_ENABLE_PIN, LOW);
+  digitalWrite(Z_ENABLE_PIN, LOW);
+}
+
 /////////////////////////////////////////////////////////
 //when endstop is triggered
 void X_min(){

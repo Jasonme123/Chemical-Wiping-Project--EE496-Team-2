@@ -113,7 +113,7 @@ double x_circumference = (3.14159 * x_Gear * 0.0393); //x motor gear circumferen
 
 boolean xPosition_Update = false;
 int xcelleraion = 250;
-int xMin_Interval = 25;
+int xMin_Interval = 100;
 
 //////////////////////////////////////////////////////////////////
 //Z-motor Config
@@ -136,10 +136,10 @@ boolean Pumping_Needed = false;
 
 //////////////////////////////////////////////////////////////////
 //Dynamic Parmaters
-uint32_t wipe_distance = 0;
-uint32_t init_position = 0;
-uint32_t wipe_force = 0; // when this value comes from an EEPROM, load it in setup
-uint32_t cycle_num = 0;
+uint32_t wipe_distance = 1600;
+uint32_t init_position = 2000;
+int16_t wipe_force = 1;
+uint32_t cycle_num = 100;
 uint32_t photo_interval = 0;
 uint32_t flow_rate = 0;
 float real_flow_rate = 0.0;
@@ -159,10 +159,10 @@ uint8_t real_Enclosure_Brightness;
 //////////////////////////////////////////////////////////////////
 //Parameter Input Assignment For Use of Wiping Cycle
 
-uint32_t Wipe_Dist = 6400;
-uint32_t Init_Pos = 10000;
-uint32_t Cycle_Target = 500;
-uint32_t Photo_Interval = 50;
+uint32_t Wipe_Dist = 2400;
+uint32_t Init_Pos = 2000;
+uint32_t Cycle_Target = 100;
+uint32_t Photo_Interval;
 uint32_t Pump_Rate;
 uint8_t Wiping_Speed;
 uint8_t Pump_Used;
@@ -180,8 +180,8 @@ volatile uint32_t Current_ZPos; //Current Z position
 //Force Controllers
 
 boolean Z_direction; 
-uint32_t Force_Target = 1000;
-volatile uint32_t Force_Reading;
+int16_t Force_Target;
+int16_t Force_Reading;
 int K_Const = 1;
 
 double Force_Target_PID;

@@ -414,17 +414,79 @@ void testing_cycle(uint8_t param) {
    if(LCDML.FUNC_setup())   
   {
     LCDML_UNUSED(param);// remove compiler warnings when the param variable is not used:
+//    u8g.firstPage();
+//    do {
+//      u8g.drawFrame(1,1,126,62);
+//      u8g.drawFrame(0,0,128,64);
+//      u8g.drawFrame(19,35,90,24);
+//      u8g.setFont(u8g_font_ncenB10);
+//      u8g.drawStr( 5, 16, F("CYCLE COUNT:"));
+//      char buf[20];
+//      sprintf (buf, "%u", Current_Count);
+//      u8g.drawStr(ALIGN_CENTER(buf), 31, buf);
+//      u8g.setFont(u8g_font_ncenB08);
+////      u8g.drawStr(ALIGN_CENTER("Rotate Or Click"), 46, F("Rotate Or Click"));
+////      u8g.drawStr(ALIGN_CENTER("To Exit"), 56, F("To Exit"));
+//    } while(u8g.nextPage());
+//    LCDML.FUNC_setLoopInterval(100); 
   }  
 
     if(LCDML.FUNC_loop())   // ****** LOOP *********
   {   
+
       
+      //Cell_test();
        WipingSetup();
        Serial.print("midpoint");
+  //if wipe cycle target reached, go home
+  while(Current_Count < Cycle_Target){
+       
        WipingLoop();
-     
+
+             u8g.firstPage();
+      do {
+      u8g.drawFrame(1,1,126,62);
+      u8g.drawFrame(0,0,128,64);
+      u8g.drawFrame(19,35,90,24);
+      u8g.setFont(u8g_font_ncenB10);
+      u8g.drawStr( 5, 16, F("CYCLE COUNT:"));
+      char buf[20];
+      sprintf (buf, "%u", Current_Count);
+      u8g.drawStr(ALIGN_CENTER(buf), 31, buf);
+      u8g.setFont(u8g_font_ncenB08);
+//      u8g.drawStr(ALIGN_CENTER("Rotate Or Click"), 46, F("Rotate Or Click"));
+//      u8g.drawStr(ALIGN_CENTER("To Exit"), 56, F("To Exit"));
+         }
+     while(u8g.nextPage());
+
+
+    }
+   //turn off interrupt based motor control       
+    noInterrupts();
+      TIMER1_INTERRUPTS_OFF
+      TIMER2_INTERRUPTS_OFF  
+
+      xPosition_Update = false;
+      zPosition_Update = false;
+                 u8g.firstPage();
+      do {
+      u8g.drawFrame(1,1,126,62);
+      u8g.drawFrame(0,0,128,64);
+      u8g.drawFrame(19,35,90,24);
+      u8g.setFont(u8g_font_ncenB10);
+      u8g.drawStr( 5, 16, F("CYCLE COUNT:"));
+      char buf[20];
+      sprintf (buf, "%u", Current_Count);
+      u8g.drawStr(ALIGN_CENTER(buf), 31, buf);
+      u8g.setFont(u8g_font_ncenB08);
+//      u8g.drawStr(ALIGN_CENTER("Rotate Or Click"), 46, F("Rotate Or Click"));
+//      u8g.drawStr(ALIGN_CENTER("To Exit"), 56, F("To Exit"));
+         }
+     while(u8g.nextPage());
+    //Home Both Axis
+    homeBoth();
   }
-     
+
       LCDML.FUNC_goBackToMenu(0);
 //      u8g.setFont(u8g_font_ncenB08);
 //      u8g.drawStr(ALIGN_CENTER("Z Axis is homed"), 58, F("Z Axis is homed"));
@@ -514,35 +576,30 @@ void move_x_axis(uint8_t line)
             
       if(LCDML.BT_checkUp())
       { 
-        if (x_position > 1){ 
-            digitalWrite(X_DIR_PIN, HIGH);  // HIGH = anti-clockwise
-            for (int x = 1; x < 200; x++) {
-              digitalWrite(X_STEP_PIN, HIGH);
-              delayMicroseconds(150);
-              digitalWrite(X_STEP_PIN, LOW);
-              delayMicroseconds(150);           
-            }      
+
+          X_max();
+         if (!x_max){
+           move_motor_left();    
+          }      
             x_position--;
-        }
+        
         LCDML.BT_resetUp();
       }
 
       if(LCDML.BT_checkDown())
       {
-        if (x_position < 100){
-            digitalWrite(X_DIR_PIN, LOW);  // LOW = clockwise
-            for (int x = 1; x < 200; x++) {
-              digitalWrite(X_STEP_PIN, HIGH);
-              delayMicroseconds(150);
-              digitalWrite(X_STEP_PIN, LOW); 
-              delayMicroseconds(150);         
-            }
-            x_position++;
+        X_min();
+        if (!x_zero){ 
+            move_motor_right();
         }
+            x_position++;
+        
         LCDML.BT_resetDown();
       } 
     }
   }
+
+
 
   char buf[20];
   sprintf (buf, "Start    %u", x_position);
