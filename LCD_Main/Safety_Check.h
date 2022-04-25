@@ -59,8 +59,8 @@ void endstop_Check(){
   X_max();
   Z_min();
   
- if(x_max || x_zero || z_zero){
-  noInterrupts();
+ if((x_max || x_zero || z_zero ) && wiping){
+  TIMER1_INTERRUPTS_OFF
   disable_Stepper();
   Serial.println("Endstop Error");
  }
@@ -68,7 +68,7 @@ void endstop_Check(){
 
 void safety_Check(){
  if(x_max || x_zero){
-  noInterrupts();
+   TIMER1_INTERRUPTS_OFF
   disable_Stepper();
   Serial.println("Endstop Error");
  }
@@ -87,27 +87,23 @@ void Interrupt_test(){
   Serial.println("test");
 }
 void HardPause(){
-  for(int i; i<10000;){
-    i++;
-    Serial.print(Play_state);
-  }
+ 
+
+  Play_state = !Play_state;
   
-  Serial.print(Play_state);
-  
-  if(Play_state = false){
-  noInterrupts();
+  if(Play_state == false){
+  TIMER1_INTERRUPTS_OFF
   disable_Stepper();
   Serial.println("Motors Disabled");
-  while(!Play_state);
   }
 
-  if(Play_state = true){
-  interrupts();
+  if(Play_state == true){
+  TIMER1_INTERRUPTS_ON
   enable_Stepper();
   Serial.println("Motors Enabled");
   }
-  Play_state = !Play_state;
-}
+ }
+
 
 void safety_setup(){
   
@@ -120,8 +116,8 @@ void safety_setup(){
   digitalWrite(x_min_stop, HIGH);
   digitalWrite(x_max_stop, HIGH);
 
-  pinMode(hard_pause, INPUT_PULLUP);
-
+  pinMode(hard_pause, INPUT);
+  digitalWrite(hard_pause, HIGH);
   //detachInterrupt(digitalPinToInterrupt(hard_pause));
 
   //attachInterrupt(digitalPinToInterrupt(hard_pause), HardPause, FALLING);

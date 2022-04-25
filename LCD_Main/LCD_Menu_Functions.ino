@@ -4,11 +4,11 @@
 
 
 /*  Menu Callback Function                                                *
- * EXAMPLE CODE:
-// *********************************************************************
-void your_function_name(uint8_t param)
-// *********************************************************************
-{
+   EXAMPLE CODE:
+  // *********************************************************************
+  void your_function_name(uint8_t param)
+  // *********************************************************************
+  {
   if(LCDML.FUNC_setup())          // ****** SETUP *********
   {
     // remmove compiler warnings when the param variable is not used:
@@ -20,7 +20,7 @@ void your_function_name(uint8_t param)
     // uncomment this line when the menu should go back to the last called position
     // this could be a cursor position or the an active menu function
     // GBA means => go back advanced
-    //LCDML.FUNC_setGBA() 
+    //LCDML.FUNC_setGBA()
     //
   }
   if(LCDML.FUNC_loop())          // ****** LOOP *********
@@ -45,12 +45,12 @@ void your_function_name(uint8_t param)
     // this means when you are calling a jumpTo ore a goRoot function
     // that this part is called before a function is closed
   }
-}
- */
+  }
+*/
 
 void mFunc_information(uint8_t param)
 {
-  if(LCDML.FUNC_setup())          // ****** SETUP *********
+  if (LCDML.FUNC_setup())         // ****** SETUP *********
   {
     // remmove compiler warnings when the param variable is not used:
     LCDML_UNUSED(param);
@@ -62,21 +62,21 @@ void mFunc_information(uint8_t param)
       u8g.drawStr( 0, (_LCDML_DISP_font_h * 2), F("function press"));
       u8g.drawStr( 0, (_LCDML_DISP_font_h * 3), F("any button or use"));
       u8g.drawStr( 0, (_LCDML_DISP_font_h * 4), F("back button"));
-    } while( u8g.nextPage() );
+    } while ( u8g.nextPage() );
   }
 
-  if(LCDML.FUNC_loop())           // ****** LOOP *********
+  if (LCDML.FUNC_loop())          // ****** LOOP *********
   {
     // loop function, can be run in a loop when LCDML_DISP_triggerMenu(xx) is set
     // the quit button works in every DISP function without any checks; it starts the loop_end function
-    if(LCDML.BT_checkAny()) // check if any button is pressed (enter, up, down, left, right)
+    if (LCDML.BT_checkAny()) // check if any button is pressed (enter, up, down, left, right)
     {
       // LCDML_goToMenu stops a running menu function and goes to the menu
       LCDML.FUNC_goBackToMenu();
     }
   }
 
-  if(LCDML.FUNC_close())      // ****** STABLE END *********
+  if (LCDML.FUNC_close())     // ****** STABLE END *********
   {
     // you can here reset some global vars or do nothing
   }
@@ -88,7 +88,7 @@ unsigned long g_timer_1 = 0;    // timer variable (global variable)
 void mFunc_timer_info(uint8_t param)
 // *********************************************************************
 {
-  if(LCDML.FUNC_setup())          // ****** SETUP *********
+  if (LCDML.FUNC_setup())         // ****** SETUP *********
   {
     // remmove compiler warnings when the param variable is not used:
     LCDML_UNUSED(param);
@@ -103,14 +103,14 @@ void mFunc_timer_info(uint8_t param)
     do {
       u8g.drawStr( 0, (_LCDML_DISP_font_h * 1), buf);
       u8g.drawStr( 0, (_LCDML_DISP_font_h * 2), F("or press back button"));
-    } while( u8g.nextPage() );
+    } while ( u8g.nextPage() );
 
     LCDML.FUNC_setLoopInterval(100);  // starts a trigger event for the loop function every 100 milliseconds
 
     LCDML.TIMER_msReset(g_timer_1);
   }
 
-  if(LCDML.FUNC_loop())           // ****** LOOP *********
+  if (LCDML.FUNC_loop())          // ****** LOOP *********
   {
     // loop function, can be run in a loop when LCDML_DISP_triggerMenu(xx) is set
     // the quit button works in every DISP function without any checks; it starts the loop_end function
@@ -121,7 +121,7 @@ void mFunc_timer_info(uint8_t param)
     // this function is called every 100 milliseconds
 
     // this method checks every 1000 milliseconds if it is called
-    if(LCDML.TIMER_ms(g_timer_1, 1000))
+    if (LCDML.TIMER_ms(g_timer_1, 1000))
     {
       g_timer_1 = millis();
       g_func_timer_info--;                // increment the value every second
@@ -133,7 +133,7 @@ void mFunc_timer_info(uint8_t param)
       do {
         u8g.drawStr( 0, (_LCDML_DISP_font_h * 1), buf);
         u8g.drawStr( 0, (_LCDML_DISP_font_h * 2), F("or press back button"));
-      } while( u8g.nextPage() );
+      } while ( u8g.nextPage() );
 
     }
 
@@ -146,7 +146,7 @@ void mFunc_timer_info(uint8_t param)
     }
   }
 
-  if(LCDML.FUNC_close())      // ****** STABLE END *********
+  if (LCDML.FUNC_close())     // ****** STABLE END *********
   {
     // you can here reset some global vars or do nothing
   }
@@ -160,7 +160,7 @@ uint8_t g_button_value = 0; // button value counter (global variable)
 void mFunc_p2(uint8_t param)
 // *********************************************************************
 {
-  if(LCDML.FUNC_setup())          // ****** SETUP *********
+  if (LCDML.FUNC_setup())         // ****** SETUP *********
   {
     // remmove compiler warnings when the param variable is not used:
     LCDML_UNUSED(param);
@@ -175,7 +175,7 @@ void mFunc_p2(uint8_t param)
     do {
       u8g.drawStr( 0, (_LCDML_DISP_font_h * 1), F("press a or w button"));
       u8g.drawStr( 0, (_LCDML_DISP_font_h * 2), buf);
-    } while( u8g.nextPage() );
+    } while ( u8g.nextPage() );
 
     // Reset Button Value
     g_button_value = 0;
@@ -184,7 +184,7 @@ void mFunc_p2(uint8_t param)
     LCDML.FUNC_disableScreensaver();
   }
 
-  if(LCDML.FUNC_loop())           // ****** LOOP *********
+  if (LCDML.FUNC_loop())          // ****** LOOP *********
   {
     // loop function, can be run in a loop when LCDML_DISP_triggerMenu(xx) is set
     // the quit button works in every DISP function without any checks; it starts the loop_end function
@@ -207,17 +207,17 @@ void mFunc_p2(uint8_t param)
         do {
           u8g.drawStr( 0, (_LCDML_DISP_font_h * 1), F("press a or w button"));
           u8g.drawStr( 0, (_LCDML_DISP_font_h * 2), buf);
-        } while( u8g.nextPage() );
+        } while ( u8g.nextPage() );
       }
     }
 
-   // check if button count is three
+    // check if button count is three
     if (g_button_value >= 3) {
       LCDML.FUNC_goBackToMenu();      // leave this function
     }
   }
 
-  if(LCDML.FUNC_close())     // ****** STABLE END *********
+  if (LCDML.FUNC_close())    // ****** STABLE END *********
   {
     // you can here reset some global vars or do nothing
   }
@@ -226,7 +226,7 @@ void mFunc_p2(uint8_t param)
 
 void cycle_count_display(uint8_t param)
 {
-  if(LCDML.FUNC_setup())          // ****** SETUP *********
+  if (LCDML.FUNC_setup())         // ****** SETUP *********
   {
     // remmove compiler warnings when the param variable is not used:
     LCDML_UNUSED(param);
@@ -234,21 +234,21 @@ void cycle_count_display(uint8_t param)
     // setup function
     u8g.firstPage();
     do {
-      u8g.drawFrame(1,1,126,62);
-      u8g.drawFrame(0,0,128,64);
-      u8g.drawFrame(19,35,90,24);
+      u8g.drawFrame(1, 1, 126, 62);
+      u8g.drawFrame(0, 0, 128, 64);
+      u8g.drawFrame(19, 35, 90, 24);
       u8g.setFont(u8g_font_ncenB10);
       u8g.drawStr( 5, 16, F("CYCLE COUNT:"));
       u8g.drawStr(ALIGN_CENTER("0"), 31, F("0"));
       u8g.setFont(u8g_font_ncenB08);
       u8g.drawStr(ALIGN_CENTER("Rotate Or Click"), 46, F("Rotate Or Click"));
       u8g.drawStr(ALIGN_CENTER("To Exit"), 56, F("To Exit"));
-    } while(u8g.nextPage());
+    } while (u8g.nextPage());
 
     LCDML.FUNC_setLoopInterval(100);  // starts a trigger event for the loop function every 100 milliseconds
   }
 
-  if(LCDML.FUNC_loop())              // ****** LOOP *********
+  if (LCDML.FUNC_loop())             // ****** LOOP *********
   {
     if (LCDML.BT_checkAny()) // check if any button is pressed (enter, up, down, left, right)
     {
@@ -256,7 +256,7 @@ void cycle_count_display(uint8_t param)
     }
   }
 
-  if(LCDML.FUNC_close())            // ****** STABLE END *********
+  if (LCDML.FUNC_close())           // ****** STABLE END *********
   {
     // The screensaver go to the root menu
     LCDML.MENU_goRoot();
@@ -265,7 +265,7 @@ void cycle_count_display(uint8_t param)
 
 void mFunc_back_by_1(uint8_t param)
 {
-  if(LCDML.FUNC_setup())          // ****** SETUP *********
+  if (LCDML.FUNC_setup())         // ****** SETUP *********
   {
     // remmove compiler warnings when the param variable is not used:
     LCDML_UNUSED(param);
@@ -277,7 +277,7 @@ void mFunc_back_by_1(uint8_t param)
 
 void mFunc_back_by_2(uint8_t param)
 {
-  if(LCDML.FUNC_setup())          // ****** SETUP *********
+  if (LCDML.FUNC_setup())         // ****** SETUP *********
   {
     // remmove compiler warnings when the param variable is not used:
     LCDML_UNUSED(param);
@@ -289,7 +289,7 @@ void mFunc_back_by_2(uint8_t param)
 
 void mFunc_goToRootMenu(uint8_t param)
 {
-  if(LCDML.FUNC_setup())          // ****** SETUP *********
+  if (LCDML.FUNC_setup())         // ****** SETUP *********
   {
     // remmove compiler warnings when the param variable is not used:
     LCDML_UNUSED(param);
@@ -301,7 +301,7 @@ void mFunc_goToRootMenu(uint8_t param)
 
 void mFunc_jumpTo_timer_info(uint8_t param)
 {
-  if(LCDML.FUNC_setup())          // ****** SETUP *********
+  if (LCDML.FUNC_setup())         // ****** SETUP *********
   {
     // remmove compiler warnings when the param variable is not used:
     LCDML_UNUSED(param);
@@ -313,65 +313,65 @@ void mFunc_jumpTo_timer_info(uint8_t param)
 
 
 
-// Function For Z-Axis Homing 
+// Function For Z-Axis Homing
 void z_homing(uint8_t param) {
 
-   if(LCDML.FUNC_setup())   // ****** SETUP *********
+  if (LCDML.FUNC_setup())  // ****** SETUP *********
   {
     // remove compiler warnings when the param variable is not used:
     LCDML_UNUSED(param);
-    
- 
-  }  
 
-  if(LCDML.FUNC_loop())   // ****** LOOP *********
-  {   
-      
-      home_z_axis();
 
-      LCDML.FUNC_goBackToMenu(0);
-//      u8g.setFont(u8g_font_ncenB08);
-//      u8g.drawStr(ALIGN_CENTER("Z Axis is homed"), 58, F("Z Axis is homed"));
-   }  
+  }
+
+  if (LCDML.FUNC_loop())  // ****** LOOP *********
+  {
+
+    home_z_axis();
+
+    LCDML.FUNC_goBackToMenu(0);
+    //      u8g.setFont(u8g_font_ncenB08);
+    //      u8g.drawStr(ALIGN_CENTER("Z Axis is homed"), 58, F("Z Axis is homed"));
+  }
 }
 
-// Function For Both Axes Homing 
+// Function For Both Axes Homing
 void both_axis_homing(uint8_t param) {
 
-     if(LCDML.FUNC_setup())   // ****** SETUP *********
+  if (LCDML.FUNC_setup())  // ****** SETUP *********
   {
     // remove compiler warnings when the param variable is not used:
     LCDML_UNUSED(param);
-    
- 
-  }  
 
-  if(LCDML.FUNC_loop())   // ****** LOOP *********
-  {   
-      homeBoth();
 
-      LCDML.FUNC_goBackToMenu(0);
-//      u8g.setFont(u8g_font_ncenB08);
-//      u8g.drawStr(ALIGN_CENTER("Z Axis is homed"), 58, F("Z Axis is homed"));
-   }  
+  }
+
+  if (LCDML.FUNC_loop())  // ****** LOOP *********
+  {
+    homeBoth();
+
+    LCDML.FUNC_goBackToMenu(0);
+    //      u8g.setFont(u8g_font_ncenB08);
+    //      u8g.drawStr(ALIGN_CENTER("Z Axis is homed"), 58, F("Z Axis is homed"));
+  }
 }
 
 void logo_display(uint8_t param)
 {
-  if(LCDML.FUNC_setup())          // ****** SETUP *********
+  if (LCDML.FUNC_setup())         // ****** SETUP *********
   {
-      // remmove compiler warnings when the param variable is not used:
-      LCDML_UNUSED(param);
-      u8g.firstPage();
-      do
-      {
-        display_logo();
-      }while(u8g.nextPage());
+    // remmove compiler warnings when the param variable is not used:
+    LCDML_UNUSED(param);
+    u8g.firstPage();
+    do
+    {
+      display_logo();
+    } while (u8g.nextPage());
 
-      LCDML.FUNC_setLoopInterval(10000);  // starts a trigger event for the loop function every 100 milliseconds
+    LCDML.FUNC_setLoopInterval(10000);  // starts a trigger event for the loop function every 100 milliseconds
   }
 
-  if(LCDML.FUNC_loop())              // ****** LOOP *********
+  if (LCDML.FUNC_loop())             // ****** LOOP *********
   {
     if (LCDML.BT_checkAny()) // check if any button is pressed (enter, up, down, left, right)
     {
@@ -379,7 +379,7 @@ void logo_display(uint8_t param)
     }
   }
 
-  if(LCDML.FUNC_close())            // ****** STABLE END *********
+  if (LCDML.FUNC_close())           // ****** STABLE END *********
   {
     // The screensaver go to the root menu
     LCDML.MENU_goRoot();
@@ -388,7 +388,7 @@ void logo_display(uint8_t param)
 
 void reset_params(uint8_t param)
 {
-  if(LCDML.FUNC_setup())         
+  if (LCDML.FUNC_setup())
   {
     // remmove compiler warnings when the param variable is not used:
     LCDML_UNUSED(param);
@@ -404,109 +404,127 @@ void reset_params(uint8_t param)
     wipe_Delay = 0;
     Brightness = 0;
     Photo_Brightness = 0;
-    LCDML.FUNC_goBackToMenu(0); 
+    LCDML.FUNC_goBackToMenu(0);
   }
 }
 
 
 void testing_cycle(uint8_t param) {
-// ****** SETUP *********
-   if(LCDML.FUNC_setup())   
+  // ****** SETUP *********
+  if (LCDML.FUNC_setup())
   {
     LCDML_UNUSED(param);// remove compiler warnings when the param variable is not used:
-//    u8g.firstPage();
-//    do {
-//      u8g.drawFrame(1,1,126,62);
-//      u8g.drawFrame(0,0,128,64);
-//      u8g.drawFrame(19,35,90,24);
-//      u8g.setFont(u8g_font_ncenB10);
-//      u8g.drawStr( 5, 16, F("CYCLE COUNT:"));
-//      char buf[20];
-//      sprintf (buf, "%u", Current_Count);
-//      u8g.drawStr(ALIGN_CENTER(buf), 31, buf);
-//      u8g.setFont(u8g_font_ncenB08);
-////      u8g.drawStr(ALIGN_CENTER("Rotate Or Click"), 46, F("Rotate Or Click"));
-////      u8g.drawStr(ALIGN_CENTER("To Exit"), 56, F("To Exit"));
-//    } while(u8g.nextPage());
-//    LCDML.FUNC_setLoopInterval(100); 
-  }  
+    //    u8g.firstPage();
+    //    do {
+    //      u8g.drawFrame(1,1,126,62);
+    //      u8g.drawFrame(0,0,128,64);
+    //      u8g.drawFrame(19,35,90,24);
+    //      u8g.setFont(u8g_font_ncenB10);
+    //      u8g.drawStr( 5, 16, F("CYCLE COUNT:"));
+    //      char buf[20];
+    //      sprintf (buf, "%u", Current_Count);
+    //      u8g.drawStr(ALIGN_CENTER(buf), 31, buf);
+    //      u8g.setFont(u8g_font_ncenB08);
+    ////      u8g.drawStr(ALIGN_CENTER("Rotate Or Click"), 46, F("Rotate Or Click"));
+    ////      u8g.drawStr(ALIGN_CENTER("To Exit"), 56, F("To Exit"));
+    //    } while(u8g.nextPage());
+    //    LCDML.FUNC_setLoopInterval(100);
+  }
 
-    if(LCDML.FUNC_loop())   // ****** LOOP *********
-  {   
+  if (LCDML.FUNC_loop())  // ****** LOOP *********
+  {
+    Current_Count = 0;
+    u8g.firstPage();
+        do {
+          u8g.drawFrame(1, 1, 126, 62);
+          u8g.drawFrame(0, 0, 128, 64);
+          u8g.drawFrame(19, 35, 90, 24);
+          u8g.setFont(u8g_font_ncenB10);
+          u8g.drawStr( 5, 16, F("CYCLE COUNT:"));
+          char buf[20];
+          sprintf (buf, "%u", Current_Count);
+          u8g.drawStr(ALIGN_CENTER(buf), 31, buf);
+          u8g.setFont(u8g_font_ncenB08);
+          //      u8g.drawStr(ALIGN_CENTER("Rotate Or Click"), 46, F("Rotate Or Click"));
+          //      u8g.drawStr(ALIGN_CENTER("To Exit"), 56, F("To Exit"));
+        }
+        while (u8g.nextPage());
 
-      
-      //Cell_test();
-       WipingSetup();
-       Serial.print("midpoint");
-  //if wipe cycle target reached, go home
-  while(Current_Count < Cycle_Target){
-       
-       WipingLoop();
+    WipingSetup();
 
-             u8g.firstPage();
-      do {
-      u8g.drawFrame(1,1,126,62);
-      u8g.drawFrame(0,0,128,64);
-      u8g.drawFrame(19,35,90,24);
-      u8g.setFont(u8g_font_ncenB10);
-      u8g.drawStr( 5, 16, F("CYCLE COUNT:"));
-      char buf[20];
-      sprintf (buf, "%u", Current_Count);
-      u8g.drawStr(ALIGN_CENTER(buf), 31, buf);
-      u8g.setFont(u8g_font_ncenB08);
-//      u8g.drawStr(ALIGN_CENTER("Rotate Or Click"), 46, F("Rotate Or Click"));
-//      u8g.drawStr(ALIGN_CENTER("To Exit"), 56, F("To Exit"));
-         }
-     while(u8g.nextPage());
+    Serial.print("Start Wiping");
+    
+    //if wipe cycle target reached, go home
+    while (Current_Count < Cycle_Target) {
 
+      WipingLoop();
 
+      if (Current_Count % 5 == 0) {
+
+        u8g.firstPage();
+        do {
+          u8g.drawFrame(1, 1, 126, 62);
+          u8g.drawFrame(0, 0, 128, 64);
+          u8g.drawFrame(19, 35, 90, 24);
+          u8g.setFont(u8g_font_ncenB10);
+          u8g.drawStr( 5, 16, F("CYCLE COUNT:"));
+          char buf[20];
+          sprintf (buf, "%u", Current_Count);
+          u8g.drawStr(ALIGN_CENTER(buf), 31, buf);
+          u8g.setFont(u8g_font_ncenB08);
+          //      u8g.drawStr(ALIGN_CENTER("Rotate Or Click"), 46, F("Rotate Or Click"));
+          //      u8g.drawStr(ALIGN_CENTER("To Exit"), 56, F("To Exit"));
+        }
+        while (u8g.nextPage());
+
+      }
     }
-   //turn off interrupt based motor control       
+    //turn off interrupt based motor control
     noInterrupts();
-      TIMER1_INTERRUPTS_OFF
-      TIMER2_INTERRUPTS_OFF  
+    TIMER1_INTERRUPTS_OFF
+    TIMER2_INTERRUPTS_OFF
 
-      xPosition_Update = false;
-      zPosition_Update = false;
-                 u8g.firstPage();
-      do {
-      u8g.drawFrame(1,1,126,62);
-      u8g.drawFrame(0,0,128,64);
-      u8g.drawFrame(19,35,90,24);
+    xPosition_Update = false;
+    zPosition_Update = false;
+    u8g.firstPage();
+    do {
+      u8g.drawFrame(1, 1, 126, 62);
+      u8g.drawFrame(0, 0, 128, 64);
+      u8g.drawFrame(19, 35, 90, 24);
       u8g.setFont(u8g_font_ncenB10);
       u8g.drawStr( 5, 16, F("CYCLE COUNT:"));
       char buf[20];
       sprintf (buf, "%u", Current_Count);
       u8g.drawStr(ALIGN_CENTER(buf), 31, buf);
       u8g.setFont(u8g_font_ncenB08);
-//      u8g.drawStr(ALIGN_CENTER("Rotate Or Click"), 46, F("Rotate Or Click"));
-//      u8g.drawStr(ALIGN_CENTER("To Exit"), 56, F("To Exit"));
-         }
-     while(u8g.nextPage());
+      //      u8g.drawStr(ALIGN_CENTER("Rotate Or Click"), 46, F("Rotate Or Click"));
+      //      u8g.drawStr(ALIGN_CENTER("To Exit"), 56, F("To Exit"));
+    }
+    while (u8g.nextPage());
     //Home Both Axis
     homeBoth();
   }
 
-      LCDML.FUNC_goBackToMenu(0);
-//      u8g.setFont(u8g_font_ncenB08);
-//      u8g.drawStr(ALIGN_CENTER("Z Axis is homed"), 58, F("Z Axis is homed"));
-   } 
+  LCDML.FUNC_goBackToMenu(0);
+  //      u8g.setFont(u8g_font_ncenB08);
+  //      u8g.drawStr(ALIGN_CENTER("Z Axis is homed"), 58, F("Z Axis is homed"));
+}
 
 
 void turn_on_LEDs(uint8_t param)
 {
-  if(LCDML.FUNC_setup())          // ****** SETUP *********
+  if (LCDML.FUNC_setup())         // ****** SETUP *********
   {
     // remmove compiler warnings when the param variable is not used:
     LCDML_UNUSED(param);
 
     // setup function
-    
+
     LCDML.FUNC_setLoopInterval(100);  // starts a trigger event for the loop function every 100 milliseconds
   }
 
-  if(LCDML.FUNC_loop())              // ****** LOOP *********
-  { 
+  if (LCDML.FUNC_loop())             // ****** LOOP *********
+  {
     analogWrite(bright_pin, 255);
     if (LCDML.BT_checkAny()) // check if any button is pressed (enter, up, down, left, right)
     {
@@ -514,7 +532,7 @@ void turn_on_LEDs(uint8_t param)
     }
   }
 
-  if(LCDML.FUNC_close())            // ****** STABLE END *********
+  if (LCDML.FUNC_close())           // ****** STABLE END *********
   {
     // The screensaver go to the root menu
     LCDML.MENU_goRoot();
@@ -524,18 +542,18 @@ void turn_on_LEDs(uint8_t param)
 
 void turn_off_LEDs(uint8_t param)
 {
-  if(LCDML.FUNC_setup())          // ****** SETUP *********
+  if (LCDML.FUNC_setup())         // ****** SETUP *********
   {
     // remmove compiler warnings when the param variable is not used:
     LCDML_UNUSED(param);
 
     // setup function
-    
+
     LCDML.FUNC_setLoopInterval(100);  // starts a trigger event for the loop function every 100 milliseconds
   }
 
-  if(LCDML.FUNC_loop())              // ****** LOOP *********
-  { 
+  if (LCDML.FUNC_loop())             // ****** LOOP *********
+  {
     analogWrite(bright_pin, 0);
     if (LCDML.BT_checkAny()) // check if any button is pressed (enter, up, down, left, right)
     {
@@ -543,7 +561,7 @@ void turn_off_LEDs(uint8_t param)
     }
   }
 
-  if(LCDML.FUNC_close())            // ****** STABLE END *********
+  if (LCDML.FUNC_close())           // ****** STABLE END *********
   {
     // The screensaver go to the root menu
     LCDML.MENU_goRoot();
@@ -559,11 +577,11 @@ void move_x_axis(uint8_t line)
 {
   if (line == LCDML.MENU_getCursorPos())
   {
-    if(LCDML.BT_checkAny())
+    if (LCDML.BT_checkAny())
     {
-      if(LCDML.BT_checkEnter())
+      if (LCDML.BT_checkEnter())
       {
-        if(LCDML.MENU_getScrollDisableStatus() == 0)
+        if (LCDML.MENU_getScrollDisableStatus() == 0)
         {
           LCDML.MENU_disScroll();
         }
@@ -573,29 +591,29 @@ void move_x_axis(uint8_t line)
         }
         LCDML.BT_resetEnter();
       }
-            
-      if(LCDML.BT_checkUp())
-      { 
 
-          X_max();
-         if (!x_max){
-           move_motor_left();    
-          }      
-            x_position--;
-        
+      if (LCDML.BT_checkUp())
+      {
+
+        X_max();
+        if (!x_max) {
+          move_motor_left();
+        }
+        x_position--;
+
         LCDML.BT_resetUp();
       }
 
-      if(LCDML.BT_checkDown())
+      if (LCDML.BT_checkDown())
       {
         X_min();
-        if (!x_zero){ 
-            move_motor_right();
+        if (!x_zero) {
+          move_motor_right();
         }
-            x_position++;
-        
+        x_position++;
+
         LCDML.BT_resetDown();
-      } 
+      }
     }
   }
 
@@ -604,7 +622,7 @@ void move_x_axis(uint8_t line)
   char buf[20];
   sprintf (buf, "Start    %u", x_position);
 
-  u8g.drawStr( _LCDML_DISP_box_x0+_LCDML_DISP_font_w + _LCDML_DISP_cur_space_behind,  (_LCDML_DISP_font_h * (1+line)), buf);     // the value can be changed with left or right
+  u8g.drawStr( _LCDML_DISP_box_x0 + _LCDML_DISP_font_w + _LCDML_DISP_cur_space_behind,  (_LCDML_DISP_font_h * (1 + line)), buf); // the value can be changed with left or right
 }
 
 
@@ -613,11 +631,11 @@ void move_z_axis(uint8_t line)
 {
   if (line == LCDML.MENU_getCursorPos())
   {
-    if(LCDML.BT_checkAny())
+    if (LCDML.BT_checkAny())
     {
-      if(LCDML.BT_checkEnter())
+      if (LCDML.BT_checkEnter())
       {
-        if(LCDML.MENU_getScrollDisableStatus() == 0)
+        if (LCDML.MENU_getScrollDisableStatus() == 0)
         {
           LCDML.MENU_disScroll();
         }
@@ -627,47 +645,47 @@ void move_z_axis(uint8_t line)
         }
         LCDML.BT_resetEnter();
       }
-            
-      if(LCDML.BT_checkUp())
-      { 
+
+      if (LCDML.BT_checkUp())
+      {
         Z_min();
-        if (!z_zero){       
-            digitalWrite(Z_DIR_PIN, UP);
-            for (int x = 1; x < 1600; x++) {
-              endstop_Check();
-              Z_STEP_HIGH;
-              delayMicroseconds(Z_Homing_Speed);
-              Z_STEP_LOW; 
-              delayMicroseconds(Z_Homing_Speed);          
-            }   
-            z_position--;
+        if (!z_zero) {
+          digitalWrite(Z_DIR_PIN, UP);
+          for (int x = 1; x < 1600; x++) {
+            endstop_Check();
+            Z_STEP_HIGH;
+            delayMicroseconds(Z_Homing_Speed);
+            Z_STEP_LOW;
+            delayMicroseconds(Z_Homing_Speed);
+          }
+          z_position--;
         }
-        else{
-          
+        else {
+
         }
         LCDML.BT_resetUp();
       }
 
-      if(LCDML.BT_checkDown())
+      if (LCDML.BT_checkDown())
       {
-        
-        if (z_position < z_axis_length){
-            digitalWrite(Z_DIR_PIN, DOWN); 
-            for (int x = 1; x < 1600; x++) {
-              Z_STEP_HIGH;
-              delayMicroseconds(Z_Homing_Speed);
-              Z_STEP_LOW; 
-              delayMicroseconds(Z_Homing_Speed);         
-            }
-            z_position++;
+
+        if (z_position < z_axis_length) {
+          digitalWrite(Z_DIR_PIN, DOWN);
+          for (int x = 1; x < 1600; x++) {
+            Z_STEP_HIGH;
+            delayMicroseconds(Z_Homing_Speed);
+            Z_STEP_LOW;
+            delayMicroseconds(Z_Homing_Speed);
+          }
+          z_position++;
         }
         LCDML.BT_resetDown();
-      } 
+      }
     }
   }
 
   char buf[20];
   sprintf (buf, "Start    %u", z_position);
 
-  u8g.drawStr( _LCDML_DISP_box_x0+_LCDML_DISP_font_w + _LCDML_DISP_cur_space_behind,  (_LCDML_DISP_font_h * (1+line)), buf);     // the value can be changed with left or right
+  u8g.drawStr( _LCDML_DISP_box_x0 + _LCDML_DISP_font_w + _LCDML_DISP_cur_space_behind,  (_LCDML_DISP_font_h * (1 + line)), buf); // the value can be changed with left or right
 }

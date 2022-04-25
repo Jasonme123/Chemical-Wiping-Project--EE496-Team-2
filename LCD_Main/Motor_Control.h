@@ -1,4 +1,4 @@
-  // For Senior Design
+// For Senior Design
 
 //////////////////////////////////////////////////////////
 
@@ -79,10 +79,10 @@ void Motorsetup() {
   //enables motors
   digitalWrite(X_ENABLE_PIN, LOW);
   digitalWrite(Z_ENABLE_PIN, LOW);
-  
-////////////////////////////////////////////
+
+  ////////////////////////////////////////////
   noInterrupts(); // Timing protection
-//Timer 1 (to send motor movemment commands)
+  //Timer 1 (to send motor movemment commands)
   TCCR1A = 0;
   TCCR1B = 0;
   TCNT1  = 0;
@@ -90,25 +90,25 @@ void Motorsetup() {
   OCR1A = 1000;                             // compare value
   TCCR1B |= (1 << WGM12);                   // CTC mode
   TCCR1B |= ((1 << CS11) | (1 << CS10));    // 64 prescaler
-//////////////////////////////////////////////////////////////////////////
-//Timer 2 (to check if the motor position target needs to be updated)
+  //////////////////////////////////////////////////////////////////////////
+  //Timer 2 (to check if the motor position target needs to be updated)
   TCCR2A = 0;
   TCCR2B = 0;
   TCNT2  = 0;
-  
+
   OCR2A = 1000;                             // compare value
   TCCR2B |= (1 << WGM12);                   // CTC mode
   TCCR2B |= ((1 << CS11) | (1 << CS10));    // 64 prescaler
   interrupts();
-///////////////////////////////////////////////
+  ///////////////////////////////////////////////
 
-//x motor
+  //x motor
   steppers[0].dirFunc = xDir;
   steppers[0].stepFunc = xStep;
   steppers[0].acceleration = xcelleraion;
   steppers[0].minStepInterval = xMin_Interval;
-  
-//z motor
+
+  //z motor
   steppers[1].dirFunc = zDir;
   steppers[1].stepFunc = zStep;
   steppers[1].acceleration = zcelleration;
@@ -146,7 +146,7 @@ volatile unsigned int intervals[100];
 
 ////////////////////////////////////////////////
 void setNextInterruptInterval() {
-  
+
   bool movementComplete = true;
 
   unsigned int mind = 999999;
@@ -192,12 +192,17 @@ ISR(TIMER1_COMPA_vect)
 
     volatile stepperInfo& s = steppers[i];
 
-    if ( s.stepCount < s.totalSteps ) { 
+    if ( s.stepCount < s.totalSteps ) {
       s.stepFunc();
       s.stepCount++;
       s.stepPosition += s.dir;
       if ( s.stepCount >= s.totalSteps ) {
         s.movementDone = true;
+        if(i == 0){
+          Current_Count++;
+          photo_taken = false;
+          Pump(Pump_Rate);
+        }
         remainingSteppersFlag &= ~(1 << i);
       }
     }
@@ -222,7 +227,7 @@ ISR(TIMER1_COMPA_vect)
   }
 
   setNextInterruptInterval();
-  
+
   TCNT1  = 0;
 }
 
@@ -235,48 +240,57 @@ void runAndWait() {
 #define TIMER2_INTERRUPTS_ON    TIMSK2 |=  (1 << OCIE2A);
 #define TIMER2_INTERRUPTS_OFF   TIMSK2 &= ~(1 << OCIE2A);
 
-ISR(TIMER2_COMPA_vect){
+ISR(TIMER2_COMPA_vect) {
 
-endstop_Check();
-  
+  endstop_Check();
+
+  byte value = digitalRead(hard_pause);
+  if (value != Prev_state && value == LOW) {
+    HardPause();
+    Prev_state = value;
+    return;
+  }
+  Prev_state = value;
+
+//HardPause();
+
   //////////////////////////////////////////////////////////
-//X-Axis Wiping Cycle
+  //X-Axis Wiping Cycle
 
-volatile stepperInfo& sx = steppers[0];
-if(sx.movementDone && Current_Count < Cycle_Target){ // if wipe half cycle is complete one way is complete
- xPosition_Update = true;
- Wipe_Dist = (Wipe_Dist * -1);
- Current_Count++;
-}
+  volatile stepperInfo& sx = steppers[0];
+  if (sx.movementDone && Current_Count < Cycle_Target) { // if wipe half cycle is complete one way is complete
+    xPosition_Update = true;
+    Wipe_Dist = (Wipe_Dist * -1);
+  }
 
-//
-////////////////////////////////////////////////////////////
-////Z-Axis Wiping Cycle
-//volatile stepperInfo& sz = steppers[1];
-//if(sz.movementDone){
-// zPosition_Update = true;
-// z_movement = (z_movement * -1);
-// Current_Count++;
-//}
-  
-//////////////////////////////////////////////////////////
-//Motor Command Sender
+  //
+  ////////////////////////////////////////////////////////////
+  ////Z-Axis Wiping Cycle
+  //volatile stepperInfo& sz = steppers[1];
+  //if(sz.movementDone){
+  // zPosition_Update = true;
+  // z_movement = (z_movement * -1);
+  // Current_Count++;
+  //}
 
-     
-//if x motor target changes, tell the motor to move to the new target  
-   
-     if(xPosition_Update){  
-       xPosition_Update = false;
-       prepareMovement( 0,  Wipe_Dist );
-       runAndWait();
-     }
-     
-//if z motor target changes, tell the motor to move to the new target
+  //////////////////////////////////////////////////////////
+  //Motor Command Sender
 
-     if(zPosition_Update){
-      zPosition_Update = false;
-      prepareMovement( 1,  Output_Position );
-      runAndWait();
-     }
-   
+
+  //if x motor target changes, tell the motor to move to the new target
+
+  if (xPosition_Update) {
+    xPosition_Update = false;
+    prepareMovement( 0,  Wipe_Dist );
+    runAndWait();
+  }
+
+  //if z motor target changes, tell the motor to move to the new target
+
+  if (zPosition_Update) {
+    zPosition_Update = false;
+    prepareMovement( 1,  Output_Position );
+    runAndWait();
+  }
+
 }

@@ -18,7 +18,7 @@ void Pump_setup() {
 
 //////////////////////////////////////////////////////////////////
 void unPriming(){
-  
+  wiping = false;
     int Pump_distance = 0; //temp var
   
     digitalWrite(P1_ENABLE_PIN, LOW);
@@ -33,7 +33,7 @@ void unPriming(){
    delayMicroseconds(Pumping_Speed/2);
    digitalWrite(P2_STEP_PIN, LOW);
    digitalWrite(P1_STEP_PIN, LOW);
-   delayMicroseconds(Pumping_Speed/2);
+//   delayMicroseconds(Pumping_Speed/2);
     Pump_distance++;
   }
 
@@ -57,7 +57,7 @@ void Priming(){
    digitalWrite(P2_STEP_PIN, HIGH);
    delayMicroseconds(Pumping_Speed/2);
    digitalWrite(P2_STEP_PIN, LOW);
-   delayMicroseconds(Pumping_Speed/2);
+//   delayMicroseconds(Pumping_Speed/2);
     Pump_distance++;
   }
 }
@@ -66,7 +66,7 @@ void Priming(){
    digitalWrite(P1_STEP_PIN, HIGH);
    delayMicroseconds(Pumping_Speed/2);
    digitalWrite(P1_STEP_PIN, LOW);
-   delayMicroseconds(Pumping_Speed/2);
+//   delayMicroseconds(Pumping_Speed/2);
     Pump_distance++;
   }
 
@@ -76,7 +76,7 @@ void Priming(){
 }  
 //////////////////////////////////////////////////////////////////
 void Pump(int pump_rate) {
-
+wiping = false;
 //TIMER1_INTERRUPTS_OFF
   
   int Pump_distance = 0;
@@ -93,7 +93,7 @@ while(Pump_distance < pump_rate){
   digitalWrite(P2_STEP_PIN, HIGH);
   delayMicroseconds(Pumping_Speed/2);
   digitalWrite(P2_STEP_PIN, LOW);
-  delayMicroseconds(Pumping_Speed/2);
+//  delayMicroseconds(Pumping_Speed/2);
   Pump_distance++;
   }
 }
@@ -102,7 +102,7 @@ while(Pump_distance < pump_rate){
   digitalWrite(P1_STEP_PIN, HIGH);
   delayMicroseconds(Pumping_Speed/2);
   digitalWrite(P1_STEP_PIN, LOW);
-  delayMicroseconds(Pumping_Speed/2);
+//  delayMicroseconds(Pumping_Speed/2);
   Pump_distance++;
   }
 
@@ -111,6 +111,7 @@ while(Pump_distance < pump_rate){
    digitalWrite(P2_ENABLE_PIN, HIGH); //Disable Pump Movements
    
 //TIMER1_INTERRUPTS_ON
+wiping = true;
 }
 
 #endif

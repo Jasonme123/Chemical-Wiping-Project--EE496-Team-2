@@ -15,22 +15,44 @@ void Camera_setup() {
 
 }
 
-void Photo(){
+void Photo() {
 
-      //Move wipe back to the home position to take photo
-      homeBoth();
+  TIMER1_INTERRUPTS_OFF
+  TIMER2_INTERRUPTS_OFF
+  wiping = false;
+
+  //Move wipe back to the home position to take photo
+  homeBoth();
+
+  delay(1000);
+  analogWrite(bright_pin, Photo_Brightness);// 128 //light up enclosure to Photo brightness
   
-      delay(1000);
-      analogWrite(bright_pin, Photo_Brightness);// 128 //light up enclosure to Photo brightness
-      digitalWrite(shutter_control, HIGH);   //Push Buttom
-      delay(30);
-      digitalWrite(shutter_control, LOW);    //Release Button
-      delay(150);               //Full Shoot Mode
-      digitalWrite(shutter_control, HIGH);   //Push Buttom
-      delay(150);
-      digitalWrite(shutter_control, LOW);   //Push Buttom
-      delay(1000); 
-      analogWrite(bright_pin, Norm_Brightness); //light up enclosure to normal brightness
+  digitalWrite(shutter_control, HIGH);   //Push Buttom
+  delay(30);
+  digitalWrite(shutter_control, LOW);    //Release Button
+  delay(150);               //Full Shoot Mode
+  digitalWrite(shutter_control, HIGH);   //Push Buttom
+  delay(150);
+  digitalWrite(shutter_control, LOW);   //Push Buttom
+  delay(1000);
 
-      intial_x_axis();
+  digitalWrite(shutter_control, HIGH);   //Push Buttom
+  delay(30);
+  digitalWrite(shutter_control, LOW);    //Release Button
+  delay(150);               //Full Shoot Mode
+  digitalWrite(shutter_control, HIGH);   //Push Buttom
+  delay(150);
+  digitalWrite(shutter_control, LOW);   //Push Buttom
+  delay(1000);
+  
+  analogWrite(bright_pin, Norm_Brightness); //light up enclosure to normal brightness
+
+  intial_x_axis();
+  touchDown();
+
+  photo_taken = true;
+  wiping = true;
+  TIMER1_INTERRUPTS_ON
+  TIMER2_INTERRUPTS_ON
+
 }
