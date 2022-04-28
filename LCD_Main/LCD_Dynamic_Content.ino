@@ -80,15 +80,15 @@ void Num_of_Cycles(uint8_t line)
       }
       if(LCDML.BT_checkUp())
       { 
-        if (cycle_num > 1 && (cycle_num-increase_interval) > 0){
-            cycle_num-= increase_interval;
+        if (Cycle_Target > 1 && (Cycle_Target-increase_interval) > 0){
+            Cycle_Target-= increase_interval;
         }
         LCDML.BT_resetUp();
       }
       if(LCDML.BT_checkDown())
       {
-        if (cycle_num < 1000000 && (cycle_num+increase_interval) < 1000000){
-            cycle_num+= increase_interval;
+        if (Cycle_Target < 1000000 && (Cycle_Target+increase_interval) < 1000000){
+            Cycle_Target+= increase_interval;
         }
         LCDML.BT_resetDown();
       }
@@ -96,7 +96,7 @@ void Num_of_Cycles(uint8_t line)
   }
 
   char buf[20];
-  sprintf (buf, "Cycle Num: %lu ", cycle_num);
+  sprintf (buf, "Cycle Num: %u ", Cycle_Target);
 
   u8g.drawStr( _LCDML_DISP_box_x0+_LCDML_DISP_font_w + _LCDML_DISP_cur_space_behind,  (_LCDML_DISP_font_h * (1+line)), buf);     // the value can be changed with left or right
 }
@@ -124,22 +124,22 @@ void Photo_Int(uint8_t line)
 
       if(LCDML.BT_checkUp())
       { 
-        if (photo_interval > 10){
-            photo_interval -= 10;
+        if (Photo_Interval > 10){
+            Photo_Interval -= 10;
         }
         LCDML.BT_resetUp();
       }
 
       if(LCDML.BT_checkDown())
       {
-        photo_interval += 10;
+        Photo_Interval += 10;
         LCDML.BT_resetDown();
       }
     }
   }
 
   char buf[20];
-  sprintf (buf, "Photo Int. : %lu ", photo_interval);
+  sprintf (buf, "Photo Int. : %u ", Photo_Interval);
 
   // setup function
   u8g.drawStr( _LCDML_DISP_box_x0+_LCDML_DISP_font_w + _LCDML_DISP_cur_space_behind,  (_LCDML_DISP_font_h * (1+line)), buf);     // the value can be changed with left or right
@@ -358,6 +358,7 @@ void set_init_position(uint8_t line)
          if (!x_max){
             move_motor_left_init();  
         }
+        init_position_in_inches += 0.25;
         LCDML.BT_resetUp();
       }
 
@@ -367,13 +368,22 @@ void set_init_position(uint8_t line)
         if (!x_zero){ 
             move_motor_right_init();
         }
+        init_position_in_inches -= 0.25;
         LCDML.BT_resetDown();
       } 
     }
   }
 
-  char buf[20];
-  sprintf (buf, "Start    %u", init_position);
+  char buf[25];
+  int8_t decimal;
+  int8_t floating;
+
+  init_position_in_inches = (init_position / 1089) * 100;
+  // init_position_in_inches = init_position_in_inches*100;
+  decimal = (int)init_position_in_inches / 100;
+  floating = (int)init_position_in_inches % 100;
+  
+  sprintf (buf, "Start: %d.%d inches", decimal, floating);
 
   u8g.drawStr( _LCDML_DISP_box_x0+_LCDML_DISP_font_w + _LCDML_DISP_cur_space_behind,  (_LCDML_DISP_font_h * (1+line)), buf);     // the value can be changed with left or right
 }
@@ -405,6 +415,7 @@ void set_wipe_distance(uint8_t line)
          if (!x_max){
             move_motor_left_dist();  
         }
+        wipe_distance_in_inches += 0.25;
         LCDML.BT_resetUp();
       }
 
@@ -414,13 +425,14 @@ void set_wipe_distance(uint8_t line)
         if (!x_max){ 
             move_motor_right_dist();     
         }
+        wipe_distance_in_inches -= 0.25;
         LCDML.BT_resetDown();
       }
     }
   }
 
   char buf[20];
-  sprintf (buf, "Start    %u", wipe_distance);
+  sprintf (buf, "Start    %u", wipe_distance_in_inches);
 
   u8g.drawStr( _LCDML_DISP_box_x0+_LCDML_DISP_font_w + _LCDML_DISP_cur_space_behind,  (_LCDML_DISP_font_h * (1+line)), buf);     // the value can be changed with left or right
 }

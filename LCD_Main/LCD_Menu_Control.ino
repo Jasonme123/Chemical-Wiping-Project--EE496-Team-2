@@ -1,5 +1,3 @@
-#include "includes.h"
-
 //---CONTROL WITH ENCODER---
 //   * rotate left = Up
 //   * rotate right = Down
@@ -38,7 +36,7 @@ void lcdml_menu_control(void)
     // init pins, enable pullups
     pinMode(encoder_A_pin      , INPUT_PULLUP);
     pinMode(encoder_B_pin      , INPUT_PULLUP);
-    pinMode(encoder_button_pin  , INPUT_PULLUP);
+    pinMode(encoder_button_pin , INPUT_PULLUP);
   }
 
   // check if encoder is rotated on direction A

@@ -58,8 +58,8 @@
 
 //////////////////////////////////////////////////////////////////
 //Endstops
-#define x_min_stop         16  //X-Endstop 2
-#define x_max_stop         17  //X-Endstop 1
+#define x_min_stop         17  //X-Endstop 1
+#define x_max_stop         16  //X-Endstop 2
 
 #define z_min_stop         18  //Z-Endstop 2
 
@@ -73,6 +73,8 @@ boolean photo_taken = false;
 boolean x_zero = false;
 boolean z_zero = false;
 boolean x_max = false;
+
+boolean endstopError = false;
 
 uint32_t x_axis_length = 11600; //ADJUST THIS LATER
 uint32_t z_axis_length = 9999999; //ADJUST THIS LATER
@@ -143,9 +145,12 @@ boolean Pumping_Needed = false;
 //Dynamic Parmaters
 uint32_t wipe_distance = 3200;
 uint32_t init_position = 2400;
+float wipe_distance_in_inches = 0.0;
+float init_position_in_inches = 0.0;
+
 int16_t wipe_force = 1;
-uint32_t cycle_num = 100;
-uint32_t photo_interval = 0;
+uint32_t Cycle_Target = 100;
+uint32_t Photo_Interval = 0;
 uint32_t flow_rate = 0;
 float real_flow_rate = 0.0;
 uint8_t wipe_speed = 0;  // Used For User Input as sprintf formatting of floating point values is not supported in Arduino
@@ -164,10 +169,8 @@ uint8_t real_Enclosure_Brightness;
 //////////////////////////////////////////////////////////////////
 //Parameter Input Assignment For Use of Wiping Cycle
 
-uint32_t Wipe_Dist = 2400;
+int16_t Wipe_Dist = 2400;
 uint32_t Init_Pos = 2000;
-uint32_t Cycle_Target = 100;
-uint32_t Photo_Interval;
 int Pump_Rate;
 uint8_t Wiping_Speed;
 uint8_t Pump_Used;
@@ -191,6 +194,7 @@ int16_t K_Const = 8;
 
 double Force_Target_PID;
 double Force_Reading_PID;
+
 double Output_Position_PID;
 
 // variables will change:

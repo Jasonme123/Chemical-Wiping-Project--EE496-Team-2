@@ -1,7 +1,7 @@
 // For Senior Design
 
 //////////////////////////////////////////////////////////
-
+#include <limits.h>
 //////////////////////////////////////////////////////////
 
 #define TIMER1_INTERRUPTS_ON    TIMSK1 |=  (1 << OCIE1A);
@@ -96,7 +96,7 @@ void Motorsetup() {
   TCCR2B = 0;
   TCNT2  = 0;
 
-  OCR2A = 1000;                             // compare value
+  OCR2A = 1000; // if we set it to 255, the error dissapears // compare value
   TCCR2B |= (1 << WGM12);                   // CTC mode
   TCCR2B |= ((1 << CS11) | (1 << CS10));    // 64 prescaler
   interrupts();
@@ -149,7 +149,7 @@ void setNextInterruptInterval() {
 
   bool movementComplete = true;
 
-  unsigned int mind = 999999;
+  unsigned int mind = INT_MAX;
   for (int i = 0; i < NUM_STEPPERS; i++) {
     if ( ((1 << i) & remainingSteppersFlag) && steppers[i].di < mind ) {
       mind = steppers[i].di;
@@ -260,7 +260,7 @@ ISR(TIMER2_COMPA_vect) {
   volatile stepperInfo& sx = steppers[0];
   if (sx.movementDone && Current_Count < Cycle_Target) { // if wipe half cycle is complete one way is complete
     xPosition_Update = true;
-    Wipe_Dist = (Wipe_Dist * -1);
+    Wipe_Dist = -Wipe_Dist;
   }
 
   //
@@ -281,7 +281,7 @@ ISR(TIMER2_COMPA_vect) {
 
   if (xPosition_Update) {
     xPosition_Update = false;
-    prepareMovement( 0,  Wipe_Dist );
+    prepareMovement( 0,  -Wipe_Dist );
     runAndWait();
   }
 

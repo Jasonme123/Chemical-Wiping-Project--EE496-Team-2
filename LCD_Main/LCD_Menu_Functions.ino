@@ -236,10 +236,10 @@ void cycle_count_display(uint8_t param)
     do {
       u8g.drawFrame(1, 1, 126, 62);
       u8g.drawFrame(0, 0, 128, 64);
-      u8g.drawFrame(19, 35, 90, 24);
+      u8g.drawFrame(12, 35, 104, 24);
       u8g.setFont(u8g_font_ncenB10);
-      u8g.drawStr( 5, 16, F("CYCLE COUNT:"));
-      u8g.drawStr(ALIGN_CENTER("0"), 31, F("0"));
+      u8g.drawStr(ALIGN_CENTER("SLEEP MODE"), 16, F("SLEEP MODE"));
+      u8g.drawStr(ALIGN_CENTER("IS ON"), 31, F("IS ON"));
       u8g.setFont(u8g_font_ncenB08);
       u8g.drawStr(ALIGN_CENTER("Rotate Or Click"), 46, F("Rotate Or Click"));
       u8g.drawStr(ALIGN_CENTER("To Exit"), 56, F("To Exit"));
@@ -311,6 +311,61 @@ void mFunc_jumpTo_timer_info(uint8_t param)
   }
 }
 
+void Enable_motors(uint8_t param)
+{
+  if (LCDML.FUNC_setup())         // ****** SETUP *********
+  {
+    // remmove compiler warnings when the param variable is not used:
+    LCDML_UNUSED(param);
+
+    // Enable 
+    enable_Stepper();
+
+    LCDML.FUNC_setLoopInterval(100);  // starts a trigger event for the loop function every 100 milliseconds
+  }
+
+  if (LCDML.FUNC_loop())             // ****** LOOP *********
+  {
+    if (LCDML.BT_checkAny()) // check if any button is pressed (enter, up, down, left, right)
+    {
+      LCDML.FUNC_goBackToMenu();  // leave this function
+    }
+  }
+
+  if (LCDML.FUNC_close())           // ****** STABLE END *********
+  {
+    // The screensaver go to the root menu
+    LCDML.FUNC_goBackToMenu(0);
+  }
+}
+
+void Disable_motors(uint8_t param)
+{
+  if (LCDML.FUNC_setup())         // ****** SETUP *********
+  {
+    // remmove compiler warnings when the param variable is not used:
+    LCDML_UNUSED(param);
+
+    // Disable
+    disable_Stepper();
+
+    LCDML.FUNC_setLoopInterval(100);  // starts a trigger event for the loop function every 100 milliseconds
+  }
+
+  if (LCDML.FUNC_loop())             // ****** LOOP *********
+  {
+    if (LCDML.BT_checkAny()) // check if any button is pressed (enter, up, down, left, right)
+    {
+      LCDML.FUNC_goBackToMenu();  // leave this function
+    }
+  }
+
+  if (LCDML.FUNC_close())           // ****** STABLE END *********
+  {
+    // The screensaver go to the root menu
+    LCDML.FUNC_goBackToMenu(0);
+  }
+}
 
 
 // Function For Z-Axis Homing
@@ -392,12 +447,13 @@ void reset_params(uint8_t param)
   {
     // remmove compiler warnings when the param variable is not used:
     LCDML_UNUSED(param);
-    cycle_num = 0;
-    wipe_force = 0;
-    cycle_num = 0;
-    photo_interval = 0;
+    Cycle_Target = 0;
+    Photo_Interval = 0;
     flow_rate = 0;
     wipe_speed = 0;
+    wipe_distance = 0;
+    wipe_distance_in_inches = 0;
+    init_position_in_inches = 0;
     real_wipe_speed = 0.0;
     pump = 1;
     delay_ = 0;
@@ -413,22 +469,7 @@ void testing_cycle(uint8_t param) {
   // ****** SETUP *********
   if (LCDML.FUNC_setup())
   {
-    LCDML_UNUSED(param);// remove compiler warnings when the param variable is not used:
-    //    u8g.firstPage();
-    //    do {
-    //      u8g.drawFrame(1,1,126,62);
-    //      u8g.drawFrame(0,0,128,64);
-    //      u8g.drawFrame(19,35,90,24);
-    //      u8g.setFont(u8g_font_ncenB10);
-    //      u8g.drawStr( 5, 16, F("CYCLE COUNT:"));
-    //      char buf[20];
-    //      sprintf (buf, "%u", Current_Count);
-    //      u8g.drawStr(ALIGN_CENTER(buf), 31, buf);
-    //      u8g.setFont(u8g_font_ncenB08);
-    ////      u8g.drawStr(ALIGN_CENTER("Rotate Or Click"), 46, F("Rotate Or Click"));
-    ////      u8g.drawStr(ALIGN_CENTER("To Exit"), 56, F("To Exit"));
-    //    } while(u8g.nextPage());
-    //    LCDML.FUNC_setLoopInterval(100);
+    LCDML_UNUSED(param);
   }
 
   if (LCDML.FUNC_loop())  // ****** LOOP *********
@@ -438,15 +479,9 @@ void testing_cycle(uint8_t param) {
         do {
           u8g.drawFrame(1, 1, 126, 62);
           u8g.drawFrame(0, 0, 128, 64);
-          u8g.drawFrame(19, 35, 90, 24);
           u8g.setFont(u8g_font_ncenB10);
-          u8g.drawStr( 5, 16, F("CYCLE COUNT:"));
-          char buf[20];
-          sprintf (buf, "%u", Current_Count);
-          u8g.drawStr(ALIGN_CENTER(buf), 31, buf);
-          u8g.setFont(u8g_font_ncenB08);
-          //      u8g.drawStr(ALIGN_CENTER("Rotate Or Click"), 46, F("Rotate Or Click"));
-          //      u8g.drawStr(ALIGN_CENTER("To Exit"), 56, F("To Exit"));
+          u8g.drawStr( ALIGN_CENTER("Starting"), 30, F("Starting"));
+          u8g.drawStr( ALIGN_CENTER("Testing Cycle"), 46, F("Testing Cycle"));
         }
         while (u8g.nextPage());
 
@@ -458,6 +493,19 @@ void testing_cycle(uint8_t param) {
     while (Current_Count < Cycle_Target) {
 
       WipingLoop();
+      if(endstopError){
+
+        u8g.firstPage();
+        do {
+          u8g.drawFrame(1, 1, 126, 62);
+          u8g.drawFrame(0, 0, 128, 64);
+          u8g.setFont(u8g_font_ncenB10);
+          u8g.drawStr( ALIGN_CENTER("<< ERROR >>"), 16, F("<< ERROR >>"));
+          u8g.drawStr( ALIGN_CENTER("The Endstop"), 34, F("The Endstop"));
+          u8g.drawStr( ALIGN_CENTER("has Triggered."), 52, F("has Triggered."));
+        }
+        while (u8g.nextPage());
+      }
 
       if (Current_Count % 5 == 0) {
 
@@ -465,15 +513,15 @@ void testing_cycle(uint8_t param) {
         do {
           u8g.drawFrame(1, 1, 126, 62);
           u8g.drawFrame(0, 0, 128, 64);
-          u8g.drawFrame(19, 35, 90, 24);
+          u8g.drawFrame(5, 35, 118, 24);
           u8g.setFont(u8g_font_ncenB10);
           u8g.drawStr( 5, 16, F("CYCLE COUNT:"));
           char buf[20];
           sprintf (buf, "%u", Current_Count);
           u8g.drawStr(ALIGN_CENTER(buf), 31, buf);
           u8g.setFont(u8g_font_ncenB08);
-          //      u8g.drawStr(ALIGN_CENTER("Rotate Or Click"), 46, F("Rotate Or Click"));
-          //      u8g.drawStr(ALIGN_CENTER("To Exit"), 56, F("To Exit"));
+          u8g.drawStr(ALIGN_CENTER("Click Red Button"), 46, F("Click Red Button"));
+          u8g.drawStr(ALIGN_CENTER("To STOP Tesing"), 56, F("To STOP Tesing"));
         }
         while (u8g.nextPage());
 
@@ -490,15 +538,15 @@ void testing_cycle(uint8_t param) {
     do {
       u8g.drawFrame(1, 1, 126, 62);
       u8g.drawFrame(0, 0, 128, 64);
-      u8g.drawFrame(19, 35, 90, 24);
+      u8g.drawFrame(5, 35, 118, 24);
       u8g.setFont(u8g_font_ncenB10);
       u8g.drawStr( 5, 16, F("CYCLE COUNT:"));
       char buf[20];
       sprintf (buf, "%u", Current_Count);
       u8g.drawStr(ALIGN_CENTER(buf), 31, buf);
       u8g.setFont(u8g_font_ncenB08);
-      //      u8g.drawStr(ALIGN_CENTER("Rotate Or Click"), 46, F("Rotate Or Click"));
-      //      u8g.drawStr(ALIGN_CENTER("To Exit"), 56, F("To Exit"));
+      u8g.drawStr(ALIGN_CENTER("Click on Red Button"), 46, F("Click on Red Button"));
+      u8g.drawStr(ALIGN_CENTER("To STOP Tesing"), 56, F("To STOP Tesing"));
     }
     while (u8g.nextPage());
     //Home Both Axis
@@ -539,7 +587,6 @@ void turn_on_LEDs(uint8_t param)
   }
 }
 
-
 void turn_off_LEDs(uint8_t param)
 {
   if (LCDML.FUNC_setup())         // ****** SETUP *********
@@ -568,11 +615,7 @@ void turn_off_LEDs(uint8_t param)
   }
 }
 
-
-
-
-
-uint8_t x_position = 0;
+int16_t x_position = 100;
 void move_x_axis(uint8_t line)
 {
   if (line == LCDML.MENU_getCursorPos())
@@ -617,16 +660,14 @@ void move_x_axis(uint8_t line)
     }
   }
 
-
-
   char buf[20];
-  sprintf (buf, "Start    %u", x_position);
+  sprintf (buf, "Adjust X-axis  %d", x_position);
 
   u8g.drawStr( _LCDML_DISP_box_x0 + _LCDML_DISP_font_w + _LCDML_DISP_cur_space_behind,  (_LCDML_DISP_font_h * (1 + line)), buf); // the value can be changed with left or right
 }
 
 
-uint8_t z_position = 0;
+int16_t z_position = 100;
 void move_z_axis(uint8_t line)
 {
   if (line == LCDML.MENU_getCursorPos())
@@ -685,7 +726,8 @@ void move_z_axis(uint8_t line)
   }
 
   char buf[20];
-  sprintf (buf, "Start    %u", z_position);
+  sprintf (buf, "Adjust Z-axis  %d", z_position);
 
   u8g.drawStr( _LCDML_DISP_box_x0 + _LCDML_DISP_font_w + _LCDML_DISP_cur_space_behind,  (_LCDML_DISP_font_h * (1 + line)), buf); // the value can be changed with left or right
 }
+

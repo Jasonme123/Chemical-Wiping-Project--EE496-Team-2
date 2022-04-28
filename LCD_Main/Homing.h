@@ -18,9 +18,18 @@ void homing_error() {
 void home_x_axis() {
   X_min();
   uint16_t homing_checker = 0;
-  digitalWrite(X_DIR_PIN, LEFT);
+  digitalWrite(X_DIR_PIN, RIGHT);
 
   while (!x_zero) {
+
+  byte value = digitalRead(hard_pause);
+  if (value != Prev_state && value == LOW) {
+    HardPause();
+    Prev_state = value;
+    return;
+  }
+  Prev_state = value;
+    
     X_min();
     X_STEP_HIGH;
     delayMicroseconds(X_Homing_Speed);
@@ -46,6 +55,15 @@ void home_z_axis() {
   digitalWrite(Z_DIR_PIN, UP);
 
   while (!z_zero) {
+
+  byte value = digitalRead(hard_pause);
+  if (value != Prev_state && value == LOW) {
+    HardPause();
+    Prev_state = value;
+    return;
+  }
+  Prev_state = value;
+
     Z_min();
     Z_STEP_HIGH;
     delayMicroseconds(Z_Homing_Speed);
@@ -72,6 +90,15 @@ void touchDown() {
   digitalWrite(Z_DIR_PIN, DOWN);
 
   while (forceCheck < Force_Target) {
+
+  byte value = digitalRead(hard_pause);
+  if (value != Prev_state && value == LOW) {
+    HardPause();
+    Prev_state = value;
+    return;
+  }
+  Prev_state = value;
+
     Z_STEP_HIGH;
     delayMicroseconds(Z_Homing_Speed);
     Z_STEP_LOW;
@@ -102,9 +129,18 @@ void touchDown() {
 void intial_x_axis() {
 
   uint16_t homing_checker = 0;
-  digitalWrite(X_DIR_PIN, RIGHT);
+  digitalWrite(X_DIR_PIN, LEFT);
 
   while (Current_XPos < Init_Pos) {
+
+  byte value = digitalRead(hard_pause);
+  if (value != Prev_state && value == LOW) {
+    HardPause();
+    Prev_state = value;
+    return;
+  }
+  Prev_state = value;
+
     X_STEP_HIGH;
     delayMicroseconds(X_Homing_Speed);
     X_STEP_LOW;

@@ -24,8 +24,6 @@ void WipingSetup() {
   Wipe_Dist = -1 * wipe_distance; //Wipe Distance in steps
   Init_Pos = init_position; //Inital Position in steps
   Force_Target = wipe_force * 453.59237; //Force we are attempting to Achieve with the Z-axis
-  Cycle_Target = cycle_num; //Number of wipes per each test
-  Photo_Interval = photo_interval; //number of wipes between a Photo is taken
 //  Pump_Rate = ((flow_rate / (1.06)) * 1600); // Flow rate in Steps/Wipe (truncated)
   Pump_Rate = 400;
   //Wiping_Speed = wipe_speed;
@@ -39,10 +37,10 @@ void WipingSetup() {
   wipe_blink();
 
   //Unpriming and Priming Pumps
-  unPriming();
-  wipe_blink();
-  Priming();
-  wipe_blink();
+  // unPriming();
+  // wipe_blink();
+  // Priming();
+  // wipe_blink();
 
   //If you don't want photos
   if (Photo_Interval == 0) {

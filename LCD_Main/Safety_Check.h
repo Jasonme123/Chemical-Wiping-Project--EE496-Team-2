@@ -61,6 +61,7 @@ void endstop_Check(){
   
  if((x_max || x_zero || z_zero ) && wiping){
   TIMER1_INTERRUPTS_OFF
+  endstopError = true;
   disable_Stepper();
   Serial.println("Endstop Error");
  }
@@ -127,12 +128,13 @@ void safety_setup(){
   
 }
 
-wipe_blink(){
+void wipe_blink(){
   
   digitalWrite(Main_Status_LED, LOW);
   delay(20);
   digitalWrite(Main_Status_LED, HIGH);
 }
+
 
 
 #endif

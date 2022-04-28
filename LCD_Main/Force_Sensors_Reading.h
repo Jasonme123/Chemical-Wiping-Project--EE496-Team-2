@@ -57,8 +57,6 @@ void Cell_test() {
   Wipe_Dist = wipe_distance; //Wipe Distance in steps
   Init_Pos = init_position; //Inital Position in steps
   Force_Target = wipe_force * 453.59237; //Force we are attempting to Achieve with the Z-axis
-  Cycle_Target = cycle_num; //Number of wipes per each test
-  Photo_Interval = photo_interval; //number of wipes between a Photo is taken
   Pump_Rate = ((flow_rate / (1.06)) * 1600); // Flow rate in Steps/Wipe (truncated)
   //Wiping_Speed = wipe_speed;
   Pump_Used = pump;

@@ -3,7 +3,7 @@
 #ifndef XAXISDEF
 #define XAXISDEF
 
-int StepsToTake = 400;     // Controls the speed of the Stepper per Rotary click
+int StepsToTake = 272;   // quarter inch movement  // Controls the speed of the Stepper per Rotary click
    
 void move_motor_left(){
   digitalWrite(X_DIR_PIN, LEFT);
@@ -35,6 +35,7 @@ void move_motor_left_init(){
     delayMicroseconds(150);
     init_position++;         
   }
+  init_position_in_inches += 0.25;
 }
 
 void move_motor_right_init(){
@@ -46,6 +47,7 @@ void move_motor_right_init(){
     delayMicroseconds(150);
     init_position--;           
   }
+  init_position_in_inches -= 0.25;
 }
 
 void move_motor_left_dist(){
