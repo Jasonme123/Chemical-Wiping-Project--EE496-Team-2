@@ -77,13 +77,13 @@ LCDML_add         (7  , LCDML_0         , 8  , "Turn Lights On/Off",NULL);
 LCDML_add         (8  , LCDML_0         , 9  , "Enable/Disable X&Z",NULL);  
 LCDML_add         (9  , LCDML_0         , 10 , "Cycle Count"      , cycle_count_display); 
 
-LCDML_add         (10 , LCDML_0_8      , 1  , "LIGHTS ON/OFF"    , NULL);  
+LCDML_add         (10 , LCDML_0_8       , 1  , "LIGHTS ON/OFF"    , NULL);  
 LCDML_addAdvanced (11 , LCDML_0_8       , 2  , NULL               , "Turn ON - ", Enclosure_Brightness_,0,   _LCDML_TYPE_dynParam); 
 LCDML_add         (12 , LCDML_0_8       , 3  , "Turn OFF"         , turn_off_LEDs);  
 LCDML_add         (13 , LCDML_0_8       , 4  , "Back"             , mFunc_back_by_1); 
 
 LCDML_add         (14 , LCDML_0_7       , 1  , "=TARE LOAD CELLS=", NULL);                    
-LCDML_add         (15 , LCDML_0_7       , 2  , "Start"            , z_homing);                   
+LCDML_add         (15 , LCDML_0_7       , 2  , "Start"            , tare_load_cells);                   
 LCDML_add         (16 , LCDML_0_7       , 3  , "Back"             , mFunc_back_by_1); 
  
 LCDML_add         (17 , LCDML_0_2       , 1  , "= Z-AXIS HOMING =", NULL);                    
@@ -126,8 +126,8 @@ LCDML_addAdvanced (47 , LCDML_0_6       , 3  , NULL                     , "Move 
 LCDML_add         (48 , LCDML_0_6       , 4  , "Back"                   , mFunc_back_by_1);    
 
 LCDML_add         (49 , LCDML_0_9       , 1  , "ENABLE/DISABLE"         , NULL);                    
-LCDML_add         (50 , LCDML_0_9       , 2  , "Enable Motors"   		, Enable_motors);              
-LCDML_add         (51 , LCDML_0_9       , 3  , "Disable Motors"		    , Disable_motors);              
+LCDML_add         (50 , LCDML_0_9       , 2  , "Enable Motors"   		    , Enable_motors);              
+LCDML_add         (51 , LCDML_0_9       , 3  , "Disable Motors"		      , Disable_motors);              
 LCDML_add         (52 , LCDML_0_9       , 4  , "Back"                   , mFunc_back_by_1);    
 
 LCDML_add         (53 , LCDML_0_3_2_3   , 1  , "SET WIPING DIST."       , NULL);                    

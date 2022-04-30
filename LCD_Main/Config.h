@@ -111,8 +111,8 @@ volatile byte Prev_state = HIGH;
 
 //////////////////////////////////////////////////////////////////
 //X-motor Config
-#define RIGHT LOW
-#define LEFT HIGH
+#define RIGHT HIGH
+#define LEFT LOW
 
 double x_Gear = 12;  //X motor gear diameter (mm)
 int rev_Step = 1600; //Steps Per revolution
@@ -143,8 +143,8 @@ boolean Pumping_Needed = false;
 
 //////////////////////////////////////////////////////////////////
 //Dynamic Parmaters
-uint32_t wipe_distance = 3200;
-uint32_t init_position = 2400;
+uint32_t wipe_distance = 3264;
+uint32_t init_position = 2176;
 float wipe_distance_in_inches = 0.0;
 float init_position_in_inches = 0.0;
 
@@ -169,8 +169,8 @@ uint8_t real_Enclosure_Brightness;
 //////////////////////////////////////////////////////////////////
 //Parameter Input Assignment For Use of Wiping Cycle
 
-int16_t Wipe_Dist = 2400;
-uint32_t Init_Pos = 2000;
+int16_t Wipe_Dist = 3264;
+uint32_t Init_Pos = 2176;
 int Pump_Rate;
 uint8_t Wiping_Speed;
 uint8_t Pump_Used;

@@ -33,7 +33,6 @@ void unPriming(){
    delayMicroseconds(Pumping_Speed/2);
    digitalWrite(P2_STEP_PIN, LOW);
    digitalWrite(P1_STEP_PIN, LOW);
-//   delayMicroseconds(Pumping_Speed/2);
     Pump_distance++;
   }
 

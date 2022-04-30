@@ -358,7 +358,6 @@ void set_init_position(uint8_t line)
          if (!x_max){
             move_motor_left_init();  
         }
-        init_position_in_inches += 0.25;
         LCDML.BT_resetUp();
       }
 
@@ -368,7 +367,6 @@ void set_init_position(uint8_t line)
         if (!x_zero){ 
             move_motor_right_init();
         }
-        init_position_in_inches -= 0.25;
         LCDML.BT_resetDown();
       } 
     }
@@ -378,8 +376,7 @@ void set_init_position(uint8_t line)
   int8_t decimal;
   int8_t floating;
 
-  init_position_in_inches = (init_position / 1089) * 100;
-  // init_position_in_inches = init_position_in_inches*100;
+  init_position_in_inches = (init_position / 1088.00) * 100;
   decimal = (int)init_position_in_inches / 100;
   floating = (int)init_position_in_inches % 100;
   
@@ -415,7 +412,6 @@ void set_wipe_distance(uint8_t line)
          if (!x_max){
             move_motor_left_dist();  
         }
-        wipe_distance_in_inches += 0.25;
         LCDML.BT_resetUp();
       }
 
@@ -425,14 +421,19 @@ void set_wipe_distance(uint8_t line)
         if (!x_max){ 
             move_motor_right_dist();     
         }
-        wipe_distance_in_inches -= 0.25;
         LCDML.BT_resetDown();
       }
     }
   }
+  char buf[25];
+  int8_t decimal;
+  int8_t floating;
 
-  char buf[20];
-  sprintf (buf, "Start    %u", wipe_distance_in_inches);
+  wipe_distance_in_inches = (wipe_distance / 1088.00) * 100;
+  decimal = (int)wipe_distance_in_inches / 100;
+  floating = (int)wipe_distance_in_inches % 100;
+  
+  sprintf (buf, "Start: %d.%d inches", decimal, floating);
 
   u8g.drawStr( _LCDML_DISP_box_x0+_LCDML_DISP_font_w + _LCDML_DISP_cur_space_behind,  (_LCDML_DISP_font_h * (1+line)), buf);     // the value can be changed with left or right
 }

@@ -406,8 +406,22 @@ void both_axis_homing(uint8_t param) {
     homeBoth();
 
     LCDML.FUNC_goBackToMenu(0);
-    //      u8g.setFont(u8g_font_ncenB08);
-    //      u8g.drawStr(ALIGN_CENTER("Z Axis is homed"), 58, F("Z Axis is homed"));
+  }
+}
+
+// Function For Taring Load Cells
+void tare_load_cells(uint8_t param) {
+
+  if (LCDML.FUNC_setup())  // ****** SETUP *********
+  {
+    // remove compiler warnings when the param variable is not used:
+    LCDML_UNUSED(param);
+  }
+
+  if (LCDML.FUNC_loop())  // ****** LOOP *********
+  {
+    scale.tare();
+    LCDML.FUNC_goBackToMenu(0);
   }
 }
 
@@ -710,7 +724,7 @@ void move_z_axis(uint8_t line)
       if (LCDML.BT_checkDown())
       {
 
-        if (z_position < z_axis_length) {
+        if ((z_position < z_axis_length) && Current_ZPos < 100) {
           digitalWrite(Z_DIR_PIN, DOWN);
           for (int x = 1; x < 1600; x++) {
             Z_STEP_HIGH;
@@ -719,6 +733,7 @@ void move_z_axis(uint8_t line)
             delayMicroseconds(Z_Homing_Speed);
           }
           z_position++;
+          Current_ZPos++;
         }
         LCDML.BT_resetDown();
       }
@@ -730,4 +745,3 @@ void move_z_axis(uint8_t line)
 
   u8g.drawStr( _LCDML_DISP_box_x0 + _LCDML_DISP_font_w + _LCDML_DISP_cur_space_behind,  (_LCDML_DISP_font_h * (1 + line)), buf); // the value can be changed with left or right
 }
-

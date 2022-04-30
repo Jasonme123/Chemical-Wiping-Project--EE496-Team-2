@@ -35,7 +35,6 @@ void move_motor_left_init(){
     delayMicroseconds(150);
     init_position++;         
   }
-  init_position_in_inches += 0.25;
 }
 
 void move_motor_right_init(){
@@ -45,9 +44,10 @@ void move_motor_right_init(){
     delayMicroseconds(150);
     X_STEP_LOW
     delayMicroseconds(150);
-    init_position--;           
+    if (init_position >= 1){
+       init_position--;          
+    }
   }
-  init_position_in_inches -= 0.25;
 }
 
 void move_motor_left_dist(){
@@ -68,7 +68,9 @@ void move_motor_right_dist(){
     delayMicroseconds(150);
     X_STEP_LOW
     delayMicroseconds(150);
-    wipe_distance--;           
+    if (wipe_distance >= 1){
+      wipe_distance--;
+    }           
   }
 }
 
