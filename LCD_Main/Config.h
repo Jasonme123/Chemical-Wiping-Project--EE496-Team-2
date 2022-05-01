@@ -100,8 +100,8 @@ volatile byte Prev_state = HIGH;
 //#define (anything)         33; //(Digital)
 //#define (anything)         35; //(Digital)
 
-#define AnalogInPin0         A8; //(Analog)
-#define AnalogInPin1         A9; //(Analog)
+#define AnalogInPin0         A8 //(Analog)
+#define AnalogInPin1         A9 //(Analog)
 
 //#define (anything)         A10; //(Analog)
 //#define (anything)         A11; //(Analog)
