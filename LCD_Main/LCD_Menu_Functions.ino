@@ -724,6 +724,7 @@ void move_z_axis(uint8_t line)
             delayMicroseconds(Z_Homing_Speed);
           }
           z_position--;
+          Current_ZPos--;
         }
         else {
 

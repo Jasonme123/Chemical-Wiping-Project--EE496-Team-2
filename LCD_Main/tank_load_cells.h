@@ -10,7 +10,7 @@ int16_t curr_weight;
 void check_containers(){
 
     if (Pump_Used == 0 || Pump_Used == 2){
-      curr_weight = analogRead(AnalogInPin0);
+      curr_weight =  (AnalogInPin0);
       if (curr_weight <= fullTankWeight*0.05 + emptyTankWeight){
         is_empty = true;
       }
