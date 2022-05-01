@@ -32,14 +32,14 @@
 
 //////////////////////////////////////////////////////////////////
 //pump1 motor
-#define P1_DIR_PIN          44
-#define P1_STEP_PIN         42
-#define P1_ENABLE_PIN       40
+#define P0_DIR_PIN          44
+#define P0_STEP_PIN         42
+#define P0_ENABLE_PIN       40
 
 //pump2 motor
-#define P2_DIR_PIN          34
-#define P2_STEP_PIN         38
-#define P2_ENABLE_PIN       36
+#define P1_DIR_PIN          34
+#define P1_STEP_PIN         38
+#define P1_ENABLE_PIN       36
 
 //////////////////////////////////////////////////////////////////
 //Load Cell Reading
@@ -68,6 +68,7 @@
 
 boolean wiping = false;
 boolean photo_taken = false;
+boolean is_empty = false;
 
 
 boolean x_zero = false;
@@ -99,8 +100,9 @@ volatile byte Prev_state = HIGH;
 //#define (anything)         33; //(Digital)
 //#define (anything)         35; //(Digital)
 
-//#define (anything)         A8; //(Analog)
-//#define (anything)         A9; //(Analog)
+#define AnalogInPin0         A8; //(Analog)
+#define AnalogInPin1         A9; //(Analog)
+
 //#define (anything)         A10; //(Analog)
 //#define (anything)         A11; //(Analog)
 //#define (anything)         A12; //(Analog)
@@ -155,7 +157,7 @@ uint32_t flow_rate = 0;
 float real_flow_rate = 0.0;
 uint8_t wipe_speed = 0;  // Used For User Input as sprintf formatting of floating point values is not supported in Arduino
 float real_wipe_speed = 0.0;  // Used For Actual Calculations
-uint8_t pump = 1;
+uint8_t pump = 0;
 uint32_t increase_interval = 1;  // For setting Cycle Number
 uint8_t Brightness = 0;
 uint8_t delay_ = 0;

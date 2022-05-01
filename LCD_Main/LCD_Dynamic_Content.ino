@@ -266,7 +266,7 @@ void Pump_Select(uint8_t line)
       }
       if(LCDML.BT_checkUp())
       { 
-        if (pump > 1){
+        if (pump > 0){
             pump -= 1;
         }
         LCDML.BT_resetUp();

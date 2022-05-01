@@ -516,9 +516,19 @@ void testing_cycle(uint8_t param) {
           u8g.setFont(u8g_font_ncenB10);
           u8g.drawStr( ALIGN_CENTER("<< ERROR >>"), 16, F("<< ERROR >>"));
           u8g.drawStr( ALIGN_CENTER("The Endstop"), 34, F("The Endstop"));
-          u8g.drawStr( ALIGN_CENTER("has Triggered."), 52, F("has Triggered."));
+          u8g.drawStr( ALIGN_CENTER("Has Triggered."), 52, F("Has Triggered."));
         }
         while (u8g.nextPage());
+      }else if (is_empty){
+        u8g.firstPage();
+        do {
+          u8g.drawFrame(1, 1, 126, 62);
+          u8g.drawFrame(0, 0, 128, 64);
+          u8g.setFont(u8g_font_ncenB10);
+          u8g.drawStr( ALIGN_CENTER("<< ERROR >>"), 16, F("<< ERROR >>"));
+          u8g.drawStr( ALIGN_CENTER("Container Needs"), 34, F("Container Needs"));
+          u8g.drawStr( ALIGN_CENTER("To Be Filled."), 52, F("To Be Filled."));
+        }
       }
 
       if (Current_Count % 5 == 0) {
@@ -538,7 +548,6 @@ void testing_cycle(uint8_t param) {
           u8g.drawStr(ALIGN_CENTER("To STOP Tesing"), 56, F("To STOP Tesing"));
         }
         while (u8g.nextPage());
-
       }
     }
     //turn off interrupt based motor control

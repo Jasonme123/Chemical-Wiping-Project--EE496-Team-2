@@ -82,6 +82,12 @@ void WipingLoop() {
     Photo();
   }
 
+  //Check Containers
+  if (Current_Count % 100 == 0){
+    check_containers();
+    if (is_empty) return;
+  }
+
   //Get new Force Reading
   Force_Reading = Cell_1();
 
