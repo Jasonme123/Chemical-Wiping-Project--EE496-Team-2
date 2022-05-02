@@ -562,7 +562,7 @@ void Enclosure_Brightness_(uint8_t line)
         if (Enclosure_Brightness > 1){       
      
             Enclosure_Brightness--;
-            real_Enclosure_Brightness = map(Enclosure_Brightness,0,10,0,255);
+            real_Enclosure_Brightness = map(Enclosure_Brightness,0,10,0,127);
             analogWrite(5, real_Enclosure_Brightness);
         }
         LCDML.BT_resetUp();
@@ -573,7 +573,7 @@ void Enclosure_Brightness_(uint8_t line)
         if (Enclosure_Brightness < 10){
            
             Enclosure_Brightness++;
-            real_Enclosure_Brightness = map(Enclosure_Brightness,0,10,0,255);
+            real_Enclosure_Brightness = map(Enclosure_Brightness,0,10,0,127);
             analogWrite(5, real_Enclosure_Brightness);
         }
         LCDML.BT_resetDown();

@@ -281,7 +281,7 @@ ISR(TIMER2_COMPA_vect) {
 
   if (xPosition_Update) {
     xPosition_Update = false;
-    prepareMovement( 0,  -Wipe_Dist );
+    prepareMovement( 0,  Wipe_Dist );
     runAndWait();
   }
 

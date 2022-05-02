@@ -500,8 +500,6 @@ void testing_cycle(uint8_t param) {
         while (u8g.nextPage());
 
     WipingSetup();
-
-    Serial.print("Start Wiping");
     
     //if wipe cycle target reached, go home
     while (Current_Count < Cycle_Target) {
@@ -639,7 +637,6 @@ void turn_off_LEDs(uint8_t param)
   }
 }
 
-int16_t x_position = 100;
 void move_x_axis(uint8_t line)
 {
   if (line == LCDML.MENU_getCursorPos())
@@ -666,8 +663,6 @@ void move_x_axis(uint8_t line)
         if (!x_max) {
           move_motor_left();
         }
-        x_position--;
-
         LCDML.BT_resetUp();
       }
 
@@ -677,21 +672,25 @@ void move_x_axis(uint8_t line)
         if (!x_zero) {
           move_motor_right();
         }
-        x_position++;
-
         LCDML.BT_resetDown();
       }
     }
   }
 
-  char buf[20];
-  sprintf (buf, "Adjust X-axis  %d", x_position);
+  char buf[25];
+  int8_t decimal;
+  int8_t floating;
+
+  x_adjust_position_in_inches = (x_adjust_position / 1088.00) * 100;
+  decimal = (int)x_adjust_position_in_inches / 100;
+  floating = (int)x_adjust_position_in_inches % 100;
+  
+  sprintf (buf, "Start: %d.%d inches", decimal, floating);
 
   u8g.drawStr( _LCDML_DISP_box_x0 + _LCDML_DISP_font_w + _LCDML_DISP_cur_space_behind,  (_LCDML_DISP_font_h * (1 + line)), buf); // the value can be changed with left or right
 }
 
 
-int16_t z_position = 100;
 void move_z_axis(uint8_t line)
 {
   if (line == LCDML.MENU_getCursorPos())
@@ -716,14 +715,21 @@ void move_z_axis(uint8_t line)
         Z_min();
         if (!z_zero) {
           digitalWrite(Z_DIR_PIN, UP);
-          for (int x = 1; x < 1600; x++) {
-            endstop_Check();
+          for (int x = 1; x < 4267; x++) { //4267 steps per 1/4 inch
+            Z_min();
             Z_STEP_HIGH;
             delayMicroseconds(Z_Homing_Speed);
             Z_STEP_LOW;
             delayMicroseconds(Z_Homing_Speed);
+            z_adjust_position--;
+            if (z_adjust_position >= 1){
+              z_adjust_position--;          
+            }
           }
-          z_position--;
+          Current_ZPos--;
+            //Get new Force Reading
+          Force_Reading = Cell_1();
+          Serial.println(Force_Reading);
         }
         else {
 
@@ -734,24 +740,35 @@ void move_z_axis(uint8_t line)
       if (LCDML.BT_checkDown())
       {
 
-        if ((z_position < z_axis_length) && Current_ZPos < 100) {
+        if ((z_adjust_position < z_axis_length) && Current_ZPos < 1000000) {
           digitalWrite(Z_DIR_PIN, DOWN);
-          for (int x = 1; x < 1600; x++) {
+          for (int x = 1; x < 4267; x++) {
             Z_STEP_HIGH;
             delayMicroseconds(Z_Homing_Speed);
             Z_STEP_LOW;
             delayMicroseconds(Z_Homing_Speed);
+            z_adjust_position++;
           }
-          z_position++;
           Current_ZPos++;
+
+          //Get new Force Reading
+          Force_Reading = Cell_1();
+          Serial.println(Force_Reading);
         }
         LCDML.BT_resetDown();
       }
     }
   }
 
-  char buf[20];
-  sprintf (buf, "Adjust Z-axis  %d", z_position);
+  char buf[25];
+  int8_t decimal;
+  int8_t floating;
+
+  z_adjust_position_in_inches = (z_adjust_position / 17064.00) * 100;
+  decimal = (int)z_adjust_position_in_inches / 100;
+  floating = (int)z_adjust_position_in_inches % 100;
+  
+  sprintf (buf, "Start: %d.%d inches", decimal, floating);
 
   u8g.drawStr( _LCDML_DISP_box_x0 + _LCDML_DISP_font_w + _LCDML_DISP_cur_space_behind,  (_LCDML_DISP_font_h * (1 + line)), buf); // the value can be changed with left or right
 }

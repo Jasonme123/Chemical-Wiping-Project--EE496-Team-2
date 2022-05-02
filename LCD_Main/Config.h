@@ -123,6 +123,9 @@ double x_circumference = (3.14159 * x_Gear * 0.0393); //x motor gear circumferen
 boolean xPosition_Update = false;
 int xcelleraion = 250;
 int xMin_Interval = 100;
+uint32_t x_adjust_position = 0;
+float x_adjust_position_in_inches = 0.0;
+
 
 //////////////////////////////////////////////////////////////////
 //Z-motor Config
@@ -133,14 +136,17 @@ boolean zPosition_Update = false;
 int z_movement = 1000;
 int zcelleration = 1000;
 int zMin_Interval = 150;
+uint32_t z_adjust_position = 0;
+float z_adjust_position_in_inches = 0.0;
+
 
 //////////////////////////////////////////////////////////////////
 //Pumping Parameters
-#define To_Wipe HIGH //defining direction for liquid movement (may need to change)
-#define From_wipe LOW
+#define To_Wipe LOW //defining direction for liquid movement (may need to change)
+#define From_wipe HIGH
 
-int Pumping_Speed = 2000; //delay between steps in microseconds
-uint32_t Tube_Volume = 5000; //((volume inside length of tube * (1600 / 1.06)) NOTE: trunctated but still good enough
+int Pumping_Speed = 200; //delay between steps in microseconds
+uint32_t Tube_Volume = 100;//49812; //((volume inside length of tube * (1600 / 1.06)) NOTE: trunctated but still good enough
 boolean Pumping_Needed = false;
 
 //////////////////////////////////////////////////////////////////
@@ -173,7 +179,7 @@ uint8_t real_Enclosure_Brightness;
 
 int16_t Wipe_Dist = 3264;
 uint32_t Init_Pos = 2176;
-int Pump_Rate;
+uint32_t Pump_Rate;
 uint8_t Wiping_Speed;
 uint8_t Pump_Used;
 uint8_t Norm_Brightness = 128;
