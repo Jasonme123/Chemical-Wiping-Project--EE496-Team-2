@@ -48,6 +48,9 @@ void WipingSetup() {
   wipe_blink();
   Priming();
   wipe_blink();
+ 
+  //take a photo at the begining
+  Photo();
 
   //If you don't want photos
   if (Photo_Interval == 0) {

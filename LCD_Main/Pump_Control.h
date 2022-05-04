@@ -31,6 +31,13 @@ void unPriming(){
    digitalWrite(P1_STEP_PIN, HIGH);
    digitalWrite(P0_STEP_PIN, HIGH);
    delayMicroseconds(Priming_Speed);
+   byte value = digitalRead(hard_pause);
+    if (value != Prev_state && value == LOW) {
+      HardPause();
+      Prev_state = value;
+      return;
+    }
+    Prev_state = value;
    digitalWrite(P1_STEP_PIN, LOW);
    digitalWrite(P0_STEP_PIN, LOW);
     Pump_distance++;
@@ -55,6 +62,13 @@ void Priming(){
   while(Pump_distance < Tube_Volume){
    digitalWrite(P0_STEP_PIN, HIGH);
    delayMicroseconds(Priming_Speed);
+   byte value = digitalRead(hard_pause);
+   if (value != Prev_state && value == LOW) {
+     HardPause();
+     Prev_state = value;
+     return;
+   }
+   Prev_state = value;
    digitalWrite(P0_STEP_PIN, LOW);
     Pump_distance++;
   }
@@ -63,6 +77,13 @@ void Priming(){
    while(Pump_distance < Tube_Volume){
    digitalWrite(P1_STEP_PIN, HIGH);
    delayMicroseconds(Priming_Speed);
+   byte value = digitalRead(hard_pause);
+    if (value != Prev_state && value == LOW) {
+      HardPause();
+      Prev_state = value;
+      return;
+    }
+    Prev_state = value;
    digitalWrite(P1_STEP_PIN, LOW);
     Pump_distance++;
   }
@@ -71,6 +92,13 @@ void Priming(){
       digitalWrite(P0_STEP_PIN, HIGH);
       digitalWrite(P1_STEP_PIN, HIGH);
       delayMicroseconds(Priming_Speed);
+      byte value = digitalRead(hard_pause);
+      if (value != Prev_state && value == LOW) {
+        HardPause();
+        Prev_state = value;
+        return;
+      }
+      Prev_state = value;
       digitalWrite(P0_STEP_PIN, LOW);
       digitalWrite(P1_STEP_PIN, LOW);
       Pump_distance++;
@@ -102,11 +130,16 @@ if (Pump_Used == 0){               //If Pump 0 is used
 while(Pump_distance < pump_rate){
   digitalWrite(P0_STEP_PIN, HIGH);
   Serial.print("h");
+  byte value = digitalRead(hard_pause);
+  if (value != Prev_state && value == LOW) {
+    HardPause();
+    Prev_state = value;
+    return;
+  }
+  Prev_state = value;
   // time_now = millis();
   // while(millis() <  time_now + Pumping_Speed);
 //delayMicroseconds(Priming_Speed);
-
-  
   digitalWrite(P0_STEP_PIN, LOW);
   Pump_distance++;
   }
@@ -116,7 +149,13 @@ while(Pump_distance < pump_rate){
   digitalWrite(P1_STEP_PIN, HIGH);
 
   Serial.print("h");
-
+  byte value = digitalRead(hard_pause);
+  if (value != Prev_state && value == LOW) {
+    HardPause();
+    Prev_state = value;
+    return;
+  }
+  Prev_state = value;
   // time_now = millis();
   // while(millis() <  time_now + Pumping_Speed);
   // //delayMicroseconds(Priming_Speed);
@@ -132,6 +171,13 @@ while(Pump_distance < pump_rate){
 
     // //delayMicroseconds(Priming_Speed);
     Serial.print("h");
+    byte value = digitalRead(hard_pause);
+    if (value != Prev_state && value == LOW) {
+      HardPause();
+      Prev_state = value;
+      return;
+    }
+    Prev_state = value;
     digitalWrite(P0_STEP_PIN, LOW);
     digitalWrite(P1_STEP_PIN, LOW);
     Pump_distance++;

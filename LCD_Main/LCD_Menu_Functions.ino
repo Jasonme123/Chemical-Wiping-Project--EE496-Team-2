@@ -241,7 +241,7 @@ void cycle_count_display(uint8_t param)
       u8g.drawStr(ALIGN_CENTER("SLEEP MODE"), 16, F("SLEEP MODE"));
       u8g.drawStr(ALIGN_CENTER("IS ON"), 31, F("IS ON"));
       u8g.setFont(u8g_font_ncenB08);
-      u8g.drawStr(ALIGN_CENTER("Rotate Or Click"), 46, F("Rotate Or Click"));
+      u8g.drawStr(ALIGN_CENTER("Rotate or Click"), 46, F("Rotate or Click"));
       u8g.drawStr(ALIGN_CENTER("To Exit"), 56, F("To Exit"));
     } while (u8g.nextPage());
 
@@ -505,6 +505,8 @@ void reset_params(uint8_t param)
     wipe_Delay = 0;
     Brightness = 0;
     Photo_Brightness = 0;
+    Enclosure_Brightness = 0;
+    real_Enclosure_Brightness = 0;
     LCDML.FUNC_goBackToMenu(0);
   }
 }
@@ -604,11 +606,30 @@ void testing_cycle(uint8_t param) {
     while (u8g.nextPage());
     //Home Both Axis
     homeBoth();
+
+    //take final photo
+    Photo();
   }
 
-  LCDML.FUNC_goBackToMenu(0);
-  //      u8g.setFont(u8g_font_ncenB08);
-  //      u8g.drawStr(ALIGN_CENTER("Z Axis is homed"), 58, F("Z Axis is homed"));
+  u8g.firstPage();
+    do {
+      u8g.drawFrame(1, 1, 126, 62);
+      u8g.drawFrame(0, 0, 128, 64);
+      u8g.drawFrame(12, 35, 104, 24);
+      u8g.setFont(u8g_font_ncenB10);
+      u8g.drawStr(ALIGN_CENTER("Test Has:"), 16, F("Test Has:"));
+      u8g.drawStr(ALIGN_CENTER("Completed!:"), 31, F("Completed!:"));
+      u8g.setFont(u8g_font_ncenB08);
+      u8g.drawStr(ALIGN_CENTER("Rotate or Click"), 46, F("Rotate or Click"));
+      u8g.drawStr(ALIGN_CENTER("To Exit"), 56, F("To Exit"));
+    }
+    while (u8g.nextPage());
+
+    if (LCDML.BT_checkAny()) // check if any button is pressed (enter, up, down, left, right)
+    {
+      LCDML.FUNC_goBackToMenu(0);  // leave this function
+    }
+  
 }
 
 

@@ -36,7 +36,7 @@ void Set_Force(uint8_t line)
       // DOWN == Dicrease
       if(LCDML.BT_checkUp())
       {
-        if (wipe_force > 0){
+        if (wipe_force > 1){
             wipe_force--;
         }
         LCDML.BT_resetUp();
@@ -45,7 +45,7 @@ void Set_Force(uint8_t line)
       // This check have only an effect when MENU_disScroll is set
       if(LCDML.BT_checkDown())
       {
-        if (wipe_force < 15){
+        if (wipe_force < 3){
             wipe_force++;
         }
         LCDML.BT_resetDown();
@@ -175,7 +175,7 @@ void Flow_Rate(uint8_t line)
 
       if(LCDML.BT_checkDown())
       {
-        if (flow_rate < 99){
+        if (flow_rate < 9){
             flow_rate += 1;
         }
         LCDML.BT_resetDown();
