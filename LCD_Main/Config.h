@@ -95,13 +95,13 @@ volatile byte Prev_state = HIGH;
 //#define (anything)         4; //(PWM/Digital)
 //#define (anything)         14; //(TX3/Digital)
 //#define (anything)         15; //(RX3/Digital)
-//#define (anything)         27; //(Digital)
-//#define (anything)         29; //(Digital)
+#define RED         27; //Status LED
+#define GREEN        29; //Status LED
 //#define (anything)         33; //(Digital)
 //#define (anything)         35; //(Digital)
 
-#define AnalogInPin0         A8 //(Analog)
-#define AnalogInPin1         A9 //(Analog)
+#define AnalogInPin0         A8 //Tank1 Reading 
+#define AnalogInPin1         A9 //Tank2 Reading
 
 //#define (anything)         A10; //(Analog)
 //#define (anything)         A11; //(Analog)

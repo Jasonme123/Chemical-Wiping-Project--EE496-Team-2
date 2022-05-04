@@ -110,6 +110,10 @@ void HardPause(){
 
 void safety_setup(){
   
+    //status LEDs
+    pinMode(RED, OUTPUT);  
+    pinMode(GREEN, OUTPUT); 
+
   //data direction of endstops
   pinMode(z_min_stop, INPUT);
   pinMode(x_min_stop, INPUT);
@@ -137,6 +141,11 @@ void wipe_blink(){
   digitalWrite(Main_Status_LED, HIGH);
 }
 
+void status_wiping(){
+  
+  digitalWrite(RED, LOW);  
+    digitalWrite(GREEN, HIGH);  
+}
 
 
 #endif
