@@ -263,25 +263,12 @@ ISR(TIMER2_COMPA_vect) {
     Wipe_Dist = -Wipe_Dist;
   }
 
-  //
-  ////////////////////////////////////////////////////////////
-  ////Z-Axis Wiping Cycle
-  //volatile stepperInfo& sz = steppers[1];
-  //if(sz.movementDone){
-  // zPosition_Update = true;
-  // z_movement = (z_movement * -1);
-  // Current_Count++;
-  //}
-
-  //////////////////////////////////////////////////////////
   //Motor Command Sender
-
-
   //if x motor target changes, tell the motor to move to the new target
 
   if (xPosition_Update) {
     xPosition_Update = false;
-    prepareMovement( 0,  -Wipe_Dist );
+    prepareMovement( 0,  Wipe_Dist );
     runAndWait();
   }
 

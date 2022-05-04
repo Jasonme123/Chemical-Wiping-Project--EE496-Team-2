@@ -241,7 +241,7 @@ void cycle_count_display(uint8_t param)
       u8g.drawStr(ALIGN_CENTER("SLEEP MODE"), 16, F("SLEEP MODE"));
       u8g.drawStr(ALIGN_CENTER("IS ON"), 31, F("IS ON"));
       u8g.setFont(u8g_font_ncenB08);
-      u8g.drawStr(ALIGN_CENTER("Rotate Or Click"), 46, F("Rotate Or Click"));
+      u8g.drawStr(ALIGN_CENTER("Rotate or Click"), 46, F("Rotate or Click"));
       u8g.drawStr(ALIGN_CENTER("To Exit"), 56, F("To Exit"));
     } while (u8g.nextPage());
 
@@ -318,17 +318,26 @@ void Enable_motors(uint8_t param)
     // remmove compiler warnings when the param variable is not used:
     LCDML_UNUSED(param);
 
-    // Enable 
-    enable_Stepper();
-
     LCDML.FUNC_setLoopInterval(100);  // starts a trigger event for the loop function every 100 milliseconds
   }
 
   if (LCDML.FUNC_loop())             // ****** LOOP *********
   {
+    // Enable Motors
+    enable_Stepper();
+    u8g.firstPage();
+    do {
+      u8g.drawFrame(1, 1, 126, 62);
+      u8g.drawFrame(0, 0, 128, 64);
+      u8g.setFont(u8g_font_ncenB08);
+      u8g.drawStr( ALIGN_CENTER("Both Motors"), 18, F("Both Motors"));
+      u8g.drawStr( ALIGN_CENTER("Have Been Enabled."), 34, F("Have Been Enabled."));
+      u8g.drawStr( ALIGN_CENTER("Rotate to Exit"), 50, F("Rotate to Exit"));
+    }
+    while (u8g.nextPage());
     if (LCDML.BT_checkAny()) // check if any button is pressed (enter, up, down, left, right)
     {
-      LCDML.FUNC_goBackToMenu();  // leave this function
+      LCDML.FUNC_goBackToMenu(0);  // leave this function
     }
   }
 
@@ -346,17 +355,26 @@ void Disable_motors(uint8_t param)
     // remmove compiler warnings when the param variable is not used:
     LCDML_UNUSED(param);
 
-    // Disable
-    disable_Stepper();
-
     LCDML.FUNC_setLoopInterval(100);  // starts a trigger event for the loop function every 100 milliseconds
   }
 
   if (LCDML.FUNC_loop())             // ****** LOOP *********
   {
+    // Disable steppers
+    disable_Stepper();
+    u8g.firstPage();
+    do {
+      u8g.drawFrame(1, 1, 126, 62);
+      u8g.drawFrame(0, 0, 128, 64);
+      u8g.setFont(u8g_font_ncenB08);
+      u8g.drawStr( ALIGN_CENTER("Both Motors"), 18, F("Both Motors"));
+      u8g.drawStr( ALIGN_CENTER("Have Been Disabled."), 34, F("Have Been Disabled."));
+      u8g.drawStr( ALIGN_CENTER("Rotate to Exit"), 50, F("Rotate to Exit"));
+    }
+    while (u8g.nextPage());
     if (LCDML.BT_checkAny()) // check if any button is pressed (enter, up, down, left, right)
     {
-      LCDML.FUNC_goBackToMenu();  // leave this function
+      LCDML.FUNC_goBackToMenu(0);  // leave this function
     }
   }
 
@@ -421,7 +439,20 @@ void tare_load_cells(uint8_t param) {
   if (LCDML.FUNC_loop())  // ****** LOOP *********
   {
     scale.tare();
-    LCDML.FUNC_goBackToMenu(0);
+    u8g.firstPage();
+    do {
+      u8g.drawFrame(1, 1, 126, 62);
+      u8g.drawFrame(0, 0, 128, 64);
+      u8g.setFont(u8g_font_ncenB08);
+      u8g.drawStr( ALIGN_CENTER("Load Cells"), 18, F("Load Cells"));
+      u8g.drawStr( ALIGN_CENTER("Have Been Tarred."), 34, F("Have Been Tarred."));
+      u8g.drawStr( ALIGN_CENTER("Rotate to Exit"), 50, F("Rotate to Exit"));
+    }
+    while (u8g.nextPage());
+    if (LCDML.BT_checkAny()) // check if any button is pressed (enter, up, down, left, right)
+    {
+      LCDML.FUNC_goBackToMenu(0);  // leave this function
+    }
   }
 }
 
@@ -474,6 +505,8 @@ void reset_params(uint8_t param)
     wipe_Delay = 0;
     Brightness = 0;
     Photo_Brightness = 0;
+    Enclosure_Brightness = 0;
+    real_Enclosure_Brightness = 0;
     LCDML.FUNC_goBackToMenu(0);
   }
 }
@@ -500,8 +533,6 @@ void testing_cycle(uint8_t param) {
         while (u8g.nextPage());
 
     WipingSetup();
-
-    Serial.print("Start Wiping");
     
     //if wipe cycle target reached, go home
     while (Current_Count < Cycle_Target) {
@@ -546,7 +577,7 @@ void testing_cycle(uint8_t param) {
           u8g.drawStr(ALIGN_CENTER(buf), 31, buf);
           u8g.setFont(u8g_font_ncenB08);
           u8g.drawStr(ALIGN_CENTER("Click Red Button"), 46, F("Click Red Button"));
-          u8g.drawStr(ALIGN_CENTER("To STOP Tesing"), 56, F("To STOP Tesing"));
+          u8g.drawStr(ALIGN_CENTER("To Pause Testing"), 56, F("To Pause Testing"));
         }
         while (u8g.nextPage());
       }
@@ -570,16 +601,35 @@ void testing_cycle(uint8_t param) {
       u8g.drawStr(ALIGN_CENTER(buf), 31, buf);
       u8g.setFont(u8g_font_ncenB08);
       u8g.drawStr(ALIGN_CENTER("Click on Red Button"), 46, F("Click on Red Button"));
-      u8g.drawStr(ALIGN_CENTER("To STOP Tesing"), 56, F("To STOP Tesing"));
+      u8g.drawStr(ALIGN_CENTER("To Pause Testing"), 56, F("To Pause Testing"));
     }
     while (u8g.nextPage());
     //Home Both Axis
     homeBoth();
+
+    //take final photo
+    Photo();
   }
 
-  LCDML.FUNC_goBackToMenu(0);
-  //      u8g.setFont(u8g_font_ncenB08);
-  //      u8g.drawStr(ALIGN_CENTER("Z Axis is homed"), 58, F("Z Axis is homed"));
+  u8g.firstPage();
+    do {
+      u8g.drawFrame(1, 1, 126, 62);
+      u8g.drawFrame(0, 0, 128, 64);
+      u8g.drawFrame(12, 35, 104, 24);
+      u8g.setFont(u8g_font_ncenB10);
+      u8g.drawStr(ALIGN_CENTER("Test Has:"), 16, F("Test Has:"));
+      u8g.drawStr(ALIGN_CENTER("Completed!:"), 31, F("Completed!:"));
+      u8g.setFont(u8g_font_ncenB08);
+      u8g.drawStr(ALIGN_CENTER("Rotate or Click"), 46, F("Rotate or Click"));
+      u8g.drawStr(ALIGN_CENTER("To Exit"), 56, F("To Exit"));
+    }
+    while (u8g.nextPage());
+
+    if (LCDML.BT_checkAny()) // check if any button is pressed (enter, up, down, left, right)
+    {
+      LCDML.FUNC_goBackToMenu(0);  // leave this function
+    }
+  
 }
 
 
@@ -639,7 +689,6 @@ void turn_off_LEDs(uint8_t param)
   }
 }
 
-int16_t x_position = 100;
 void move_x_axis(uint8_t line)
 {
   if (line == LCDML.MENU_getCursorPos())
@@ -666,8 +715,6 @@ void move_x_axis(uint8_t line)
         if (!x_max) {
           move_motor_left();
         }
-        x_position--;
-
         LCDML.BT_resetUp();
       }
 
@@ -677,21 +724,25 @@ void move_x_axis(uint8_t line)
         if (!x_zero) {
           move_motor_right();
         }
-        x_position++;
-
         LCDML.BT_resetDown();
       }
     }
   }
 
-  char buf[20];
-  sprintf (buf, "Adjust X-axis  %d", x_position);
+  char buf[25];
+  int8_t decimal;
+  int8_t floating;
+
+  x_adjust_position_in_inches = (x_adjust_position / 1088.00) * 100;
+  decimal = (int)x_adjust_position_in_inches / 100;
+  floating = (int)x_adjust_position_in_inches % 100;
+  
+  sprintf (buf, "Start: %d.%d inches", decimal, floating);
 
   u8g.drawStr( _LCDML_DISP_box_x0 + _LCDML_DISP_font_w + _LCDML_DISP_cur_space_behind,  (_LCDML_DISP_font_h * (1 + line)), buf); // the value can be changed with left or right
 }
 
 
-int16_t z_position = 100;
 void move_z_axis(uint8_t line)
 {
   if (line == LCDML.MENU_getCursorPos())
@@ -716,12 +767,16 @@ void move_z_axis(uint8_t line)
         Z_min();
         if (!z_zero) {
           digitalWrite(Z_DIR_PIN, UP);
-          for (int x = 1; x < 1600; x++) {
-            endstop_Check();
+          for (int x = 1; x < 4267; x++) { //4267 steps per 1/4 inch
+            Z_min();
             Z_STEP_HIGH;
             delayMicroseconds(Z_Homing_Speed);
             Z_STEP_LOW;
             delayMicroseconds(Z_Homing_Speed);
+            z_adjust_position--;
+            if (z_adjust_position >= 1){
+              z_adjust_position--;          
+            }
           }
           z_position--;
           Current_ZPos--;
@@ -735,24 +790,35 @@ void move_z_axis(uint8_t line)
       if (LCDML.BT_checkDown())
       {
 
-        if ((z_position < z_axis_length) && Current_ZPos < 100) {
+        if ((z_adjust_position < z_axis_length) && Current_ZPos < 1000000) {
           digitalWrite(Z_DIR_PIN, DOWN);
-          for (int x = 1; x < 1600; x++) {
+          for (int x = 1; x < 4267; x++) {
             Z_STEP_HIGH;
             delayMicroseconds(Z_Homing_Speed);
             Z_STEP_LOW;
             delayMicroseconds(Z_Homing_Speed);
+            z_adjust_position++;
           }
-          z_position++;
           Current_ZPos++;
+
+          //Get new Force Reading
+          Force_Reading = Cell_1();
+          Serial.println(Force_Reading);
         }
         LCDML.BT_resetDown();
       }
     }
   }
 
-  char buf[20];
-  sprintf (buf, "Adjust Z-axis  %d", z_position);
+  char buf[25];
+  int8_t decimal;
+  int8_t floating;
+
+  z_adjust_position_in_inches = (z_adjust_position / 17064.00) * 100;
+  decimal = (int)z_adjust_position_in_inches / 100;
+  floating = (int)z_adjust_position_in_inches % 100;
+  
+  sprintf (buf, "Start: %d.%d inches", decimal, floating);
 
   u8g.drawStr( _LCDML_DISP_box_x0 + _LCDML_DISP_font_w + _LCDML_DISP_cur_space_behind,  (_LCDML_DISP_font_h * (1 + line)), buf); // the value can be changed with left or right
 }

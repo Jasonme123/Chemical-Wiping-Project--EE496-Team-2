@@ -16,7 +16,7 @@ void setup()
   LCDML.MENU_enRollover();
 
   // Enable Screensaver (screensaver menu function, time to activate in ms)
-  LCDML.SCREEN_enable(cycle_count_display, 30000); // set to 30 seconds
+  LCDML.SCREEN_enable(cycle_count_display, 120000); // set to 30 seconds
 
 }
 

@@ -122,7 +122,10 @@ double x_circumference = (3.14159 * x_Gear * 0.0393); //x motor gear circumferen
 
 boolean xPosition_Update = false;
 int xcelleraion = 250;
-int xMin_Interval = 100;
+int xMin_Interval = 75;
+uint32_t x_adjust_position = 0;
+float x_adjust_position_in_inches = 0.0;
+
 
 //////////////////////////////////////////////////////////////////
 //Z-motor Config
@@ -133,20 +136,24 @@ boolean zPosition_Update = false;
 int z_movement = 1000;
 int zcelleration = 1000;
 int zMin_Interval = 150;
+uint32_t z_adjust_position = 0;
+float z_adjust_position_in_inches = 0.0;
+
 
 //////////////////////////////////////////////////////////////////
 //Pumping Parameters
-#define To_Wipe HIGH //defining direction for liquid movement (may need to change)
-#define From_wipe LOW
+#define To_Wipe LOW //defining direction for liquid movement (may need to change)
+#define From_wipe HIGH
 
-int Pumping_Speed = 2000; //delay between steps in microseconds
-uint32_t Tube_Volume = 5000; //((volume inside length of tube * (1600 / 1.06)) NOTE: trunctated but still good enough
+int Pumping_Speed = 1; //delay between steps in microseconds
+int Priming_Speed = 300; //delay between steps in microseconds
+uint32_t Tube_Volume = 49812; //((volume inside length of tube * (1600 / 1.06)) NOTE: trunctated but still good enough
 boolean Pumping_Needed = false;
 
 //////////////////////////////////////////////////////////////////
 //Dynamic Parmaters
-uint32_t wipe_distance = 3264;
-uint32_t init_position = 2176;
+uint32_t wipe_distance = 0;
+uint32_t init_position = 0;
 float wipe_distance_in_inches = 0.0;
 float init_position_in_inches = 0.0;
 
@@ -155,14 +162,14 @@ uint32_t Cycle_Target = 100;
 uint32_t Photo_Interval = 0;
 uint32_t flow_rate = 0;
 float real_flow_rate = 0.0;
-uint8_t wipe_speed = 0;  // Used For User Input as sprintf formatting of floating point values is not supported in Arduino
-float real_wipe_speed = 0.0;  // Used For Actual Calculations
+uint8_t wipe_speed = 10;  // Used For User Input as sprintf formatting of floating point values is not supported in Arduino
+float real_wipe_speed = 1.0;  // Used For Actual Calculations
 uint8_t pump = 0;
 uint32_t increase_interval = 1;  // For setting Cycle Number
 uint8_t Brightness = 0;
 uint8_t delay_ = 0;
 uint8_t Photo_Brightness;
-uint8_t wipe_Delay;
+uint32_t wipe_Delay = 0;
 
 uint8_t Enclosure_Brightness = 0;
 uint8_t real_Enclosure_Brightness;
@@ -173,7 +180,7 @@ uint8_t real_Enclosure_Brightness;
 
 int16_t Wipe_Dist = 3264;
 uint32_t Init_Pos = 2176;
-int Pump_Rate;
+uint32_t Pump_Rate;
 uint8_t Wiping_Speed;
 uint8_t Pump_Used;
 uint8_t Norm_Brightness = 128;

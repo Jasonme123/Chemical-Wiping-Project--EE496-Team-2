@@ -67,15 +67,15 @@ LCDMenuLib2 LCDML(LCDML_0, _LCDML_DISP_rows, _LCDML_DISP_cols, lcdml_menu_displa
 // LCDML_add(id, prev_layer, new_num, lang_char_array, callback_function) 
    
 LCDML_add         (0  , LCDML_0         , 1  , "===== HOME ======", logo_display);                   
-LCDML_add         (1  , LCDML_0         , 2  , "Home Z-Axis"      , NULL);        
+LCDML_add         (4  , LCDML_0         , 2  , "Home X&Z Axes"    , NULL);  
 LCDML_add         (2  , LCDML_0         , 3  , "Set Parameters"   , NULL);   
 LCDML_add         (3  , LCDML_0         , 4  , "Start Testing Cycle",NULL);  
-LCDML_add         (4  , LCDML_0         , 5  , "Home X&Z Axes"    , NULL);  
-LCDML_add         (5  , LCDML_0         , 6  , "Adjust X&Z Axes"  , NULL);  
+LCDML_add         (5  , LCDML_0         , 5  , "Adjust X&Z Axes"  , NULL); 
+LCDML_add         (7  , LCDML_0         , 6  , "Turn Lights On/Off",NULL); 
 LCDML_add         (6  , LCDML_0         , 7  , "Tare Load Cells"  , NULL);  
-LCDML_add         (7  , LCDML_0         , 8  , "Turn Lights On/Off",NULL);  
+LCDML_add         (1  , LCDML_0         , 8  , "Home Z-Axis"      , NULL);          
 LCDML_add         (8  , LCDML_0         , 9  , "Enable/Disable X&Z",NULL);  
-LCDML_add         (9  , LCDML_0         , 10 , "Cycle Count"      , cycle_count_display); 
+LCDML_add         (9  , LCDML_0         , 10 , "Sleep Mode"       , cycle_count_display); 
 
 LCDML_add         (10 , LCDML_0_8       , 1  , "LIGHTS ON/OFF"    , NULL);  
 LCDML_addAdvanced (11 , LCDML_0_8       , 2  , NULL               , "Turn ON - ", Enclosure_Brightness_,0,   _LCDML_TYPE_dynParam); 
@@ -99,14 +99,14 @@ LCDML_add         (24 , LCDML_0_5       , 2  , "Start Homing"     , both_axis_ho
 LCDML_add         (25 , LCDML_0_5       , 3  , "Back"             , mFunc_back_by_1); 
 
 LCDML_add         (26 , LCDML_0_3       , 1  , "SET PARAMETERS"   , NULL);       
-LCDML_add         (27 , LCDML_0_3       , 2  , "Wiping Distances" , NULL);                           
+LCDML_add         (27 , LCDML_0_3       , 2  , "Wiping Distances" , both_axis_homing);                           
 LCDML_add         (28 , LCDML_0_3       , 3  , "Number of Cycles" , NULL);                    
 LCDML_addAdvanced (29 , LCDML_0_3       , 4  , NULL               , "Photo Int. "  , Photo_Int,     0,   _LCDML_TYPE_dynParam);    
 LCDML_addAdvanced (30 , LCDML_0_3       , 5  , NULL               , "Wipe Force"   , Set_Force,     0,   _LCDML_TYPE_dynParam);
 LCDML_addAdvanced (31 , LCDML_0_3       , 6  , NULL               , "Wipe Speed"   , Wipe_Speed,    0,   _LCDML_TYPE_dynParam);
 LCDML_addAdvanced (32 , LCDML_0_3       , 7  , NULL               , "Select Pump"  , Pump_Select,   0,   _LCDML_TYPE_dynParam);                                                                   
-LCDML_addAdvanced (33 , LCDML_0_3       , 8  , NULL               , "Flow Rate"    , Flow_Rate,     0,   _LCDML_TYPE_dynParam);     
-LCDML_addAdvanced (34 , LCDML_0_3       , 9  , NULL               , "Photo Brightness", Set_Brightness,0,   _LCDML_TYPE_dynParam); 
+LCDML_addAdvanced (33 , LCDML_0_3       , 8  , NULL               , "Flow"         , Flow_Rate,     0,   _LCDML_TYPE_dynParam);     
+LCDML_addAdvanced (34 , LCDML_0_3       , 9  , NULL               , "Flash Brightness", Set_Brightness,0,   _LCDML_TYPE_dynParam); 
 LCDML_addAdvanced (35 , LCDML_0_3       , 10 , NULL               , "Wipe Delay"   , Wipe_Delay,    0,   _LCDML_TYPE_dynParam);       
 LCDML_add         (36 , LCDML_0_3       , 11 , "Reset Parameters" , reset_params);              
 LCDML_add         (37 , LCDML_0_3       , 12 , "Back"             , mFunc_back_by_1);    
@@ -134,7 +134,7 @@ LCDML_add         (53 , LCDML_0_3_2_3   , 1  , "SET WIPING DIST."       , NULL);
 LCDML_addAdvanced (54 , LCDML_0_3_2_3   , 2  , NULL                     , "Start"    , set_wipe_distance, 0,   _LCDML_TYPE_dynParam);      
 LCDML_add         (55 , LCDML_0_3_2_3   , 3  , "Back"                   , mFunc_back_by_2);                           
 
-LCDML_addAdvanced (56  , LCDML_0        , 11  , COND_hide, "Cycle Count" , cycle_count_display,  0,  _LCDML_TYPE_default);    
+LCDML_addAdvanced (56  , LCDML_0        , 11  , COND_hide, "Sleep Mode" , cycle_count_display,  0,  _LCDML_TYPE_default);    
 
 // this value must be the same as the last menu element
 #define _LCDML_DISP_cnt    56

@@ -22,6 +22,7 @@ void X_min(){
   delay(100);
   x_zero = true; //if at zero position
   Current_XPos = 0;
+  x_adjust_position = 0;
   }
   else{
     x_zero = false;
@@ -35,6 +36,7 @@ void Z_min(){
   delay(100);
   z_zero = true; //if at zero position
   Current_ZPos = 0; 
+  z_adjust_position = 0;
   }
   else{
   z_zero = false;
@@ -45,7 +47,7 @@ void Z_min(){
 //when endstop is triggered
 void X_max(){
   if(digitalRead(x_max_stop) ==  LOW){
-  delay(250);
+  delay(100);
   x_max = true; //if at zero position
   Current_ZPos = 0; 
   }

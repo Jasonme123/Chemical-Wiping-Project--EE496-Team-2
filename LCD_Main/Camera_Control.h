@@ -52,6 +52,8 @@ void Photo() {
 
   photo_taken = true;
   wiping = true;
+  Wipe_Dist = -wipe_distance; 
+  
   TIMER1_INTERRUPTS_ON
   TIMER2_INTERRUPTS_ON
 

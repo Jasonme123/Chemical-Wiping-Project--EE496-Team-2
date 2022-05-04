@@ -19,7 +19,7 @@ void Pump_setup() {
 //////////////////////////////////////////////////////////////////
 void unPriming(){
   wiping = false;
-    int Pump_distance = 0; //temp var
+    uint32_t Pump_distance = 0; //temp var
   
     digitalWrite(P0_ENABLE_PIN, LOW);
     digitalWrite(P1_ENABLE_PIN, LOW); //Enable Pump Movements
@@ -30,7 +30,14 @@ void unPriming(){
   while(Pump_distance < Tube_Volume){
    digitalWrite(P1_STEP_PIN, HIGH);
    digitalWrite(P0_STEP_PIN, HIGH);
-   delayMicroseconds(Pumping_Speed/2);
+   delayMicroseconds(Priming_Speed);
+   byte value = digitalRead(hard_pause);
+    if (value != Prev_state && value == LOW) {
+      HardPause();
+      Prev_state = value;
+      return;
+    }
+    Prev_state = value;
    digitalWrite(P1_STEP_PIN, LOW);
    digitalWrite(P0_STEP_PIN, LOW);
     Pump_distance++;
@@ -43,7 +50,7 @@ void unPriming(){
 //////////////////////////////////////////////////////////////////
 void Priming(){
   
-    int Pump_distance = 0; //temp var
+    uint32_t Pump_distance = 0; //temp var
   
     digitalWrite(P0_ENABLE_PIN, LOW);
     digitalWrite(P1_ENABLE_PIN, LOW); //Enable Pump Movements
@@ -54,7 +61,14 @@ void Priming(){
   if (Pump_Used == 0){               //If pump 0 is used
   while(Pump_distance < Tube_Volume){
    digitalWrite(P0_STEP_PIN, HIGH);
-   delayMicroseconds(Pumping_Speed/2);
+   delayMicroseconds(Priming_Speed);
+   byte value = digitalRead(hard_pause);
+   if (value != Prev_state && value == LOW) {
+     HardPause();
+     Prev_state = value;
+     return;
+   }
+   Prev_state = value;
    digitalWrite(P0_STEP_PIN, LOW);
     Pump_distance++;
   }
@@ -62,7 +76,14 @@ void Priming(){
   else if (Pump_Used == 1){                           //If Pump 1 is used
    while(Pump_distance < Tube_Volume){
    digitalWrite(P1_STEP_PIN, HIGH);
-   delayMicroseconds(Pumping_Speed/2);
+   delayMicroseconds(Priming_Speed);
+   byte value = digitalRead(hard_pause);
+    if (value != Prev_state && value == LOW) {
+      HardPause();
+      Prev_state = value;
+      return;
+    }
+    Prev_state = value;
    digitalWrite(P1_STEP_PIN, LOW);
     Pump_distance++;
   }
@@ -70,7 +91,14 @@ void Priming(){
     while (Pump_distance < Tube_Volume){
       digitalWrite(P0_STEP_PIN, HIGH);
       digitalWrite(P1_STEP_PIN, HIGH);
-      delayMicroseconds(Pumping_Speed/2);
+      delayMicroseconds(Priming_Speed);
+      byte value = digitalRead(hard_pause);
+      if (value != Prev_state && value == LOW) {
+        HardPause();
+        Prev_state = value;
+        return;
+      }
+      Prev_state = value;
       digitalWrite(P0_STEP_PIN, LOW);
       digitalWrite(P1_STEP_PIN, LOW);
       Pump_distance++;
@@ -79,13 +107,17 @@ void Priming(){
    digitalWrite(P0_ENABLE_PIN, HIGH);
    digitalWrite(P1_ENABLE_PIN, HIGH); //Disable Pump Movements
   }
-}  
+}
+
+unsigned long time_now = 0;
+
 //////////////////////////////////////////////////////////////////
 void Pump(int pump_rate) {
 wiping = false;
-//TIMER1_INTERRUPTS_OFF
+// TIMER1_INTERRUPTS_OFF
+// TIMER2_INTERRUPTS_OFF
   
-  int Pump_distance = 0;
+  uint32_t Pump_distance = 0;
 
   digitalWrite(P0_ENABLE_PIN, LOW);
   digitalWrite(P1_ENABLE_PIN, LOW); //Enable Pump Movements
@@ -97,7 +129,17 @@ wiping = false;
 if (Pump_Used == 0){               //If Pump 0 is used
 while(Pump_distance < pump_rate){
   digitalWrite(P0_STEP_PIN, HIGH);
-  delayMicroseconds(Pumping_Speed/2);
+  Serial.print("h");
+  byte value = digitalRead(hard_pause);
+  if (value != Prev_state && value == LOW) {
+    HardPause();
+    Prev_state = value;
+    return;
+  }
+  Prev_state = value;
+  // time_now = millis();
+  // while(millis() <  time_now + Pumping_Speed);
+//delayMicroseconds(Priming_Speed);
   digitalWrite(P0_STEP_PIN, LOW);
   Pump_distance++;
   }
@@ -105,7 +147,18 @@ while(Pump_distance < pump_rate){
   else if (Pump_Used == 1){        //If Pump 1 is used
   while(Pump_distance < pump_rate){
   digitalWrite(P1_STEP_PIN, HIGH);
-  delayMicroseconds(Pumping_Speed/2);
+
+  Serial.print("h");
+  byte value = digitalRead(hard_pause);
+  if (value != Prev_state && value == LOW) {
+    HardPause();
+    Prev_state = value;
+    return;
+  }
+  Prev_state = value;
+  // time_now = millis();
+  // while(millis() <  time_now + Pumping_Speed);
+  // //delayMicroseconds(Priming_Speed);
   digitalWrite(P1_STEP_PIN, LOW);
   Pump_distance++;
   }
@@ -113,7 +166,18 @@ while(Pump_distance < pump_rate){
   while(Pump_distance < pump_rate){
     digitalWrite(P0_STEP_PIN, HIGH);
     digitalWrite(P1_STEP_PIN, HIGH);
-    delayMicroseconds(Pumping_Speed/2);
+    // time_now = millis();
+    // while(millis() <  time_now + Pumping_Speed);
+
+    // //delayMicroseconds(Priming_Speed);
+    Serial.print("h");
+    byte value = digitalRead(hard_pause);
+    if (value != Prev_state && value == LOW) {
+      HardPause();
+      Prev_state = value;
+      return;
+    }
+    Prev_state = value;
     digitalWrite(P0_STEP_PIN, LOW);
     digitalWrite(P1_STEP_PIN, LOW);
     Pump_distance++;
@@ -121,8 +185,13 @@ while(Pump_distance < pump_rate){
    digitalWrite(P0_ENABLE_PIN, HIGH);
    digitalWrite(P1_ENABLE_PIN, HIGH); //Disable Pump Movements
 }
-   
-//TIMER1_INTERRUPTS_ON
+  //delay between wipe
+  // time_now = millis();
+  // while(millis() <  time_now + wipe_Delay);
+  // time_now = 0;
+
+// TIMER1_INTERRUPTS_ON
+// TIMER2_INTERRUPTS_ON
 wiping = true;
 }
 

@@ -11,7 +11,8 @@ void move_motor_left(){
     X_STEP_HIGH
     delayMicroseconds(150);
     X_STEP_LOW
-    delayMicroseconds(150);     
+    delayMicroseconds(150); 
+    x_adjust_position++;    
   }
 }
 
@@ -21,7 +22,10 @@ void move_motor_right(){
     X_STEP_HIGH
     delayMicroseconds(150);
     X_STEP_LOW
-    delayMicroseconds(150);       
+    delayMicroseconds(150);   
+    if (x_adjust_position >= 1){
+       x_adjust_position--;          
+    }      
   }
 }
 
@@ -33,7 +37,7 @@ void move_motor_left_init(){
     delayMicroseconds(150);
     X_STEP_LOW
     delayMicroseconds(150);
-    init_position++;         
+    init_position++;          
   }
 }
 
