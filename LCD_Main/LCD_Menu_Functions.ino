@@ -556,7 +556,7 @@ void testing_cycle(uint8_t param) {
 
       WipingLoop();
       if(endstopError){
-
+        status_error();
         u8g.firstPage();
         do {
           u8g.drawFrame(1, 1, 126, 62);
@@ -568,6 +568,7 @@ void testing_cycle(uint8_t param) {
         }
         while (u8g.nextPage());
       }else if (is_empty){
+        status_error();
         u8g.firstPage();
         do {
           u8g.drawFrame(1, 1, 126, 62);
@@ -628,7 +629,7 @@ void testing_cycle(uint8_t param) {
     finalPhoto();
     Photo_Interval = 0;
   }
-
+  status_done_wiping();
   u8g.firstPage();
     do {
       u8g.drawFrame(1, 1, 126, 62);

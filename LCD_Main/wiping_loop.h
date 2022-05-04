@@ -48,6 +48,8 @@ void WipingSetup() {
   wipe_blink();
   Priming();
   wipe_blink();
+
+  
  
   //take a photo at the begining
   Photo();
@@ -86,10 +88,15 @@ void WipingSetup() {
 ///////////////////////////////////////////////////////////////////////////////
 
 void WipingLoop() {
+
+  
 // if(Pumping_Needed == true){
 //   Pump(Pump_Rate);
 //   Pumping_Needed = false;
 // }
+
+//turn led orange when it starts wiping
+  status_wiping();
 
   //Take a photo if needed
   if (((Current_Count % Photo_Interval) == 0) && !photo_taken){

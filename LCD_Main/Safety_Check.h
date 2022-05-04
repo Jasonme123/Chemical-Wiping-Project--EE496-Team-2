@@ -15,6 +15,26 @@ void enable_Stepper(){
   digitalWrite(Z_ENABLE_PIN, LOW);
 }
 
+void status_wiping(){ //LED orange whne wiping 
+  
+  digitalWrite(RED, LOW);  
+  digitalWrite(GREEN, LOW);  
+}
+
+void status_done_wiping(){//LED Green when done wiping
+  
+  digitalWrite(RED, HIGH);  
+  digitalWrite(GREEN, LOW);  
+}
+
+
+void status_error(){//LED Red when an error occcurs
+  
+  digitalWrite(RED, LOW);  
+  digitalWrite(GREEN, HIGH);  
+}
+
+
 /////////////////////////////////////////////////////////
 //when endstop is triggered
 void X_min(){
@@ -66,6 +86,7 @@ void endstop_Check(){
   endstopError = true;
   disable_Stepper();
   Serial.println("Endstop Error");
+  status_error();
  }
 }
 
@@ -140,12 +161,5 @@ void wipe_blink(){
   delay(20);
   digitalWrite(Main_Status_LED, HIGH);
 }
-
-void status_wiping(){
-  
-  digitalWrite(RED, LOW);  
-  digitalWrite(GREEN, HIGH);  
-}
-
 
 #endif

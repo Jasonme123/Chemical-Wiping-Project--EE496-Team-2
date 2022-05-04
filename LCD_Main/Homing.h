@@ -11,6 +11,7 @@
 void homing_error() {
   disable_Stepper();
   Serial.println("Homing Error");
+  status_error();
 }
 
 /////////////////////////////////////////////////////////
@@ -43,6 +44,7 @@ void home_x_axis() {
 
     if (homing_checker > x_axis_length) { //If while traveling home we move more than the expected length of axis, stop.
       homing_error();
+      
     }
   }
 }
@@ -120,6 +122,7 @@ void touchDown() {
 
     if (homing_checker > z_axis_length) { //If while traveling home we move more than the expected length of axis, stop.
       homing_error();
+     
     }
   }
 }
@@ -154,6 +157,7 @@ void intial_x_axis() {
 
     if (homing_checker > x_axis_length) { //If while traveling home we move more than the expected length of axis, stop.
       homing_error();
+      
     }
   }
 }
