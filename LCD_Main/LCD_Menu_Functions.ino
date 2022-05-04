@@ -583,7 +583,6 @@ void testing_cycle(uint8_t param) {
       }
     }
     //turn off interrupt based motor control
-    noInterrupts();
     TIMER1_INTERRUPTS_OFF
     TIMER2_INTERRUPTS_OFF
 
@@ -778,7 +777,6 @@ void move_z_axis(uint8_t line)
               z_adjust_position--;          
             }
           }
-          z_position--;
           Current_ZPos--;
         }
         else {

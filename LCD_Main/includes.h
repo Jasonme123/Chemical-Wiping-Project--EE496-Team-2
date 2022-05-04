@@ -5,10 +5,10 @@
 #define INCLUDEDEF
 
 #include "config.h"
+#include "Safety_Check.h"
 #include "Pump_Control.h"
 #include "tank_load_cells.h"
 #include "Force_Sensors_Reading.h"
-#include "Safety_Check.h"
 #include "Motor_Control.h"
 #include "Homing.h"
 #include "Camera_Control.h"
