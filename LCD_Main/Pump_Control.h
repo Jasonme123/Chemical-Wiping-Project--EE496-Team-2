@@ -56,9 +56,9 @@ void Priming(){
     digitalWrite(P1_ENABLE_PIN, LOW); //Enable Pump Movements
 
     digitalWrite(P0_DIR_PIN, To_Wipe);
-    digitalWrite(P1_DIR_PIN, To_Wipe);
+    digitalWrite(P1_DIR_PIN, !To_Wipe);
 
-  if (Pump_Used == 0){               //If pump 0 is used
+  if (Pump_Used == 1){               //If pump 1 is used
   while(Pump_distance < Tube_Volume){
    digitalWrite(P0_STEP_PIN, HIGH);
    delayMicroseconds(Priming_Speed);
@@ -73,7 +73,7 @@ void Priming(){
     Pump_distance++;
   }
 }
-  else if (Pump_Used == 1){                           //If Pump 1 is used
+  else if (Pump_Used == 2){                           //If Pump 2 is used
    while(Pump_distance < Tube_Volume){
    digitalWrite(P1_STEP_PIN, HIGH);
    delayMicroseconds(Priming_Speed);
@@ -124,7 +124,7 @@ wiping = false;
 
 
   digitalWrite(P0_DIR_PIN, To_Wipe);
-  digitalWrite(P1_DIR_PIN, To_Wipe);
+  digitalWrite(P1_DIR_PIN, !To_Wipe);
 
 if (Pump_Used == 0){               //If Pump 0 is used
 while(Pump_distance < pump_rate){
@@ -185,13 +185,13 @@ while(Pump_distance < pump_rate){
    digitalWrite(P0_ENABLE_PIN, HIGH);
    digitalWrite(P1_ENABLE_PIN, HIGH); //Disable Pump Movements
 }
-  //delay between wipe
-  // time_now = millis();
-  // while(millis() <  time_now + wipe_Delay);
-  // time_now = 0;
+  
+//  unsigned long interrupt_time = millis();
+//  
+//  while (interrupt_time < wipe_Delay){
+//  interrupt_time = millis();   
+//  }
 
-// TIMER1_INTERRUPTS_ON
-// TIMER2_INTERRUPTS_ON
 wiping = true;
 }
 

@@ -95,8 +95,8 @@ volatile byte Prev_state = HIGH;
 //#define (anything)         4; //(PWM/Digital)
 //#define (anything)         14; //(TX3/Digital)
 //#define (anything)         15; //(RX3/Digital)
-#define RED         27; //Status LED
-#define GREEN        29; //Status LED
+#define RED         27 //Status LED
+#define GREEN       29 //Status LED
 //#define (anything)         33; //(Digital)
 //#define (anything)         35; //(Digital)
 
@@ -164,7 +164,7 @@ uint32_t flow_rate = 0;
 float real_flow_rate = 0.0;
 uint8_t wipe_speed = 10;  // Used For User Input as sprintf formatting of floating point values is not supported in Arduino
 float real_wipe_speed = 1.0;  // Used For Actual Calculations
-uint8_t pump = 0;
+uint8_t pump = 1;
 uint32_t increase_interval = 1;  // For setting Cycle Number
 uint8_t Brightness = 0;
 uint8_t delay_ = 0;
@@ -199,7 +199,7 @@ volatile uint32_t Current_ZPos; //Current Z position
 boolean Z_direction;
 int16_t Force_Target;
 int16_t Force_Reading;
-int16_t K_Const = 8;
+int16_t K_Const = 50;
 
 double Force_Target_PID;
 double Force_Reading_PID;

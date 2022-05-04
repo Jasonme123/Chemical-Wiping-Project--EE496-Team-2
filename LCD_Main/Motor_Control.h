@@ -244,13 +244,13 @@ ISR(TIMER2_COMPA_vect) {
 
   endstop_Check();
 
-  byte value = digitalRead(hard_pause);
-  if (value != Prev_state && value == LOW) {
-    HardPause();
-    Prev_state = value;
-    return;
-  }
-  Prev_state = value;
+//  byte value = digitalRead(hard_pause);
+//  if (value != Prev_state && value == LOW) {
+//    HardPause();
+//    Prev_state = value;
+//    return;
+//  }
+//  Prev_state = value;
 
 //HardPause();
 

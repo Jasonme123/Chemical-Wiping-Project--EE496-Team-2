@@ -533,6 +533,23 @@ void testing_cycle(uint8_t param) {
         while (u8g.nextPage());
 
     WipingSetup();
+
+    u8g.firstPage();
+        uint32_t printcount = Current_Count;
+        do {
+          u8g.drawFrame(1, 1, 126, 62);
+          u8g.drawFrame(0, 0, 128, 64);
+          u8g.drawFrame(5, 35, 118, 24);
+          u8g.setFont(u8g_font_ncenB10);
+          u8g.drawStr( 5, 16, F("CYCLE COUNT:"));
+          char buf[20];
+          sprintf (buf, "%u", printcount);
+          u8g.drawStr(ALIGN_CENTER(buf), 31, buf);
+          u8g.setFont(u8g_font_ncenB08);
+          u8g.drawStr(ALIGN_CENTER("Click Red Button"), 46, F("Click Red Button"));
+          u8g.drawStr(ALIGN_CENTER("To Pause Testing"), 56, F("To Pause Testing"));
+        }
+        while (u8g.nextPage());
     
     //if wipe cycle target reached, go home
     while (Current_Count < Cycle_Target) {
@@ -562,10 +579,10 @@ void testing_cycle(uint8_t param) {
         }
         while (u8g.nextPage());
       }
-
+    
       if (Current_Count % 5 == 0) {
-
         u8g.firstPage();
+        uint32_t printcount = Current_Count;
         do {
           u8g.drawFrame(1, 1, 126, 62);
           u8g.drawFrame(0, 0, 128, 64);
@@ -573,7 +590,7 @@ void testing_cycle(uint8_t param) {
           u8g.setFont(u8g_font_ncenB10);
           u8g.drawStr( 5, 16, F("CYCLE COUNT:"));
           char buf[20];
-          sprintf (buf, "%u", Current_Count);
+          sprintf (buf, "%u", printcount);
           u8g.drawStr(ALIGN_CENTER(buf), 31, buf);
           u8g.setFont(u8g_font_ncenB08);
           u8g.drawStr(ALIGN_CENTER("Click Red Button"), 46, F("Click Red Button"));
@@ -605,9 +622,11 @@ void testing_cycle(uint8_t param) {
     while (u8g.nextPage());
     //Home Both Axis
     homeBoth();
+    unPriming(); 
 
     //take final photo
-    Photo();
+    finalPhoto();
+    Photo_Interval = 0;
   }
 
   u8g.firstPage();
@@ -798,10 +817,18 @@ void move_z_axis(uint8_t line)
             z_adjust_position++;
           }
           Current_ZPos++;
-
-          //Get new Force Reading
-          Force_Reading = Cell_1();
-          Serial.println(Force_Reading);
+//delay(1000);
+//          //Get new Force Reading
+//          Force_Reading = Cell_1();
+//          Serial.println(Force_Reading);
+//                    Force_Reading = Cell_1();
+//          Serial.println(Force_Reading);
+//                    Force_Reading = Cell_1();
+//          Serial.println(Force_Reading);
+//                    Force_Reading = Cell_1();
+//          Serial.println(Force_Reading);
+//                    Force_Reading = Cell_1();
+//          Serial.println(Force_Reading);
         }
         LCDML.BT_resetDown();
       }

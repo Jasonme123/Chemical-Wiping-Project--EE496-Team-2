@@ -266,7 +266,7 @@ void Pump_Select(uint8_t line)
       }
       if(LCDML.BT_checkUp())
       { 
-        if (pump > 0){
+        if (pump > 1){
             pump -= 1;
         }
         LCDML.BT_resetUp();
@@ -274,7 +274,7 @@ void Pump_Select(uint8_t line)
 
       if(LCDML.BT_checkDown())
       {
-        if (pump < 2){
+        if (pump < 3){
             pump += 1;
         }
         LCDML.BT_resetDown();
@@ -283,8 +283,13 @@ void Pump_Select(uint8_t line)
   }
 
   char buf[20];
+  if(pump == 3){
+  sprintf (buf, "Select Pump: Both");
+  }
+  else{
   sprintf (buf, "Select Pump: %u", pump);
-
+  }
+  
   u8g.drawStr( _LCDML_DISP_box_x0+_LCDML_DISP_font_w + _LCDML_DISP_cur_space_behind,  (_LCDML_DISP_font_h * (1+line)), buf);     // the value can be changed with left or right
 }
 
@@ -334,13 +339,14 @@ void Sel_increase_interval(uint8_t line)
 
 void set_init_position(uint8_t line)
 {
+
   if (line == LCDML.MENU_getCursorPos())
   {
     if(LCDML.BT_checkAny())
     {
       if(LCDML.BT_checkEnter())
       {
-        homeBoth();
+        
         if(LCDML.MENU_getScrollDisableStatus() == 0)
         {
           LCDML.MENU_disScroll();
@@ -472,7 +478,7 @@ void Set_Brightness(uint8_t line)
 
       if(LCDML.BT_checkDown())
       {
-        if (Brightness < 10){
+        if (Brightness < 9){
            
             Brightness++;
             Photo_Brightness = map(Brightness,0,10,0,255);
