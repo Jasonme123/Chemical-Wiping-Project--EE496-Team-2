@@ -18,13 +18,15 @@ void enable_Stepper(){
 void status_wiping(){ //LED orange whne wiping 
   
   digitalWrite(RED, LOW);  
-  digitalWrite(GREEN, LOW);  
+  digitalWrite(GREEN, LOW); 
+  return; 
 }
 
 void status_done_wiping(){//LED Green when done wiping
   
   digitalWrite(RED, HIGH);  
   digitalWrite(GREEN, LOW);  
+    return; 
 }
 
 
@@ -32,6 +34,8 @@ void status_error(){//LED Red when an error occcurs
   
   digitalWrite(RED, LOW);  
   digitalWrite(GREEN, HIGH);  
+    return; 
+
 }
 
 

@@ -68,7 +68,7 @@ LCDMenuLib2 LCDML(LCDML_0, _LCDML_DISP_rows, _LCDML_DISP_cols, lcdml_menu_displa
    
 LCDML_add         (0  , LCDML_0         , 1  , "===== HOME ======", logo_display);                   
 LCDML_add         (1  , LCDML_0         , 2  , "Home X&Z Axes"    , NULL);  
-LCDML_add         (2  , LCDML_0         , 3  , "Set Parameters"   , both_axis_homing);   
+LCDML_add         (2  , LCDML_0         , 3  , "Set Parameters"   , NULL);   
 LCDML_add         (3  , LCDML_0         , 4  , "Start Testing Cycle",NULL);  
 LCDML_add         (4  , LCDML_0         , 5  , "Adjust X&Z Axes"  , NULL); 
 LCDML_add         (5  , LCDML_0         , 6  , "Turn Lights On/Off",NULL); 

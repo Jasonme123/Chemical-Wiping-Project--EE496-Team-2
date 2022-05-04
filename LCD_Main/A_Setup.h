@@ -5,6 +5,8 @@ void function_setup() {
 
   Pump_setup(); //Pump Setup
 
+  status_done_wiping(); // green LED status
+
   Camera_setup(); //Camera Setup
 
   LoadCell_setup(); //Force feedback load cell setup

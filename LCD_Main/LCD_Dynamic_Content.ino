@@ -339,7 +339,6 @@ void Sel_increase_interval(uint8_t line)
 
 void set_init_position(uint8_t line)
 {
-
   if (line == LCDML.MENU_getCursorPos())
   {
     if(LCDML.BT_checkAny())
@@ -350,6 +349,8 @@ void set_init_position(uint8_t line)
         if(LCDML.MENU_getScrollDisableStatus() == 0)
         {
           LCDML.MENU_disScroll();
+          homeBoth();
+          init_position_in_inches = 0;
         }
         else
         {
