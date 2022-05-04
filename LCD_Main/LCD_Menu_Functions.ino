@@ -318,17 +318,26 @@ void Enable_motors(uint8_t param)
     // remmove compiler warnings when the param variable is not used:
     LCDML_UNUSED(param);
 
-    // Enable 
-    enable_Stepper();
-
     LCDML.FUNC_setLoopInterval(100);  // starts a trigger event for the loop function every 100 milliseconds
   }
 
   if (LCDML.FUNC_loop())             // ****** LOOP *********
   {
+    // Enable Motors
+    enable_Stepper();
+    u8g.firstPage();
+    do {
+      u8g.drawFrame(1, 1, 126, 62);
+      u8g.drawFrame(0, 0, 128, 64);
+      u8g.setFont(u8g_font_ncenB08);
+      u8g.drawStr( ALIGN_CENTER("Both Motors"), 18, F("Both Motors"));
+      u8g.drawStr( ALIGN_CENTER("Have Been Enabled."), 34, F("Have Been Enabled."));
+      u8g.drawStr( ALIGN_CENTER("Rotate to Exit"), 50, F("Rotate to Exit"));
+    }
+    while (u8g.nextPage());
     if (LCDML.BT_checkAny()) // check if any button is pressed (enter, up, down, left, right)
     {
-      LCDML.FUNC_goBackToMenu();  // leave this function
+      LCDML.FUNC_goBackToMenu(0);  // leave this function
     }
   }
 
@@ -346,17 +355,26 @@ void Disable_motors(uint8_t param)
     // remmove compiler warnings when the param variable is not used:
     LCDML_UNUSED(param);
 
-    // Disable
-    disable_Stepper();
-
     LCDML.FUNC_setLoopInterval(100);  // starts a trigger event for the loop function every 100 milliseconds
   }
 
   if (LCDML.FUNC_loop())             // ****** LOOP *********
   {
+    // Disable steppers
+    disable_Stepper();
+    u8g.firstPage();
+    do {
+      u8g.drawFrame(1, 1, 126, 62);
+      u8g.drawFrame(0, 0, 128, 64);
+      u8g.setFont(u8g_font_ncenB08);
+      u8g.drawStr( ALIGN_CENTER("Both Motors"), 18, F("Both Motors"));
+      u8g.drawStr( ALIGN_CENTER("Have Been Disabled."), 34, F("Have Been Disabled."));
+      u8g.drawStr( ALIGN_CENTER("Rotate to Exit"), 50, F("Rotate to Exit"));
+    }
+    while (u8g.nextPage());
     if (LCDML.BT_checkAny()) // check if any button is pressed (enter, up, down, left, right)
     {
-      LCDML.FUNC_goBackToMenu();  // leave this function
+      LCDML.FUNC_goBackToMenu(0);  // leave this function
     }
   }
 
@@ -421,7 +439,20 @@ void tare_load_cells(uint8_t param) {
   if (LCDML.FUNC_loop())  // ****** LOOP *********
   {
     scale.tare();
-    LCDML.FUNC_goBackToMenu(0);
+    u8g.firstPage();
+    do {
+      u8g.drawFrame(1, 1, 126, 62);
+      u8g.drawFrame(0, 0, 128, 64);
+      u8g.setFont(u8g_font_ncenB08);
+      u8g.drawStr( ALIGN_CENTER("Load Cells"), 18, F("Load Cells"));
+      u8g.drawStr( ALIGN_CENTER("Have Been Tarred."), 34, F("Have Been Tarred."));
+      u8g.drawStr( ALIGN_CENTER("Rotate to Exit"), 50, F("Rotate to Exit"));
+    }
+    while (u8g.nextPage());
+    if (LCDML.BT_checkAny()) // check if any button is pressed (enter, up, down, left, right)
+    {
+      LCDML.FUNC_goBackToMenu(0);  // leave this function
+    }
   }
 }
 
@@ -544,7 +575,7 @@ void testing_cycle(uint8_t param) {
           u8g.drawStr(ALIGN_CENTER(buf), 31, buf);
           u8g.setFont(u8g_font_ncenB08);
           u8g.drawStr(ALIGN_CENTER("Click Red Button"), 46, F("Click Red Button"));
-          u8g.drawStr(ALIGN_CENTER("To STOP Tesing"), 56, F("To STOP Tesing"));
+          u8g.drawStr(ALIGN_CENTER("To Pause Testing"), 56, F("To Pause Testing"));
         }
         while (u8g.nextPage());
       }
@@ -568,7 +599,7 @@ void testing_cycle(uint8_t param) {
       u8g.drawStr(ALIGN_CENTER(buf), 31, buf);
       u8g.setFont(u8g_font_ncenB08);
       u8g.drawStr(ALIGN_CENTER("Click on Red Button"), 46, F("Click on Red Button"));
-      u8g.drawStr(ALIGN_CENTER("To STOP Tesing"), 56, F("To STOP Tesing"));
+      u8g.drawStr(ALIGN_CENTER("To Pause Testing"), 56, F("To Pause Testing"));
     }
     while (u8g.nextPage());
     //Home Both Axis

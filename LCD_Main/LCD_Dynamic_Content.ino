@@ -190,7 +190,7 @@ void Flow_Rate(uint8_t line)
   decimal = flow_rate / 10;
   floating = flow_rate % 10;
   
-  sprintf (buf, "Flow Rate: %u.%u ml/w", decimal, floating);
+  sprintf (buf, "Lqd Flow: %u.%u ml/wp", decimal, floating);
   real_flow_rate = (float)flow_rate / 10;
   u8g.drawStr( _LCDML_DISP_box_x0+_LCDML_DISP_font_w + _LCDML_DISP_cur_space_behind,  (_LCDML_DISP_font_h * (1+line)), buf);     // the value can be changed with left or right
 }
@@ -216,7 +216,7 @@ void Wipe_Speed(uint8_t line)
       
       if(LCDML.BT_checkUp())
       { 
-        if (wipe_speed > 0){
+        if (wipe_speed > 10){
             wipe_speed -= 1;
         }
         LCDML.BT_resetUp();
@@ -483,7 +483,7 @@ void Set_Brightness(uint8_t line)
   }
 
   char buf[20];
-  sprintf (buf, "Brightness: %u", Brightness);
+  sprintf (buf, "Flash Brightness: %u", Brightness);
 
   u8g.drawStr( _LCDML_DISP_box_x0+_LCDML_DISP_font_w + _LCDML_DISP_cur_space_behind,  (_LCDML_DISP_font_h * (1+line)), buf);     // the value can be changed with left or right
 }
@@ -530,7 +530,7 @@ void Wipe_Delay(uint8_t line)
   }
 
   char buf[20];
-  sprintf (buf, "Wipe Delay: %u", delay_);
+  sprintf (buf, "Wipe Delay: %u sec", delay_);
   wipe_Delay = delay_ * 1000;
 
   u8g.drawStr( _LCDML_DISP_box_x0+_LCDML_DISP_font_w + _LCDML_DISP_cur_space_behind,  (_LCDML_DISP_font_h * (1+line)), buf);     // the value can be changed with left or right

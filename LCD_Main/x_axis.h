@@ -37,7 +37,7 @@ void move_motor_left_init(){
     delayMicroseconds(150);
     X_STEP_LOW
     delayMicroseconds(150);
-    init_position++;         
+    init_position++;          
   }
 }
 

@@ -24,8 +24,16 @@ void WipingSetup() {
   Wipe_Dist = -wipe_distance; //Wipe Distance in steps
   Init_Pos = init_position; //Inital Position in steps
   Force_Target = wipe_force * 453.59237; //Force we are attempting to Achieve with the Z-axis
-  Pump_Rate = ((flow_rate / (1.06)) * 1600); // Flow rate in Steps/Wipe (truncated)
-  //Wiping_Speed = wipe_speed;
+  Pump_Rate = ((real_flow_rate / (1.06)) * 1600); // Flow rate in Steps/Wipe (truncated)
+  xMin_Interval = map(real_wipe_speed, 1, 2.5, 141, 79);
+
+  // Serial.print("wiping Speed:   ");
+  // Serial.println(xMin_Interval);
+
+
+  Serial.print("Pump_Rate:   ");
+  Serial.println(Pump_Rate);
+  
   Pump_Used = pump;
 
   ///////////////////////////////////////////////////////////////
@@ -75,6 +83,10 @@ void WipingSetup() {
 ///////////////////////////////////////////////////////////////////////////////
 
 void WipingLoop() {
+// if(Pumping_Needed == true){
+//   Pump(Pump_Rate);
+//   Pumping_Needed = false;
+// }
 
   //Take a photo if needed
   if (((Current_Count % Photo_Interval) == 0) && !photo_taken){

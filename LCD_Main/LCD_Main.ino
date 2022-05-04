@@ -105,8 +105,8 @@ LCDML_addAdvanced (29 , LCDML_0_3       , 4  , NULL               , "Photo Int. 
 LCDML_addAdvanced (30 , LCDML_0_3       , 5  , NULL               , "Wipe Force"   , Set_Force,     0,   _LCDML_TYPE_dynParam);
 LCDML_addAdvanced (31 , LCDML_0_3       , 6  , NULL               , "Wipe Speed"   , Wipe_Speed,    0,   _LCDML_TYPE_dynParam);
 LCDML_addAdvanced (32 , LCDML_0_3       , 7  , NULL               , "Select Pump"  , Pump_Select,   0,   _LCDML_TYPE_dynParam);                                                                   
-LCDML_addAdvanced (33 , LCDML_0_3       , 8  , NULL               , "Flow Rate"    , Flow_Rate,     0,   _LCDML_TYPE_dynParam);     
-LCDML_addAdvanced (34 , LCDML_0_3       , 9  , NULL               , "Photo Brightness", Set_Brightness,0,   _LCDML_TYPE_dynParam); 
+LCDML_addAdvanced (33 , LCDML_0_3       , 8  , NULL               , "Flow"         , Flow_Rate,     0,   _LCDML_TYPE_dynParam);     
+LCDML_addAdvanced (34 , LCDML_0_3       , 9  , NULL               , "Flash Brightness", Set_Brightness,0,   _LCDML_TYPE_dynParam); 
 LCDML_addAdvanced (35 , LCDML_0_3       , 10 , NULL               , "Wipe Delay"   , Wipe_Delay,    0,   _LCDML_TYPE_dynParam);       
 LCDML_add         (36 , LCDML_0_3       , 11 , "Reset Parameters" , reset_params);              
 LCDML_add         (37 , LCDML_0_3       , 12 , "Back"             , mFunc_back_by_1);    
@@ -134,7 +134,7 @@ LCDML_add         (53 , LCDML_0_3_2_3   , 1  , "SET WIPING DIST."       , NULL);
 LCDML_addAdvanced (54 , LCDML_0_3_2_3   , 2  , NULL                     , "Start"    , set_wipe_distance, 0,   _LCDML_TYPE_dynParam);      
 LCDML_add         (55 , LCDML_0_3_2_3   , 3  , "Back"                   , mFunc_back_by_2);                           
 
-LCDML_addAdvanced (56  , LCDML_0        , 11  , COND_hide, "Cycle Count" , cycle_count_display,  0,  _LCDML_TYPE_default);    
+LCDML_addAdvanced (56  , LCDML_0        , 11  , COND_hide, "Sleep Mode" , cycle_count_display,  0,  _LCDML_TYPE_default);    
 
 // this value must be the same as the last menu element
 #define _LCDML_DISP_cnt    56
