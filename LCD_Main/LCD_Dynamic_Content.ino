@@ -340,6 +340,7 @@ void set_init_position(uint8_t line)
     {
       if(LCDML.BT_checkEnter())
       {
+        homeBoth();
         if(LCDML.MENU_getScrollDisableStatus() == 0)
         {
           LCDML.MENU_disScroll();

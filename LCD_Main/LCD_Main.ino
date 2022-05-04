@@ -67,39 +67,39 @@ LCDMenuLib2 LCDML(LCDML_0, _LCDML_DISP_rows, _LCDML_DISP_cols, lcdml_menu_displa
 // LCDML_add(id, prev_layer, new_num, lang_char_array, callback_function) 
    
 LCDML_add         (0  , LCDML_0         , 1  , "===== HOME ======", logo_display);                   
-LCDML_add         (4  , LCDML_0         , 2  , "Home X&Z Axes"    , NULL);  
+LCDML_add         (1  , LCDML_0         , 2  , "Home X&Z Axes"    , NULL);  
 LCDML_add         (2  , LCDML_0         , 3  , "Set Parameters"   , NULL);   
 LCDML_add         (3  , LCDML_0         , 4  , "Start Testing Cycle",NULL);  
-LCDML_add         (5  , LCDML_0         , 5  , "Adjust X&Z Axes"  , NULL); 
-LCDML_add         (7  , LCDML_0         , 6  , "Turn Lights On/Off",NULL); 
+LCDML_add         (4  , LCDML_0         , 5  , "Adjust X&Z Axes"  , NULL); 
+LCDML_add         (5  , LCDML_0         , 6  , "Turn Lights On/Off",NULL); 
 LCDML_add         (6  , LCDML_0         , 7  , "Tare Load Cells"  , NULL);  
-LCDML_add         (1  , LCDML_0         , 8  , "Home Z-Axis"      , NULL);          
+LCDML_add         (7  , LCDML_0         , 8  , "Home Z-Axis"      , NULL);          
 LCDML_add         (8  , LCDML_0         , 9  , "Enable/Disable X&Z",NULL);  
 LCDML_add         (9  , LCDML_0         , 10 , "Sleep Mode"       , cycle_count_display); 
 
-LCDML_add         (10 , LCDML_0_8       , 1  , "LIGHTS ON/OFF"    , NULL);  
-LCDML_addAdvanced (11 , LCDML_0_8       , 2  , NULL               , "Turn ON - ", Enclosure_Brightness_,0,   _LCDML_TYPE_dynParam); 
-LCDML_add         (12 , LCDML_0_8       , 3  , "Turn OFF"         , turn_off_LEDs);  
-LCDML_add         (13 , LCDML_0_8       , 4  , "Back"             , mFunc_back_by_1); 
+LCDML_add         (10 , LCDML_0_6       , 1  , "LIGHTS ON/OFF"    , NULL);  
+LCDML_addAdvanced (11 , LCDML_0_6       , 2  , NULL               , "Turn ON - ", Enclosure_Brightness_,0,   _LCDML_TYPE_dynParam); 
+LCDML_add         (12 , LCDML_0_6       , 3  , "Turn OFF"         , turn_off_LEDs);  
+LCDML_add         (13 , LCDML_0_6       , 4  , "Back"             , mFunc_back_by_1); 
 
 LCDML_add         (14 , LCDML_0_7       , 1  , "=TARE LOAD CELLS=", NULL);                    
 LCDML_add         (15 , LCDML_0_7       , 2  , "Start"            , tare_load_cells);                   
 LCDML_add         (16 , LCDML_0_7       , 3  , "Back"             , mFunc_back_by_1); 
  
-LCDML_add         (17 , LCDML_0_2       , 1  , "= Z-AXIS HOMING =", NULL);                    
-LCDML_add         (18 , LCDML_0_2       , 2  , "Start Homing"     , z_homing);                   
-LCDML_add         (19 , LCDML_0_2       , 3  , "Back"             , mFunc_back_by_1);   
+LCDML_add         (17 , LCDML_0_8       , 1  , "= Z-AXIS HOMING =", NULL);                    
+LCDML_add         (18 , LCDML_0_8       , 2  , "Start Homing"     , z_homing);                   
+LCDML_add         (19 , LCDML_0_8       , 3  , "Back"             , mFunc_back_by_1);   
 
 LCDML_add         (20 , LCDML_0_4       , 1  , "==TESTING CYCLE==", NULL);                    
 LCDML_add         (21 , LCDML_0_4       , 2  , "Start Testing"    , testing_cycle);     
 LCDML_add         (22 , LCDML_0_4       , 3  , "Back"             , mFunc_back_by_1); 
 
-LCDML_add         (23 , LCDML_0_5       , 1  , "X&Z AXES HOMING"  , NULL);                    
-LCDML_add         (24 , LCDML_0_5       , 2  , "Start Homing"     , both_axis_homing);     
-LCDML_add         (25 , LCDML_0_5       , 3  , "Back"             , mFunc_back_by_1); 
+LCDML_add         (23 , LCDML_0_2       , 1  , "X&Z AXES HOMING"  , NULL);                    
+LCDML_add         (24 , LCDML_0_2       , 2  , "Start Homing"     , both_axis_homing);     
+LCDML_add         (25 , LCDML_0_2       , 3  , "Back"             , mFunc_back_by_1); 
 
 LCDML_add         (26 , LCDML_0_3       , 1  , "SET PARAMETERS"   , NULL);       
-LCDML_add         (27 , LCDML_0_3       , 2  , "Wiping Distances" , both_axis_homing);                           
+LCDML_add         (27 , LCDML_0_3       , 2  , "Wiping Distances" , NULL);                           
 LCDML_add         (28 , LCDML_0_3       , 3  , "Number of Cycles" , NULL);                    
 LCDML_addAdvanced (29 , LCDML_0_3       , 4  , NULL               , "Photo Int. "  , Photo_Int,     0,   _LCDML_TYPE_dynParam);    
 LCDML_addAdvanced (30 , LCDML_0_3       , 5  , NULL               , "Wipe Force"   , Set_Force,     0,   _LCDML_TYPE_dynParam);
@@ -120,10 +120,10 @@ LCDML_add         (42 , LCDML_0_3_2     , 1  , "SET INIT. POSITION"     , NULL);
 LCDML_addAdvanced (43 , LCDML_0_3_2     , 2  , NULL                     , "Start"    , set_init_position, 0,   _LCDML_TYPE_dynParam);     
 LCDML_add         (44 , LCDML_0_3_2     , 3  , "Next"                   , NULL); 
 
-LCDML_add         (45 , LCDML_0_6       , 1  , "ADJUST X&Z AXES"        , NULL);                    
-LCDML_addAdvanced (46 , LCDML_0_6       , 2  , NULL                     , "Move X-Axis"    , move_x_axis, 0,   _LCDML_TYPE_dynParam);  // move_x_axis
-LCDML_addAdvanced (47 , LCDML_0_6       , 3  , NULL                     , "Move Z-Axis"    , move_z_axis, 0,   _LCDML_TYPE_dynParam);   // move_z_axis  
-LCDML_add         (48 , LCDML_0_6       , 4  , "Back"                   , mFunc_back_by_1);    
+LCDML_add         (45 , LCDML_0_5       , 1  , "ADJUST X&Z AXES"        , NULL);                    
+LCDML_addAdvanced (46 , LCDML_0_5       , 2  , NULL                     , "Move X-Axis"    , move_x_axis, 0,   _LCDML_TYPE_dynParam);  // move_x_axis
+LCDML_addAdvanced (47 , LCDML_0_5       , 3  , NULL                     , "Move Z-Axis"    , move_z_axis, 0,   _LCDML_TYPE_dynParam);   // move_z_axis  
+LCDML_add         (48 , LCDML_0_5       , 4  , "Back"                   , mFunc_back_by_1);    
 
 LCDML_add         (49 , LCDML_0_9       , 1  , "ENABLE/DISABLE"         , NULL);                    
 LCDML_add         (50 , LCDML_0_9       , 2  , "Enable Motors"   		    , Enable_motors);              
