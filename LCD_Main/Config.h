@@ -95,8 +95,8 @@ volatile byte Prev_state = HIGH;
 //#define (anything)         4; //(PWM/Digital)
 //#define (anything)         14; //(TX3/Digital)
 //#define (anything)         15; //(RX3/Digital)
-#define RED         27 //Status LED
-#define GREEN       29 //Status LED
+#define GREEN         27 //Status LED
+#define RED     29 //Status LED
 //#define (anything)         33; //(Digital)
 //#define (anything)         35; //(Digital)
 
@@ -199,7 +199,7 @@ volatile uint32_t Current_ZPos; //Current Z position
 boolean Z_direction;
 int16_t Force_Target;
 int16_t Force_Reading;
-int16_t K_Const = 50;
+int16_t K_Const = 25; // should be 50
 
 double Force_Target_PID;
 double Force_Reading_PID;

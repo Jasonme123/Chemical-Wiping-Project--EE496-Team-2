@@ -567,6 +567,7 @@ void testing_cycle(uint8_t param) {
           u8g.drawStr( ALIGN_CENTER("Has Triggered."), 52, F("Has Triggered."));
         }
         while (u8g.nextPage());
+        while(1);
       }else if (is_empty){
         status_error();
         u8g.firstPage();
@@ -579,6 +580,7 @@ void testing_cycle(uint8_t param) {
           u8g.drawStr( ALIGN_CENTER("To Be Filled."), 52, F("To Be Filled."));
         }
         while (u8g.nextPage());
+        while(1);
       }
     
       if (Current_Count % 5 == 0) {

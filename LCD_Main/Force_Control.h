@@ -54,9 +54,9 @@ void Controller_2() {
   int16_t dist = (error / K_Const);
   Output_Position = dist / .089;
   zPosition_Update = true;
-//  if (Current_Count % 25 == 0) {
+  if (Current_Count % 25 == 0) {
     Serial.println(Force_Reading);
-//  }
+    }
 }
 
 /////////////////////////////////////////////////////////////////////
